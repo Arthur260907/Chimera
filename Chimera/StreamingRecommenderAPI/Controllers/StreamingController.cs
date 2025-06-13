@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using StreamingRecommenderAPI.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq
+using System.Linq;
 
 namespace StreamingRecommenderAPI.Controllers
 {
