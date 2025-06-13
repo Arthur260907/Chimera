@@ -1,0 +1,27 @@
+var builder = WebApplication.CreateBuilder(args);
+
+// Adiciona serviços ao contêiner.
+// O AddControllers() registra os controllers que criamos.
+builder.Services.AddControllers();
+
+// Serviços para documentação da API (Swagger), muito útil para testes.
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configura o pipeline de requisições HTTP.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+// Mapeia as rotas definidas nos controllers.
+app.MapControllers();
+
+app.Run();
