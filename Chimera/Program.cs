@@ -25,3 +25,29 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Adiciona os serviços essenciais do ASP.NET Core para a API.
+builder.Services.AddControllers();
+
+// Adiciona o Swagger para documentação e teste fácil da API.
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Em ambiente de desenvolvimento, habilita a interface do Swagger.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+
+// Mapeia as rotas definidas nos controllers.
+app.MapControllers();
+
+app.Run();
