@@ -1,6 +1,4 @@
-﻿
-
-namespace Apianime.models.Movel;
+﻿namespace Apianime.models.Movel;
 
 public class MovieListResponse
 {
