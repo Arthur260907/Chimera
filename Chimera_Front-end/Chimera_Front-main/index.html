@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <div id="separar_logo">
-            <span class="header_icon" id="menu-toggle">
-                <img src="Imagens/Vector.png" alt="">
-            </span>
             <img id="logo" src="Imagens/ChatGPT Image 8 de abr. de 2025, 13_13_27 1.png" alt="">
         </div>
         <span class="header_icon"><h5>Home</h5></span>
@@ -26,19 +24,38 @@
              <span class="header_icon"><a href="Login.html"><img src="Imagens/image 8.png" alt=""></a></span>
         </div>
     </header>
-    <!-- Barra lateral -->
-    <nav id="sidebar">
-        <button id="close-sidebar">&times;</button>
-        <ul>
-            <span class="header_icon"><li><img src="imagens/image.png" alt="" height=""></li></span>
-            <span class="header_icon"><li><img src="imagens/image 3.png" alt=""></li></span>
-            <span class="header_icon"><li><img src="imagens/image 5.png" alt=""></li></span>
-            <span class="header_icon"><li><img src="imagens/image 6.png" alt=""></li></span>
-        </ul>
-    </nav>
-    <main>
-        
+    <!-- Linha de ícones após o header -->
+    <div id="icon-line">
+        <span class="header_icon"><img src="imagens/image.png" alt=""></span>
+        <span class="header_icon"><img src="imagens/image 3.png" alt=""></span>
+        <span class="header_icon"><img src="imagens/image 5.png" alt=""></span>
+        <span class="header_icon"><img src="imagens/image 6.png" alt=""></span>
+    </div>
+
+
+    <!---Carrosell-->
+    <main id="Grid_layout">
+        <div class="carousel-container">
+        <div class="carousel-slide">
+            <img src="imagens/Batman.png" alt="Imagem 1">
+            <img src="imagens/Batman.png" alt="Imagem 2">
+            <img src="imagens/Batman.png" alt="Imagem 3">
+            <img src="imagens/Batman.png" alt="Imagem 4">
+        </div>
+
+        <button id="prevBtn" class="carousel-button prev">&#10094;</button>
+        <button id="nextBtn" class="carousel-button next">&#10095;</button>
+
+        <div class="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+            <span class="dot" data-slide="3"></span>
+        </div>
+    </div>
     </main>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
+
+
 </body>
 </html>

@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    
+    margin: 0;
+   font-family: "Inter", sans-serif;
+   
+}
+
+.container {
+    font-family: 'Roboto', sans-serif;
+    padding: 1em;
+    display: flex;
+    gap: 40px;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.coluna-esquerda {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.coluna-direita {
+    flex: 2.5;
+}
+
+.botao {
+    
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+}
+
+.botao-reproduzir {
+    background-color: #f0f0f0;
+    color: #121212;
+}
+
+.botao-baixar {
+    background-color: #333333;
+    color: #e0e0e0;
+}
+
+.icones-acao {
+    display: flex;
+    gap: 30px;
+    font-size: 32px;
+    color: #f0f0f0;
+}
+
+.icones-acao i {
+    cursor: pointer;
+}
+
+.sinopse{
+    margin-top: 2.1em;
+}
+
+.sinopse h2 {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.sinopse p {
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.player-video iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+}
+
+.container-avaliacoes {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.avaliacoes-usuarios {
+    flex: 2;
+}
+
+.pontuacoes {
+    font-family: 'Roboto', sans-serif;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.avaliacoes-usuarios h3,
+.pontuacoes h3 {
+    font-size: 20px;
+    color: #ffffff;
+    border-bottom: 1px solid #444;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.item-avaliacao {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.item-avaliacao img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.conteudo-avaliacao h4 {
+    margin: 0 0 5px 0;
+    color: #ffffff;
+}
+
+.conteudo-avaliacao p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.caixa-pontuacao {
+    background-color: #1a1a1a;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.item-pontuacao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.item-pontuacao h4 {
+    margin: 0;
+    font-weight: normal;
+}
+
+.item-pontuacao p {
+    margin: 0;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.icone-tomate {
+    font-size: 24px;
+}
