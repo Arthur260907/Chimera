@@ -65,3 +65,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateDots();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const multiCarousel = document.querySelector('.multi-carousel-container');
+  const carouselList = multiCarousel.querySelector('.carousel-list');
+  const items = carouselList.querySelectorAll('.carousel-item');
+  const prevBtn = multiCarousel.querySelector('.multi-carousel-btn.prev');
+  const nextBtn = multiCarousel.querySelector('.multi-carousel-btn.next');
+
+  let currentIndex = 0;
+
+  function scrollToItem(index) {
+    if (index < 0) index = 0;
+    if (index > items.length - 1) index = items.length - 1;
+    currentIndex = index;
+    items[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
+  prevBtn.addEventListener('click', () => {
+    scrollToItem(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    scrollToItem(currentIndex + 1);
+  });
+
+  // Atualiza o índice ao clicar em um item
+  items.forEach((item, idx) => {
+    item.addEventListener('click', () => {
+      scrollToItem(idx);
+    });
+  });
+});
