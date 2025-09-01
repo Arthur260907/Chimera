@@ -191,6 +191,7 @@ body {
   max-width: 100vw;
   display: flex;
   align-items: center; /* Centraliza verticalmente os itens */
+  margin-bottom: 10vh; /* Espaço inferior para evitar corte dos itens */
 }
 
 /* Esconde a barra de rolagem para navegadores baseados em WebKit (Chrome, Safari) */
@@ -262,4 +263,37 @@ body {
 
 .multi-carousel-container {
   position: relative; /* Para posicionar os botões */
+}
+
+/* Responsividade e área clicável dos botões do multi-carousel */
+@media (max-width: 900px) {
+  .multi-carousel-btn {
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    z-index: 10;
+    padding: 0.5rem;
+    background: rgba(30,30,30,0.85);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .multi-carousel-btn.prev { left: 0.2rem; }
+  .multi-carousel-btn.next { right: 0.2rem; }
+}
+
+@media (max-width: 600px) {
+  .multi-carousel-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 2.2rem;
+    padding: 0.7rem;
+    background: rgba(40,40,40,0.95);
+  }
+  .multi-carousel-btn.prev { left: 0; }
+  .multi-carousel-btn.next { right: 0; }
+}
+
+/* Garante que os botões fiquem acima dos itens */
+.multi-carousel-btn {
+  z-index: 10;
+  pointer-events: auto;
 }
