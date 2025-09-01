@@ -73,30 +73,30 @@ document.addEventListener('DOMContentLoaded', () => {
   multiCarousels.forEach(multiCarousel => {
     const carouselList = multiCarousel.querySelector('.carousel-list');
     const items = carouselList.querySelectorAll('.carousel-item');
-    const prevBtn = multiCarousel.querySelector('.multi-carousel-btn.prev');
-    const nextBtn = multiCarousel.querySelector('.multi-carousel-btn.next');
     let currentIndex = 0;
 
     function scrollToItem(index) {
-      if (index < 0) index = 0;
-      if (index > items.length - 1) index = items.length - 1;
+      // Loop infinito
+      if (index < 0) {
+        index = items.length - 1;
+      }
+      if (index > items.length - 1) {
+        index = 0;
+      }
       currentIndex = index;
       items[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
 
-    prevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      scrollToItem(currentIndex - 1);
-    });
-
-    nextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      scrollToItem(currentIndex + 1);
-    });
-
     items.forEach((item, idx) => {
       item.addEventListener('click', () => {
-        scrollToItem(idx);
+        // Se clicar no último, volta ao primeiro; se clicar no primeiro, vai ao último
+        if (idx === items.length - 1) {
+          scrollToItem(0);
+        } else if (idx === 0) {
+          scrollToItem(items.length - 1);
+        } else {
+          scrollToItem(idx);
+        }
       });
     });
   });
