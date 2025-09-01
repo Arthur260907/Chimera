@@ -15,5 +15,3 @@ Rafael Correia Costa 12303461,
 João Augusto M V De Souza 12302465,
 
 Arthur Lorentz Duarte 12301523.
-
-Oie
