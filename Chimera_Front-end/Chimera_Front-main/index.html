@@ -30,7 +30,14 @@
         </span>
         <div id="cant_superior">
             <span class="header_icon"><img src="Imagens/bell-svgrepo-com 1.png" alt=""></span>
-            <span class="header_icon"><img src="Imagens/magnifying-glass-11-svgrepo-com 1.png" alt=""></span>
+            <span class="header_icon" style="display: flex; align-items: center;">
+                <form id="search-form" style="display: flex; align-items: center;">
+                    <input type="text" id="search-input" placeholder="Pesquisar..."
+                        style="padding: 0.5em 1em; border-radius: 20px; border: none; outline: none; font-size: 1em;">
+                    <button type="submit" id="search-btn"
+                        style="background: none; border: none; cursor: pointer; margin-left: -2em;"></button>
+                </form>
+            </span>
             <span class="header_icon"><a href="html/Login.html"><img src="Imagens/image 8.png" alt=""></a></span>
         </div>
     </header>
@@ -171,7 +178,7 @@
             </div>
         </div>
     </main>
-    
+
     <script src="js/script.js"></script>
 
 </body>

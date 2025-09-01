@@ -297,3 +297,43 @@ body {
   z-index: 10;
   pointer-events: auto;
 }
+
+/* Sugestão para barra de pesquisa no header */
+#search-form {
+  display: flex;
+  align-items: center;
+}
+
+#search-input {
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  background: #222;
+  color: #fff;
+  margin-right: -2em;
+  width: 10em;
+  transition: width 0.3s;
+}
+
+#search-input:focus {
+  width: 15em;
+  background: #333;
+}
+
+#search-form button#search-btn {
+  width: 2em;
+  height: 2em;
+  display: inline-block;
+  background: url('../Imagens/magnifying-glass-11-svgrepo-com 1.png') no-repeat center center;
+  background-size: contain;
+  padding: 0;
+  margin-left: -2em;
+  border: none;
+  cursor: pointer;
+}
+
+#search-form button img {
+  height: 2em;
+}
