@@ -330,7 +330,7 @@ body {
   background: url('../Imagens/magnifying-glass-11-svgrepo-com 1.png') no-repeat center center;
   background-size: contain;
   padding: 0;
-  margin-left: -2em;
+  margin-left: -3em; /* Espaçamento maior para a esquerda */
   border: none;
   cursor: pointer;
 }
