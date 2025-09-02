@@ -26,23 +26,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const dots = document.querySelectorAll('.dot');
 
     let counter = 0;
-    const size = carouselImages[0].clientWidth;
 
-    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    function getSlideWidth() {
+        return carouselImages[0].clientWidth;
+    }
+
+    carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
 
     nextBtn.addEventListener('click', () => {
-        if (counter >= carouselImages.length - 1) return;
-        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
         counter++;
-        carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+        if (counter > carouselImages.length - 1) {
+            counter = 0; // volta ao primeiro
+        }
+        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+        carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
         updateDots();
     });
 
     prevBtn.addEventListener('click', () => {
-        if (counter <= 0) return;
-        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
         counter--;
-        carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+        if (counter < 0) {
+            counter = carouselImages.length - 1; // vai ao último
+        }
+        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+        carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
         updateDots();
     });
     dots.forEach(dot => {
@@ -50,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const slideIndex = parseInt(e.target.dataset.slide);
             counter = slideIndex;
             carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-            carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+            carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
             updateDots();
         });
     });
