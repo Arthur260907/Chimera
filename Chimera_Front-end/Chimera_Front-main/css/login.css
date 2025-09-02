@@ -1,111 +1,295 @@
+/* ====================================================== */
+/* ========== ESTILOS GERAIS E BODY ========== */
+/* ====================================================== */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background-color: #000000;
-    color: #fff;
-    font-family: "Inter", sans-serif;
+  background: radial-gradient(ellipse at center, #1A2B3A 0%, #000000 70%);
+  font-family: "Roboto", sans-serif;
+  color: #fff;
 }
 
-/*Login*/
+/* ====================================================== */
+/* ========== ESTILOS DO HEADER (CABEÇALHO) ========== */
+/* ====================================================== */
+header {
+    width: 100%;
+    background-color: #121116;
+    padding: 1em 2em; /* Padding de segurança para telas menores */
+}
 
-#cointeiner{
+/* Container que limita a largura e centraliza o conteúdo */
+.header-container {
+    width: 100%;
+    max-width: 1600px; /* Largura máxima. Sinta-se à vontade para ajustar */
+    margin: 0 auto;    /* Centraliza o container */
+    justify-content: center;
+    /* A CORREÇÃO ESTÁ AQUI: */
+    display: flex;
+    align-items: center;
+    gap: 4em;
+}
+
+/* --- Lado Esquerdo do Cabeçalho --- */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 2.5em; /* Espaço entre logo e navegação */
+}
+
+#logo {
+    height: 3em; 
+    border-radius: 100%;
+}
+
+.header-nav {
+    display: flex;
+    gap: 2em; /* Espaço entre os links */
+}
+
+/* --- Lado Direito do Cabeçalho --- */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5em; /* Espaço entre os ícones e a busca */
+}
+
+/* Estilo geral para todos os ícones e links do header (sem alterações) */
+.header_icon {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.header_icon:hover {
+    opacity: 0.7;
+}
+
+.header_icon h5 {
+    font-size: 1.1em; /* Levemente ajustado */
+    font-weight: 500;
+}
+
+.header_icon img {
+    height: 1.8em;
+    vertical-align: middle;
+}
+
+/* Barra de pesquisa (sem alterações) */
+#search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+/* ... (as outras regras da barra de pesquisa continuam iguais) ... */
+
+#search-input {
+    background-color: #2c2c2c;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 20px;
+    padding: 0.5em 2.5em 0.5em 1em;
+    font-size: 1em;
+    width: 32vh;
+    transition: width 0.3s ease-in-out, background-color 0.3s;
+}
+
+#search-input::placeholder {
+    color: #aaa;
+}
+
+#search-input:focus {
+    outline: none;
+    width: 80vh;
+    background-color: #333;
+    border-color: #555;
+}
+
+#search-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background-image: url('../Imagens/magnifying-glass-11-svgrepo-com 1.png'); /* Caminho relativo ajustado */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+/* ====================================================== */
+/* ========== ESTILOS DO FORMULÁRIO DE LOGIN ========== */
+/* ====================================================== */
+
+#container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 8vh;
+    padding: 4em 1em;
+    min-height: calc(100vh - 6em);
 }
 
-.login{
-    background-color: rgba(36, 35, 35, 0.73);
-    width: 70%;
-    height: 85vh;
-    border-radius: 28px;
-    border: solid 2px rgba(61, 133, 255, 0.56);
-    text-align: center;
-}
-
-.login h2{
-    margin-top: 30px;
-    margin-bottom: 45px;
-    font-size: 30px;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-.inboxuser{
-    margin: 60px;
-}
-
-.inboxuser p{
-    margin-bottom: 14px;
-    font-size: 16px;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-.inboxuser input{
-    width: 65%;
-    height: 5vh;
-    border-radius: 10px;
-    border: none;
-    border: solid 2px rgba(61, 133, 255, 1);
-}
-
-.p{
-    margin-top: 5px;
-    color: rgba(61, 133, 255, 1);
-}
-
-input:focus{
-    outline: none;
-    border: solid 3px rgb(4, 0, 255);
-    font-size: 13px;
-    font-weight: 400;
-    box-shadow: 24px rgba(61, 133, 255, 1);
-}
-
-#bt{
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    background-color: rgba(61, 133, 255, 0.9);
-    width: 15%;
-    height: 5vh;
-    border-radius: 10px;
-    margin-bottom: 3vh;
-    border: none;
-}
-
-#btn{
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 400;
-    position: relative;
-}
-
-#btn::after{
-    position: absolute;
-    left: 0;
-    bottom: -1px;
-    right: 0;
-    height: 0.2vh;
+.login-form { /* Renomeei para ser mais específico */
+    background-color: #121116;
     width: 100%;
-    background: #ffffffec;
-    content: "";
-    margin-top: 0px;
-    margin-right: auto;
-    margin-bottom: 0px;
-    margin-left: auto;
+    max-width: 600px;
+    padding: 3em;
+    border-radius: 20px;
+    border: 1px solid #5fb4c94b;
+    text-align: center;
 }
-/*lincar com a pagina inicial*/
-button a{
+
+.login-form h2 {
+    margin-bottom: 2em;
+    font-size: 2em;
+    text-transform: uppercase;
+    font-family: 'Causten', sans-serif;
+}
+
+.input-group {
+    position: relative; 
+    margin-bottom: 3em;
+    text-align: left;
+}
+
+.input-field {
+    width: 100%;
     color: #ffffff;
+    font-size: 1em;
+    padding: 1em 0 0.5em 0;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid #555;
+}
+
+.input-label {
+    position: absolute; 
+    left: 0; 
+    top: 50%; 
+    transform: translateY(-50%);
+    color: #aaa; 
+    font-size: 1em;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.input-field:focus ~ .input-label,
+.input-field:not(:placeholder-shown) ~ .input-label {
+    top: 0; 
+    font-size: 0.8em; 
+    color: #5fb4c9; 
+    transform: translateY(-50%); 
+}
+
+.input-field:focus {
+    outline: none;
+    border-bottom-color: #5fb4c9;
+}
+
+.forgot-password-link {
+    text-align: right;
+    margin-top: -2em;
+    margin-bottom: 2.5em;
+    font-size: 0.9em;
+}
+
+.forgot-password-link a {
+    color: #aaa;
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 400;
+}
+
+.forgot-password-link a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.button-group {
+    margin-top: 2em;
+}
+
+.btn-submit {
+    color: #fff;
+    font-size: 1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: #1A2B3A;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+}
+
+.btn-submit:hover {
+    background-color: #2b465f;
+}
+
+.btn-submit:active {
+    transform: scale(0.98); 
+}
+
+.register-link { /* Renomeei para ser mais específico */
+    margin-top: 1.5em;
+    font-size: 0.9em;
+    color: #fff; 
+}
+
+.register-link a {
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.register-link a:hover {
+    color: #a0d8e8;
+}
+
+/* ====================================================== */
+/* ========== RESPONSIVIDADE (MEDIA QUERIES) ========== */
+/* ====================================================== */
+@media (max-width: 768px) {
+    header {
+        padding: 1.5em 20px;
+        gap: 2em;
+        justify-content: space-between;
+    }
+    .login-form {
+        padding: 2em;
+    }
+    .login-form h2 {
+        font-size: 1.5em;
+        font-family: "Roboto", sans-serif;
+    }
+}
+
+@media (max-width: 480px) {
+    #logo {
+        height: 40px;
+    }
+    #cant_superior {
+        gap: 20px;
+    }
+    #cant_superior img {
+        height: 28px;
+    }
+    header > .header_icon > h5 {
+        display: none;
+    }
+    header {
+      gap: 1em;
+    }
 }
