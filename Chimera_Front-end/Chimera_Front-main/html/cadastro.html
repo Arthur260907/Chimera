@@ -12,37 +12,63 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-     <header>
-        <div id="separar_logo">
-            <img id="logo" src="../Imagens/image0_large.png" alt="">
+   <header>
+    <div id="separar_logo">
+        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
+    </div>
+
+  <a href="../index.html"><span class="header_icon"><h5>Home</h5></span></a>
+    <span class="header_icon"><h5>Filmes</h5></span>
+    <span class="header_icon"><h5>Series</h5></span>
+
+    <div id="cant_superior">
+
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Pesquisar...">
+            <button type="submit" id="search-btn">
+            </button>
+        </form>
+
+        <div class="perfil-container">
+            <div class="perfil-icone">
+                <img src="../Imagens/image 8.png" alt="Perfil">
+            </div>
+
+            <div class="menu-dropdown">
+                <div class="menu-content">
+                    <div class="secao secao-conta">
+                        <h3>Conta</h3>
+                        <ul>
+                            <li class="item-ativo"><a href="../html/Login.html">Fazer login</a></li>
+                            <li><a href="#">Ajuda</a></li>
+                            <li><a href="#">Conta e configurações</a></li>
+                            <li><a href="#">Sair</a></li>
+                        </ul>
+                    </div>
+                    <div class="secao secao-perfis">
+                        <h3>PERFIS</h3>
+                        <ul>
+                            <li>
+                                <img src="../imagens/image 8.png" alt="Avatar">
+                                <span>Gabriel</span>
+                            </li>
+                        </ul>
+                        <div class="acoes-perfis">
+                            <div id="flex_mais">
+                          <img src="../imagens/mais.png" alt=""><a href="#">Adicionar novo perfil</a></div>
+                            <a href="#">Editar perfis</a>
+                            <a href="#">Saiba mais</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="../index.html"><span class="header_icon">
-            <h5>Home</h5>
-        </span></a>
-        <span class="header_icon">
-            <h5>Filmes</h5>
+
+    </div>
+     <span class="header_icon">
+            <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notificações">
         </span>
-        <span class="header_icon">
-            <h5>Series</h5>
-        </span>
-        <div id="cant_superior">
-            <span class="header_icon" style="display: flex; align-items: center;">
-                <form id="search-form" style="display: flex; align-items: center;">
-                    
-                    <input type="text" id="search-input" placeholder="Pesquisar..."
-                        style="padding: 0.5em 1em; border-radius: 20px; border: none; outline: none; font-size: 1em;">
-                    <button type="submit" id="search-btn"
-                        style="background: none; border: none; cursor: pointer; margin-left: -2em;">
-                        <img src="../Imagens/magnifying-glass-11-svgrepo-com 1.png" alt="Pesquisar"
-                            style="width: 20px; height: 20px;">
-                            
-                    </button>
-                </form>
-            </span>
-            <span class="header_icon"><a href="html/Login.html"><img src="../Imagens/image 8.png" alt=""></a></span>
-            <span class="header_icon"><img src="../Imagens/bell-svgrepo-com 1.png" alt=""></span>
-        </div>
-    </header>
+</header>
   <main id="container">
     <form class="cadastro-form">
         <h2>Crie sua conta:</h2>
