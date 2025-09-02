@@ -14,8 +14,11 @@ create table usuarios (
     email varchar(255) not null,
     senha varchar(255) not null,
     data_cadastro datetime,
-    foto_perfil varchar(255)
+    foto_perfil varchar(255),
+    token_recuperacao VARCHAR(255),
+    token_expira_em DATETIME
 );
+
 
 create table filmes (
     id int primary key auto_increment,
