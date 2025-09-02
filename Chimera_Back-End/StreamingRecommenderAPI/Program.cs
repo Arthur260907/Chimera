@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Registrar seus serviços e repositórios
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>(); // Esta linha conecta a interface à classe
 builder.Services.AddScoped<UsuarioService>();
 
 // Configurar CORS para permitir requisições do front-end
