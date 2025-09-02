@@ -1,3 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
 [ApiController]
 [Route("api/catalogo")]
 public class CatalogoController : ControllerBase
