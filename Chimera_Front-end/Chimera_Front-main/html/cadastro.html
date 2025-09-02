@@ -1,55 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/cadastro.css">
-    <title>Cadastro</title>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <main id="cointeiner">
-        <form class="cadastro" id="cadastroForm">
-            <h2>Crie sua conta:</h2>
-            <div class="inboxuser">
-                <p>Insira o seu email:</p>
-                <input type="text" id="email">
-            </div>
-            <div class="inboxuser">
-                <p>Crie sua senha:</p>
-                <input type="text" id="senha">
-            </div>
-            <div class="inboxuser">
-                <p>Confirmação de senha:</p>
-                <input type="text">
-            </div>
-            <div>
-                <button id="bt"><a href="Login.html">Criar Conta</a></button>
-            </div>
-          <div>
-                <a href="Login.html" id="btn">Logar</a>
-            </div>
-        </form>
-   </main>
-<script>
-    document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const nome = document.getElementById('nome').value;
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
+    <header>
+    <div class="header-container">
 
-        const response = await fetch('http://localhost:5000/api/usuario/cadastrar', { // Verifique a porta da sua API
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nome, email, senha })
-        });
+        <div class="header-left">
+            <div id="separar_logo">
+                <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
+            </div>
+            <nav class="header-nav">
+                <a href="../index.html" class="header_icon"><h5>Home</h5></a>
+                <a href="#" class="header_icon"><h5>Filmes</h5></a>
+                <a href="#" class="header_icon"><h5>Series</h5></a>
+            </nav>
+        </div>
 
-        const result = await response.json();
-        alert(result.message);
+        <div class="header-right">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Pesquisar...">
+                <button type="submit" id="search-btn" aria-label="Pesquisar"></button>
+            </form>
+            <a href="#" class="header_icon">
+                <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notificações">
+            </a>
+            <a href="html/Login.html" class="header_icon">
+                <img src="../Imagens/image 8.png" alt="Perfil">
+            </a>
+        </div>
+        
+    </div> </header>
+  <main id="container">
+    <form class="cadastro-form">
+        <h2>Crie sua conta:</h2>
 
-        if (response.ok) {
-            window.location.href = 'Login.html';
-        }
-    });
-</script>
+        <div class="input-group">
+            <input type="text" id="username" name="username" class="input-field" placeholder=" " required>
+            <label for="username" class="input-label">Nome de Usuario</label>
+        </div>
+
+        <div class="input-group">
+            <input type="email" id="email" name="email" class="input-field" placeholder=" " required>
+            <label for="email" class="input-label">E-mail</label>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="senha" name="senha" class="input-field" placeholder=" " required>
+            <label for="senha" class="input-label">Crie sua senha</label>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="confirmar-senha" name="confirmar-senha" class="input-field" placeholder=" " required>
+            <label for="confirmar-senha" class="input-label">Confirme sua senha</label>
+        </div>
+        
+        <div class="button-group">
+            <button type="submit" class="btn-submit">Cadastrar</button>
+        </div>
+        
+        <div class="login-link">
+            <p>Já tem uma conta? <a href="Login.html">Faça login</a></p>
+        </div>
+    </form>
+</main>
+    
 </body>
 </html>
