@@ -8,13 +8,13 @@ async function loadCategory(genre, containerId) {
         container.innerHTML = ""; // limpa antes
 
         data.forEach(item => {
-            const li = document.createElement("li");
-            li.classList.add("carousel-item");
-            li.innerHTML = `
+            const div = document.createElement("div");
+            div.classList.add("carousel-item");
+            div.innerHTML = `
                 <img src="${item.posterUrl || item.Imagem}" alt="${item.title || item.Titulo}" onerror="this.src='imagens/placeholder.png'">
                 <span>${item.title || item.Titulo}</span>
             `;
-            container.appendChild(li);
+            container.appendChild(div);
         });
     } catch (error) {
         console.error("Erro ao carregar categoria:", genre, error);
