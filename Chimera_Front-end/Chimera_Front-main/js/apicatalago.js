@@ -2,7 +2,7 @@
 async function loadCategory(genre, containerId) {
     try {
         // Corrigido: parâmetro 'filtro' conforme o controller espera
-        const response = await fetch(`https://localhost:5000/api/catalogo?filtro=${genre}`);
+        const response = await fetch(`https://localhost:5001/api/catalogo?filtro=${genre}`);
         const data = await response.json();
 
         const container = document.querySelector(`#${containerId} .carousel-list`);
