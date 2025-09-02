@@ -1,7 +1,7 @@
 // Função para carregar filmes/animes de uma categoria
 async function loadCategory(genre, containerId) {
     try {
-        const response = await fetch(`https://localhost:5000/api/catalog?genre=${genre}`);
+        const response = await fetch(`https://localhost:5000/api/catalogo?genre=${genre}`);
         const data = await response.json();
 
         const container = document.querySelector(`#${containerId} .carousel-list`);
