@@ -7,7 +7,6 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
@@ -15,36 +14,34 @@
 </head>
 
 <body>
-    <header>
-        <div id="separar_logo">
-            <img id="logo" src="Imagens/image0_large.png" alt="">
+   <header>
+    <div class="header-container">
+
+        <div class="header-left">
+            <div id="separar_logo">
+                <img id="logo" src="Imagens/image0_large.png" alt="Logo">
+            </div>
+            <nav class="header-nav">
+                <a href="index.html" class="header_icon"><h5>Home</h5></a>
+                <a href="#" class="header_icon"><h5>Filmes</h5></a>
+                <a href="#" class="header_icon"><h5>Series</h5></a>
+            </nav>
         </div>
-        <span class="header_icon">
-            <h5>Home</h5>
-        </span>
-        <span class="header_icon">
-            <h5>Filmes</h5>
-        </span>
-        <span class="header_icon">
-            <h5>Series</h5>
-        </span>
-        <div id="cant_superior">
-            <span class="header_icon"><img src="Imagens/bell-svgrepo-com 1.png" alt=""></span>
-            <span class="header_icon" style="display: flex; align-items: center;">
-                <form id="search-form" style="display: flex; align-items: center;">
-                    <input type="text" id="search-input" placeholder="Pesquisar..."
-                        style="padding: 0.5em 1em; border-radius: 20px; border: none; outline: none; font-size: 1em;">
-                    <button type="submit" id="search-btn"
-                        style="background: none; border: none; cursor: pointer; margin-left: -2em;">
-                        <img src="Imagens/magnifying-glass-11-svgrepo-com 1.png" alt="Pesquisar"
-                            style="width: 20px; height: 20px;">
-                    </button>
-                </form>
-            </span>
-            <span class="header_icon"><a href="html/Login.html"><img src="Imagens/image 8.png" alt=""></a></span>
+
+        <div class="header-right">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Pesquisar...">
+                <button type="submit" id="search-btn" aria-label="Pesquisar"></button>
+            </form>
+            <a href="#" class="header_icon">
+                <img src="Imagens/bell-svgrepo-com 1.png" alt="Notificações">
+            </a>
+            <a href="html/Login.html" class="header_icon">
+                <img src="Imagens/image 8.png" alt="Perfil">
+            </a>
         </div>
-    </header>
-    <!-- Linha de ícones após o header -->
+        
+    </div> </header>
     <div id="icon-line">
         <span class="header_icon"><img src="imagens/image.png" alt=""></span>
         <span class="header_icon"><img src="imagens/image 3.png" alt=""></span>
@@ -52,8 +49,6 @@
         <span class="header_icon"><img src="imagens/image 6.png" alt=""></span>
     </div>
 
-
-    <!---Carrosell-->
     <main id="Grid_layout">
         <div class="carousel-container">
             <div class="carousel-slide">
@@ -74,24 +69,27 @@
             </div>
         </div>
         <div class="category-section">
-            <div class="category-section">
-                <h2 class="category-title">Comedia</h2>
-                <div class="multi-carousel-container" id="comedy-section">
-                    <div class="carousel-list"></div>
-                </div>
-                <h2 class="category-title">Ação</h2>
-                <div class="multi-carousel-container" id="action-section">
-                    <div class="carousel-list"></div>
-                </div>
-                <h2 class="category-title">Aventura</h2>
-                <div class="multi-carousel-container" id="adventure-section">
-                    <div class="carousel-list"></div>
-                </div>
+            <h2 class="category-title">Comedia</h2>
+            <div class="multi-carousel-container" id="comedy-section">
+                <ul class="carousel-list">
+                    </ul>
+            </div>
+            <h2 class="category-title">Ação</h2>
+            <div class="multi-carousel-container" id="action-section">
+                <ul class="carousel-list">
+                    </ul>
+            </div>
+            <h2 class="category-title">Aventura</h2>
+            <div class="multi-carousel-container" id="adventure-section">
+                <ul class="carousel-list">
+                    </ul>
             </div>
         </div>
     </main>
+
     <script src="js/script.js"></script>
     <script src="js/apicatalago.js"></script>
+    
     <footer>
         <div class="footer-links">
             <ul>
@@ -120,5 +118,4 @@
         </div>
     </footer>
 </body>
-
 </html>
