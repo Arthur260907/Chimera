@@ -1,82 +1,66 @@
-/* ====================================================== */
-/* ========== ESTILOS GERAIS E BODY ========== */
-/* ====================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  background: radial-gradient(ellipse at center, #1A2B3A 0%, #000000 70%);
-  font-family: "Roboto", sans-serif;
-  color: #fff;
+h5{
+  font-size: 1.5em;
+}
+a {
+  color: inherit; /* Faz o link herdar a cor do texto do elemento pai */
+  text-decoration: none; /* Remove o sublinhado */
 }
 
-/* ====================================================== */
-/* ========== ESTILOS DO HEADER (CABEÇALHO) ========== */
-/* ====================================================== */
+body {
+    background: radial-gradient(ellipse at center, #1A2B3A 0%, #000000 70%);
+  color: #fff;
+font-family: "Inter", sans-serif;
+}
+
 header {
     width: 100%;
+    height: 4em;
     background-color: #121116;
-    padding: 1em 2em; /* Padding de segurança para telas menores */
-}
-
-/* Container que limita a largura e centraliza o conteúdo */
-.header-container {
-    width: 100%;
-    max-width: 1600px; /* Largura máxima. Sinta-se à vontade para ajustar */
-    margin: 0 auto;    /* Centraliza o container */
+    display: flex;
+    align-items: center;
     justify-content: center;
-    /* A CORREÇÃO ESTÁ AQUI: */
-    display: flex;
-    align-items: center;
     gap: 4em;
+    padding: 3em;
+    box-sizing: border-box; /* <<< ADICIONE APENAS ESTA LINHA */
 }
 
-/* --- Lado Esquerdo do Cabeçalho --- */
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 2.5em; /* Espaço entre logo e navegação */
+#separar_logo {
+  display: flex;
+  align-items: center; 
+  gap: 40px;
+
+}
+
+#cant_superior{
+  position: relative;
+  display: flex;
+  gap: 80px;
 }
 
 #logo {
-    height: 3em; 
-    border-radius: 100%;
-}
-
-.header-nav {
-    display: flex;
-    gap: 2em; /* Espaço entre os links */
-}
-
-/* --- Lado Direito do Cabeçalho --- */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 1.5em; /* Espaço entre os ícones e a busca */
-}
-
-/* Estilo geral para todos os ícones e links do header (sem alterações) */
-.header_icon {
-    color: #fff;
-    text-decoration: none;
-    transition: opacity 0.2s;
+  height: 3em; 
+  border-radius: 100%;
 }
 
 .header_icon:hover {
-    opacity: 0.7;
+  opacity: 0.7;
+  transition: 0.2s;
 }
 
-.header_icon h5 {
-    font-size: 1.1em; /* Levemente ajustado */
-    font-weight: 500;
+.header_icon:active {
+  transition: 0.2;
+  opacity: 1;
+  transition: 0.2s;
 }
 
-.header_icon img {
-    height: 1.8em;
-    vertical-align: middle;
+header img{
+  height: 2em;
 }
 
 /* Barra de pesquisa (sem alterações) */
@@ -87,26 +71,26 @@ header {
 }
 /* ... (as outras regras da barra de pesquisa continuam iguais) ... */
 
-#search-input {
-    background-color: #2c2c2c;
-    color: #fff;
-    border: 1px solid #444;
-    border-radius: 20px;
-    padding: 0.5em 2.5em 0.5em 1em;
-    font-size: 1em;
-    width: 32vh;
-    transition: width 0.3s ease-in-out, background-color 0.3s;
-}
-
 #search-input::placeholder {
     color: #aaa;
 }
 
+#search-input {
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  background: #222;
+  color: #fff;
+  margin-right: -2em;
+  width: 17em;
+  transition: width 0.3s;
+}
+
 #search-input:focus {
-    outline: none;
-    width: 80vh;
-    background-color: #333;
-    border-color: #555;
+  width: 26em;
+  background: #333;
 }
 
 #search-btn {

@@ -9,22 +9,34 @@ h5{
 }
 
 body {
-  background-color: black;
+  /* Múltiplos backgrounds, separados por vírgula */
+    background: 
+        /* Gradiente de CIMA: vai do azul para TRANSPARENTE */
+        radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
+        
+        /* Gradiente de BAIXO: também vai do azul para TRANSPARENTE */
+        radial-gradient(ellipse at bottom, #1a2b3a86 25%, transparent 80%),
+        
+        /* Cor de fundo sólida final para preencher o resto */
+        #000000; 
+
+    /* Esta linha garante que o fundo não role com a página, criando um efeito mais imersivo */
+    background-attachment: fixed;
+
   color: #fff;
 font-family: "Inter", sans-serif;
 }
 
 header {
- 
-  width: 100%;
-  height: 2em;
-  background-color: #121116;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6.4em;
-  padding: 3em;
-
+    width: 100%;
+    height: 4em;
+    background-color: #121116;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4em;
+    padding: 3em;
+    box-sizing: border-box; /* <<< ADICIONE APENAS ESTA LINHA */
 }
 
 #separar_logo {
@@ -83,13 +95,13 @@ header img{
 
 #Grid_layout{
   /*Layout principal, e ajuste completo do carrossel que estava bugado sem funcionamento */
-  padding: 4em 1.8em;
+  padding: 0.6em 1.8em;
   justify-content: center;
   width: 100%;
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 30em 30em;
+  grid-template-columns: 1fr ; 
+  grid-template-rows: 1fr;
 }
 
 
@@ -135,6 +147,7 @@ header img{
 
 .prev {
     left: 10px;
+    
 }
 
 .next {
@@ -151,6 +164,7 @@ header img{
 }
 
 .dot {
+  
     width: 12px;
     height: 12px;
     background-color: rgba(255, 255, 255, 0.7);
@@ -163,19 +177,13 @@ header img{
     background-color: #333; /* Cor do dot ativo */
 }
 
-body {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-}
-
 .category-section {
+  /* Removemos o display: flex para que os itens fiquem um embaixo do outro */
   margin-top: 40px;
   margin-bottom: 40px;
 }
 
+/* E vamos garantir que o título se comporte como um bloco normal */
 .category-title {
   font-size: 2em;
   margin-left: 20px;
@@ -314,12 +322,12 @@ body {
   background: #222;
   color: #fff;
   margin-right: -2em;
-  width: 10em;
+  width: 17em;
   transition: width 0.3s;
 }
 
 #search-input:focus {
-  width: 15em;
+  width: 26em;
   background: #333;
 }
 
@@ -383,5 +391,6 @@ footer {
 }
 
 main#Grid_layout {
-  padding-bottom: 6em;
+  padding-bottom: 2em;
 }
+
