@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chimera_Back-End", "Chimera_Back-End", "{5E018812-795D-D638-9127-318C38EF6720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingRecommenderAPI", "Chimera_Back-End\StreamingRecommenderAPI\StreamingRecommenderAPI.csproj", "{7E18F7C5-A3D9-4007-423C-A5EFDD6618A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E18F7C5-A3D9-4007-423C-A5EFDD6618A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E18F7C5-A3D9-4007-423C-A5EFDD6618A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E18F7C5-A3D9-4007-423C-A5EFDD6618A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E18F7C5-A3D9-4007-423C-A5EFDD6618A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E18F7C5-A3D9-4007-423C-A5EFDD6618A5} = {5E018812-795D-D638-9127-318C38EF6720}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2409CB30-EF00-4F22-9D85-A4E2FCE54ADD}
+	EndGlobalSection
+EndGlobal
