@@ -1,3 +1,5 @@
+using Dapper;
+using MySql.Data.MySqlClient;
 using StreamingRecommenderAPI.Models.User;
 using System.Threading.Tasks;
 
@@ -9,9 +11,10 @@ namespace StreamingRecommenderAPI.Repositories
         Task<Usuario> GetByTokenAsync(string token);
         Task SalvarTokenAsync(string email, string token, DateTime expiraEm);
         Task AtualizarSenhaAsync(string token, string novaSenhaHash);
+        Task CadastrarUsuarioAsync(Usuario usuario);
     }
 
-public class UsuarioRepository : IUsuarioRepository
+    public class UsuarioRepository : IUsuarioRepository
     {
         private readonly string _connectionString;
 
@@ -43,9 +46,12 @@ public class UsuarioRepository : IUsuarioRepository
             using var conn = new MySqlConnection(_connectionString);
             await conn.ExecuteAsync("UPDATE usuarios SET senha = @novaSenhaHash, token_recuperacao = NULL, token_expira_em = NULL WHERE token_recuperacao = @token", new { novaSenhaHash, token });
         }
+
+        public async Task CadastrarUsuarioAsync(Usuario usuario)
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            var sql = "INSERT INTO usuarios (Nome, Email, Senha, Data_Cadastro) VALUES (@Nome, @Email, @Senha, @Data_Cadastro)";
+            await conn.ExecuteAsync(sql, usuario);
+        }
     }
-
-
-
-
 }

@@ -31,5 +31,24 @@ namespace StreamingRecommenderAPI.Controllers
             
             return Ok(new { message = "Senha redefinida com sucesso." });
         }
+
+        [HttpPost("cadastrar")]
+        public async Task<IActionResult> Cadastrar([FromBody] CadastroRequest request)
+        {
+            var sucesso = await _service.CadastrarUsuarioAsync(request.Nome, request.Email, request.Senha);
+            if (!sucesso)
+            {
+                return BadRequest(new { message = "E-mail já cadastrado." });
+            }
+            return Ok(new { message = "Usuário cadastrado com sucesso!" });
+        }
+    }
+
+    // DTO para o request de cadastro
+    public class CadastroRequest
+    {
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
     }
 }

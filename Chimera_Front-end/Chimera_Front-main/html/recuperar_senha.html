@@ -10,9 +10,22 @@
         <form>
             <h2>Recuperar Senha</h2>
             <p>Digite seu e-mail para receber instruções:</p>
-            <input type="email" name="email" required>
+            <input type="email" name="email" id="email" required>
             <button type="submit">Enviar</button>
         </form>
     </main>
+    <script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const response = await fetch('http://localhost:5000/api/usuario/recuperar-senha', { // Verifique a porta da sua API
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const result = await response.json();
+            alert(result.message + ' Verifique o console do back-end para ver o token de teste.');
+        });
+    </script>
 </body>
 </html>

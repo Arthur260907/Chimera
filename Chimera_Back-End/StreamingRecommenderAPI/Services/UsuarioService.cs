@@ -1,3 +1,4 @@
+using StreamingRecommenderAPI.Models.User;
 using StreamingRecommenderAPI.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -30,9 +31,28 @@ namespace StreamingRecommenderAPI.Services
             var usuario = await _repo.GetByTokenAsync(token);
             if (usuario == null) return false;
 
-            // IMPORTANTE: Use uma biblioteca de Hashing como BCrypt.Net em um projeto real.
             var novaSenhaHash = BCrypt.Net.BCrypt.HashPassword(novaSenha);
             await _repo.AtualizarSenhaAsync(token, novaSenhaHash);
+            return true;
+        }
+
+        public async Task<bool> CadastrarUsuarioAsync(string nome, string email, string senha)
+        {
+            var usuarioExistente = await _repo.GetByEmailAsync(email);
+            if (usuarioExistente != null)
+            {
+                return false; // Usuário já existe
+            }
+
+            var novoUsuario = new Usuario
+            {
+                Nome = nome,
+                Email = email,
+                Senha = BCrypt.Net.BCrypt.HashPassword(senha), // Hashing da senha
+                Data_Cadastro = DateTime.UtcNow
+            };
+
+            await _repo.CadastrarUsuarioAsync(novoUsuario);
             return true;
         }
     }
