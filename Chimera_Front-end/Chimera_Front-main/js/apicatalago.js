@@ -1,19 +1,19 @@
-// Função para carregar filmes/animes de uma categoria
 async function loadCategory(genre, containerId) {
     try {
-        // Corrigido: parâmetro 'filtro' conforme o controller espera
-        const response = await fetch(`https://localhost:5001/api/catalogo?filtro=${genre}`);
+        // Use o parâmetro 'filtro' conforme o controller espera
+        const response = await fetch(`https://localhost:7286 /api/catalogo?filtro=${genre}`);
         const data = await response.json();
 
         const container = document.querySelector(`#${containerId} .carousel-list`);
         container.innerHTML = ""; // limpa antes
 
+        // Ajuste os nomes dos campos conforme o JSON da API
         data.forEach(item => {
             const div = document.createElement("div");
             div.classList.add("carousel-item");
             div.innerHTML = `
-                <img src="${item.posterUrl || item.Imagem}" alt="${item.title || item.Titulo}" onerror="this.src='imagens/placeholder.png'">
-                <span>${item.title || item.Titulo}</span>
+                <img src="${item.Imagem}" alt="${item.Titulo}" onerror="this.src='imagens/placeholder.png'">
+                <span>${item.Titulo}</span>
             `;
             container.appendChild(div);
         });
@@ -23,7 +23,7 @@ async function loadCategory(genre, containerId) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadCategory("comedy", "comedy-section");
-    loadCategory("action", "action-section");
-    loadCategory("adventure", "adventure-section");
+    loadCategory("comedia", "comedy-section");
+    loadCategory("acao", "action-section");
+    loadCategory("aventura", "adventure-section");
 });
