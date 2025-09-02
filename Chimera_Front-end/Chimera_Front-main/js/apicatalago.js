@@ -11,7 +11,8 @@ async function loadCategory(genre, containerId) {
             const li = document.createElement("li");
             li.classList.add("carousel-item");
             li.innerHTML = `
-                <img src="${item.posterUrl}" alt="${item.title}">
+                <img src="${item.posterUrl || item.Imagem}" alt="${item.title || item.Titulo}" onerror="this.src='imagens/placeholder.png'">
+                <span>${item.title || item.Titulo}</span>
             `;
             container.appendChild(li);
         });
@@ -20,7 +21,6 @@ async function loadCategory(genre, containerId) {
     }
 }
 
-// Carregar as categorias quando abrir a página
 document.addEventListener("DOMContentLoaded", () => {
     loadCategory("comedy", "comedy-section");
     loadCategory("action", "action-section");
