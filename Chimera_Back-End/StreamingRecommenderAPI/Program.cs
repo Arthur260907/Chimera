@@ -1,3 +1,6 @@
+using StreamingRecommenderAPI.Repositories;
+using StreamingRecommenderAPI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona serviços ao contêiner.
@@ -52,3 +55,11 @@ app.MapControllers();
 
 app.Run();
 
+
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ...
+// Registrar seus serviços e repositórios
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<UsuarioService>();
