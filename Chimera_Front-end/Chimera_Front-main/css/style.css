@@ -42,6 +42,7 @@ header {
 
 #logo {
   height: 3em; 
+  border-radius: 100%;
 }
 
 .header_icon:hover {
