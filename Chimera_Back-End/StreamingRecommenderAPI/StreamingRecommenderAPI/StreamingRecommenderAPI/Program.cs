@@ -1,6 +1,6 @@
 
 
-// LocalizaÁ„o: StreamingRecommenderAPI / Program.cs
+// Localiza√ß√£o: StreamingRecommenderAPI / Program.cs
 
 // Adicione estes usings no topo do arquivo
 using Microsoft.EntityFrameworkCore;
@@ -11,23 +11,23 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- INÕCIO DA CONFIGURA«√O DO DBCONTEXT ---
+// --- IN√çCIO DA CONFIGURA√á√ÉO DO DBCONTEXT ---
 
-// 1. Pega a string de conex„o que vamos adicionar no appsettings.json
+// 1. Pega a string de conex√£o que vamos adicionar no appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// 2. Adiciona o DbContext ao contÍiner de serviÁos
+// 2. Adiciona o DbContext ao cont√™iner de servi√ßos
 //    Aqui estamos dizendo para ele usar o SQL Server.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// --- FIM DA CONFIGURA«√O DO DBCONTEXT ---
+// --- FIM DA CONFIGURA√á√ÉO DO DBCONTEXT ---
 
 
-// Adicionar serviÁos ao container.
+// Adicionar servi√ßos ao container.
 builder.Services.AddControllers();
 
-// ServiÁos para documentaÁ„o da API (Swagger), muito ˙til para testes.
+// Servi√ßos para documenta√ß√£o da API (Swagger), muito √∫til para testes.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -35,17 +35,17 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Streaming Recommender API",
         Version = "v1",
-        Description = "API de recomendaÁ„o de streaming"
+        Description = "API de recomenda√ß√£o de streaming"
     });
 });
 
-// Registrar seus serviÁos e repositÛrios
+// Registrar seus servi√ßos e reposit√≥rios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddHttpClient<OmdbService>();
 builder.Services.AddScoped<OmdbService>();
 
-// Configurar CORS para permitir requisiÁıes do front-end
+// Configurar CORS para permitir requisi√ß√µes do front-end
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -58,18 +58,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configura o pipeline de requisiÁıes HTTP.
-// Pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Streaming Recommender API v1");
-        c.RoutePrefix = string.Empty; // Abre Swagger direto em http://localhost:5000/
-    });
-}
-
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll"); // Habilitar CORS
@@ -78,5 +66,6 @@ app.UseAuthorization();
 
 // Mapeia as rotas definidas nos controllers.
 app.MapControllers();
+
 
 app.Run();
