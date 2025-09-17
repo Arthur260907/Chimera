@@ -20,3 +20,6 @@ Arthur Lorentz Duarte 12301523.
 Instruções:
   Criar uma controller para cada classe da model;
   Banco de Dados 
+------
+Atualização:
+Alterei o repositorio do back-end para o novo mas ainda ta dando alguns erros que tenho que concertar. Depois so lincar com o front
