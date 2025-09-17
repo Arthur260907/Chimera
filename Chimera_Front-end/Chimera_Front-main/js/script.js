@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextBtn.addEventListener('click', () => {
         counter++;
         if (counter > carouselImages.length - 1) {
-            counter = 0; // goes back to the first -> // volta ao primeiro
+            counter = 0; // goes back to the first
         }
         carouselSlide.style.transition = 'transform 0.5s ease-in-out';
         carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prevBtn.addEventListener('click', () => {
         counter--;
         if (counter < 0) {
-            counter = carouselImages.length - 1; // goes to the last -> // vai ao último
+            counter = carouselImages.length - 1; // goes to the last
         }
         carouselSlide.style.transition = 'transform 0.5s ease-in-out';
         carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Selects all multi carousels -> // Seleciona todos os carrosseis múltiplos
+  // Selects all multi carousels
   const multiCarousels = document.querySelectorAll('.multi-carousel-container');
   
   multiCarousels.forEach(multiCarousel => {
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
 
     function scrollToItem(index) {
-      // Infinite loop -> // Loop infinito
+      // Infinite loop
       if (index < 0) {
         index = items.length - 1;
       }

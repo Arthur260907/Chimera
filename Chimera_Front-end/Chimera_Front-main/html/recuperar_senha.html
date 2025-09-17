@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recuperar Senha</title>
+    <title>Recover Password</title>
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <main>
         <form>
-            <h2>Recuperar Senha</h2>
-            <p>Digite seu e-mail para receber instruções:</p>
+            <h2>Recover Password</h2>
+            <p>Enter your email to receive instructions:</p>
             <input type="email" name="email" id="email" required>
-            <button type="submit">Enviar</button>
+            <button type="submit">Send</button>
         </form>
     </main>
     <script>
         document.querySelector('form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
-            const response = await fetch('http://localhost:5000/api/usuario/recuperar-senha', { // Verifique a porta da sua API
+            const response = await fetch('http://localhost:5000/api/usuario/recuperar-senha', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
             });
             const result = await response.json();
-            alert(result.message + ' Verifique o console do back-end para ver o token de teste.');
+            alert(result.message + ' Check the backend console to see the test token.');
         });
     </script>
 </body>

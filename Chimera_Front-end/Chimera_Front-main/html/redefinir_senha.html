@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Redefinir Senha</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <main>
-        <form id="redefinirForm">
-            <h2>Redefinir Senha</h2>
-            <input type="text" name="token" placeholder="Token recebido por e-mail" required>
-            <input type="password" name="novaSenha" id="novaSenha" required>
-            <button type="submit">Redefinir</button>
+        <form id="resetForm">
+            <h2>Reset Password</h2>
+            <input type="text" name="token" id="token" placeholder="Token received by email" required>
+            <input type="password" name="newPassword" id="newPassword" placeholder="New password" required>
+            <button type="submit">Reset</button>
         </form>
     </main>
     <script>
         document.querySelector('form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const token = document.getElementById('token').value;
-            const novaSenha = document.getElementById('novaSenha').value;
-            const response = await fetch('http://localhost:5000/api/usuario/redefinir-senha', { // Verifique a porta da sua API
+            const newPassword = document.getElementById('newPassword').value;
+            const response = await fetch('http://localhost:5000/api/usuario/redefinir-senha', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token, novaSenha })
+                body: JSON.stringify({ token, newPassword })
             });
             const result = await response.json();
             alert(result.message);

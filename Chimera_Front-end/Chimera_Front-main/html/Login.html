@@ -1,66 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Sign In</title>
     <link rel="stylesheet" href="../css/login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
    <header>
-    <div id="separar_logo">
+    <div id="logo-separator">
         <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
     </div>
 
     <a href="../index.html"><span class="header_icon"><h5>Home</h5></span></a>
-    <span class="header_icon"><h5>Filmes</h5></span>
+    <span class="header_icon"><h5>Movies</h5></span>
     <span class="header_icon"><h5>Series</h5></span>
 
-    <div id="cant_superior">
+    <div id="top-corner">
 
         <form id="search-form">
-            <input type="text" id="search-input" placeholder="Pesquisar...">
+            <input type="text" id="search-input" placeholder="Search...">
             <button type="submit" id="search-btn">
             </button>
         </form>
 
-        <div class="perfil-container">
-            <div class="perfil-icone">
-                <img src="../Imagens/image 8.png" alt="Perfil">
+        <div class="profile-container">
+            <div class="profile-icon">
+                <img src="../Imagens/image 8.png" alt="Profile">
             </div>
 
-            <div class="menu-dropdown">
+            <div class="dropdown-menu">
                 <div class="menu-content">
-                    <div class="secao secao-conta">
-                        <h3>Conta</h3>
+                    <div class="section section-account">
+                        <h3>Account</h3>
                         <ul>
-                            <li class="item-ativo"><a href="../html/Login.html">Fazer login</a></li>
-                            <li><a href="#">Ajuda</a></li>
-                            <li><a href="#">Conta e configurações</a></li>
-                            <li><a href="#">Sair</a></li>
+                            <li class="active-item"><a href="../html/Login.html">Sign in</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Account & Settings</a></li>
+                            <li><a href="#">Sign out</a></li>
                         </ul>
                     </div>
-                    <div class="secao secao-perfis">
-                        <h3>PERFIS</h3>
+                    <div class="section section-profiles">
+                        <h3>PROFILES</h3>
                         <ul>
                             <li>
                                 <img src="../imagens/image 8.png" alt="Avatar">
                                 <span>Gabriel</span>
                             </li>
                         </ul>
-                        <div class="acoes-perfis">
-                            <div id="flex_mais">
-                          <img src="../imagens/mais.png" alt=""><a href="#">Adicionar novo perfil</a></div>
-                            <a href="#">Editar perfis</a>
-                            <a href="#">Saiba mais</a>
+                        <div class="profile-actions">
+                            <div id="flex-more">
+                                <img src="../imagens/mais.png" alt=""><a href="#">Add new profile</a>
+                            </div>
+                            <a href="#">Edit profiles</a>
+                            <a href="#">Learn more</a>
                         </div>
                     </div>
                 </div>
@@ -69,34 +68,34 @@
 
     </div>
      <span class="header_icon">
-            <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notificações">
+            <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
         </span>
 </header>
 
     <main id="container">
         <form class="login-form">
-            <h2>Entrar</h2>
+            <h2>Sign In</h2>
 
             <div class="input-group">
                 <input type="email" id="email" name="email" class="input-field" placeholder=" " required>
-                <label for="email" class="input-label">E-mail</label>
+                <label for="email" class="input-label">Email</label>
             </div>
 
             <div class="input-group">
-                <input type="password" id="senha" name="senha" class="input-field" placeholder=" " required>
-                <label for="senha" class="input-label">Senha</label>
+                <input type="password" id="password" name="password" class="input-field" placeholder=" " required>
+                <label for="password" class="input-label">Password</label>
             </div>
             
             <div class="forgot-password-link">
-                <a href="#">Esqueci a senha</a>
+                <a href="recuperar_senha.html">Forgot password</a>
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn-submit">Entrar</button>
+                <button type="submit" class="btn-submit">Sign In</button>
             </div>
             
             <div class="register-link">
-                <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora</a></p>
+                <p>Don't have an account? <a href="cadastro.html">Sign up now</a></p>
             </div>
         </form>
     </main> 

@@ -1,13 +1,13 @@
 async function loadCategory(genre, containerId) {
     try {
-        // Use o parâmetro 'filtro' conforme o controller espera
-        const response = await fetch(`https://localhost:7286 /api/catalogo?filtro=${genre}`);
+        // Use the 'filter' parameter as expected by the controller
+        const response = await fetch(`https://localhost:7286/api/catalogo?filtro=${genre}`);
         const data = await response.json();
 
         const container = document.querySelector(`#${containerId} .carousel-list`);
-        container.innerHTML = ""; // limpa antes
+        container.innerHTML = ""; // clear before
 
-        // Ajuste os nomes dos campos conforme o JSON da API
+        // Adjust the field names according to the API JSON
         data.forEach(item => {
             const div = document.createElement("div");
             div.classList.add("carousel-item");
@@ -18,12 +18,12 @@ async function loadCategory(genre, containerId) {
             container.appendChild(div);
         });
     } catch (error) {
-        console.error("Erro ao carregar categoria:", genre, error);
+        console.error("Error loading category:", genre, error);
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadCategory("comedia", "comedy-section");
-    loadCategory("acao", "action-section");
-    loadCategory("aventura", "adventure-section");
+    loadCategory("comedy", "comedy-section");
+    loadCategory("action", "action-section");
+    loadCategory("adventure", "adventure-section");
 });
