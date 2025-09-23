@@ -35,7 +35,12 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Streaming Recommender API",
         Version = "v1",
-        Description = "API de recomendação de streaming"
+        Description = "API de recomendação de streaming para o projeto Chimera",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "Chimera Team",
+            Email = "contato@chimera.com"
+        }
     });
 });
 
@@ -57,6 +62,17 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Streaming Recommender API v1");
+        c.RoutePrefix = "swagger"; // Define que o Swagger estará em /swagger
+    });
+}
 
 app.UseHttpsRedirection();
 
