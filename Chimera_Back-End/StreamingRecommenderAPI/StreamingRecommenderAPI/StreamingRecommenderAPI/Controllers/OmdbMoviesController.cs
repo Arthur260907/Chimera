@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Data;
 using StreamingRecommenderAPI.Models.Midia;
+using StreamingRecommenderAPI.Services;
 
 namespace StreamingRecommenderAPI.Controllers
 {
@@ -15,29 +16,60 @@ namespace StreamingRecommenderAPI.Controllers
     public class OmdbMoviesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly OmdbService _omdbService;
 
-        public OmdbMoviesController(ApplicationDbContext context)
+        public OmdbMoviesController(ApplicationDbContext context, OmdbService omdbService)
         {
             _context = context;
+            _omdbService = omdbService;
         }
 
-        // GET: api/OmdbMovies
+        // --- NOVO ENDPOINT: Buscar filme da API OMDB pelo título ---
+        // GET: api/OmdbMovies/search?title=Batman
+        [HttpGet("search")]
+        public async Task<ActionResult<OmdbMovie>> SearchMovie([FromQuery] string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                return BadRequest("O título não pode ser vazio.");
+
+            var movie = await _omdbService.GetMovieByTitleAsync(title);
+
+            if (movie == null || movie.Response == "False")
+                return NotFound(movie?.Error ?? "Filme não encontrado na OMDB.");
+
+            return Ok(movie);
+        }
+
+        // --- NOVO ENDPOINT: Buscar filme da API OMDB pelo ID ---
+        // GET: api/OmdbMovies/byId/tt0372784
+        [HttpGet("byId/{imdbId}")]
+        public async Task<ActionResult<OmdbMovie>> GetMovieById(string imdbId)
+        {
+            if (string.IsNullOrWhiteSpace(imdbId))
+                return BadRequest("O ID não pode ser vazio.");
+
+            var movie = await _omdbService.GetMovieByIdAsync(imdbId);
+
+            if (movie == null || movie.Response == "False")
+                return NotFound(movie?.Error ?? "Filme não encontrado na OMDB.");
+
+            return Ok(movie);
+        }
+
+        // --- Seus endpoints atuais que usam o banco ainda ficam ---
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OmdbMovie>>> GetFilmes()
         {
             return await _context.Filmes.ToListAsync();
         }
 
-        // GET: api/OmdbMovies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OmdbMovie>> GetOmdbMovie(string id)
         {
             var omdbMovie = await _context.Filmes.FindAsync(id);
 
             if (omdbMovie == null)
-            {
                 return NotFound();
-            }
 
             return omdbMovie;
         }
