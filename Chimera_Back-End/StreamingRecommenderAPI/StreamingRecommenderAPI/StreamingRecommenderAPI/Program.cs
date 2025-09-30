@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Data;
 using StreamingRecommenderAPI.Repositories;
 using StreamingRecommenderAPI.Services;
-using Microsoft.EntityFrameworkCore.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // 2. Adiciona o DbContext ao contêiner de serviços
-//    Aqui estamos dizendo para ele usar o SQL Server.
+//    Aqui estamos usando InMemory database para desenvolvimento
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseInMemoryDatabase("ChimeraDB"));
 
 // --- FIM DA CONFIGURAÇÃO DO DBCONTEXT ---
 
