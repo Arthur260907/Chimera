@@ -8755,24 +8755,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\luizs\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\12303135\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\luizs\\OneDrive\\Área de Trabalho\\Chimera\\Chimera_Back-End\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI.csproj",
+      "projectUniqueName": "C:\\Users\\12303135\\Chimera\\Chimera_Back-End\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI.csproj",
       "projectName": "StreamingRecommenderAPI",
-      "projectPath": "C:\\Users\\luizs\\OneDrive\\Área de Trabalho\\Chimera\\Chimera_Back-End\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI.csproj",
-      "packagesPath": "C:\\Users\\luizs\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\luizs\\OneDrive\\Área de Trabalho\\Chimera\\Chimera_Back-End\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\obj\\",
+      "projectPath": "C:\\Users\\12303135\\Chimera\\Chimera_Back-End\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI.csproj",
+      "packagesPath": "C:\\Users\\12303135\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\12303135\\Chimera\\Chimera_Back-End\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\StreamingRecommenderAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\luizs\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\12303135\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8798,7 +8793,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -8866,7 +8861,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

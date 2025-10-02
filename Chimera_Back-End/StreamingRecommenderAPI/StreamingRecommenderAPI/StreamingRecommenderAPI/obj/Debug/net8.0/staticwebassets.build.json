@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "gt+4fQCVj6K+4TBGjkmov7tP8+nlyj8eIMwvgyVttlc=",
+  "Hash": "SXjxjluk08EPEjtNqe7UD0cKjdj9mM8/YkT9AN08Q0o=",
   "Source": "StreamingRecommenderAPI",
   "BasePath": "_content/StreamingRecommenderAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

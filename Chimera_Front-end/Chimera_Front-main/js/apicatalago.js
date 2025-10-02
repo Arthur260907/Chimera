@@ -1,29 +1,28 @@
-async function loadCategory(genre, containerId) {
+// Exemplo de chamada para buscar dados do back-end
+async function fetchMovies() {
     try {
-        // Use the 'filter' parameter as expected by the controller
-        const response = await fetch(`https://localhost:7286/api/catalogo?filtro=${genre}`);
-        const data = await response.json();
-
-        const container = document.querySelector(`#${containerId} .carousel-list`);
-        container.innerHTML = ""; // clear before
-
-        // Adjust the field names according to the API JSON
-        data.forEach(item => {
-            const div = document.createElement("div");
-            div.classList.add("carousel-item");
-            div.innerHTML = `
-                <img src="${item.Imagem}" alt="${item.Titulo}" onerror="this.src='imagens/placeholder.png'">
-                <span>${item.Titulo}</span>
-            `;
-            container.appendChild(div);
-        });
+        const response = await fetch('http://localhost:7282/api/OmdbMovies'); // Substitua pelo endpoint correto
+        if (!response.ok) {
+            throw new Error('Erro ao buscar filmes');
+        }
+        const movies = await response.json();
+        console.log(movies); // Exibe os dados no console
+        renderMovies(movies); // Função para renderizar os filmes no front-end
     } catch (error) {
-        console.error("Error loading category:", genre, error);
+        console.error('Erro:', error);
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadCategory("comedy", "comedy-section");
-    loadCategory("action", "action-section");
-    loadCategory("adventure", "adventure-section");
-});
+// Exemplo de função para renderizar os filmes no DOM
+function renderMovies(movies) {
+    const movieList = document.getElementById('movie-list'); // Substitua pelo ID correto no HTML
+    movieList.innerHTML = ''; // Limpa a lista antes de renderizar
+    movies.forEach(movie => {
+        const movieItem = document.createElement('li');
+        movieItem.textContent = `${movie.title} (${movie.year})`;
+        movieList.appendChild(movieItem);
+    });
+}
+
+// Chama a função ao carregar a página
+fetchMovies();

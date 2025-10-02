@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="../build/StreamingRecommenderAPI.props" />
+  <Import Project="..\build\StreamingRecommenderAPI.props" />
 </Project>
