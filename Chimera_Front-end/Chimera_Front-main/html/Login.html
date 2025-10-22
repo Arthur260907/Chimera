@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
     <link rel="stylesheet" href="../css/login.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -40,7 +38,7 @@
                     <div class="section section-account">
                         <h3>Account</h3>
                         <ul>
-                            <li class="active-item"><a href="../html/Login.html">Sign in</a></li>
+                            <li class="active-item"><a href="Login.html">Sign in</a></li>
                             <li><a href="#">Help</a></li>
                             <li><a href="#">Account & Settings</a></li>
                             <li><a href="#">Sign out</a></li>
@@ -50,13 +48,13 @@
                         <h3>PROFILES</h3>
                         <ul>
                             <li>
-                                <img src="../imagens/image 8.png" alt="Avatar">
+                                <img src="../Imagens/image 8.png" alt="Avatar">
                                 <span>Gabriel</span>
                             </li>
                         </ul>
                         <div class="profile-actions">
                             <div id="flex-more">
-                                <img src="../imagens/mais.png" alt=""><a href="#">Add new profile</a>
+                                <img src="../Imagens/mais.png" alt=""><a href="#">Add new profile</a>
                             </div>
                             <a href="#">Edit profiles</a>
                             <a href="#">Learn more</a>
@@ -95,9 +93,42 @@
             </div>
             
             <div class="register-link">
-                <p>Don't have an account? <a href="cadastro.html">Sign up now</a></p>
+                 <p>Don't have an account? <a href="cadastro.html">Sign up now</a></p>
             </div>
         </form>
     </main> 
+
+    <script>
+        // 1. Seleciona os elementos que vamos usar
+        const profileIcon = document.querySelector('.profile-icon');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        // 2. Adiciona um "escutador" de clique no ÍCONE DE PERFIL
+        profileIcon.addEventListener('click', function(event) {
+            // Impede que o clique "vaze" para o documento (veja o passo 3)
+            event.stopPropagation();
+            
+            // Adiciona ou remove a classe 'active' do menu
+            dropdownMenu.classList.toggle('active');
+        });
+
+        // 3. Adiciona um "escutador" de clique no DOCUMENTO INTEIRO
+        //    (para fechar o menu se clicar em qualquer lugar FORA dele)
+        document.addEventListener('click', function(event) {
+            // Se o menu estiver visível (contém a classe 'active')
+            if (dropdownMenu.classList.contains('active')) {
+                // Remove a classe 'active' e esconde o menu
+                dropdownMenu.classList.remove('active');
+            }
+        });
+        
+        // 4. (Opcional, mas recomendado)
+        // Impede que um clique DENTRO do menu feche o menu
+        dropdownMenu.addEventListener('click', function(event) {
+             // Impede que o clique "vaze" para o documento
+            event.stopPropagation();
+        });
+
+    </script>
 </body>
 </html>

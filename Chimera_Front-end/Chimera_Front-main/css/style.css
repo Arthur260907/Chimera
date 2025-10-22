@@ -59,7 +59,7 @@ font-family: "Inter", sans-serif;
 }
 
 /* Mostra o menu quando o mouse está sobre o container */
-.profile-container:hover .dropdown-menu {
+.dropdown-menu.active {
     display: block;
 }
 
