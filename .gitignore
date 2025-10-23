@@ -1,0 +1,42 @@
+/.vs/
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+*.log
+.vscode/
+.env
+appsettings.Development.json
+*.db
+*.db-journal
+.idea/
+*.DS_Store
+# Rider
+.idea/
+
+# Ignore publish output
+**/publish/
+
+# Visual Studio cache files
+*.cache
+
+# NuGet
+.nuget/
+packages/
+
+# Rider project files
+.idea/
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+
+# JetBrains
+*.iml
+
+# Ignore node_modules if present
+node_modules/
