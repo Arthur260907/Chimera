@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Data;
 using StreamingRecommenderAPI.Repositories;
 using StreamingRecommenderAPI.Services;
+using StreamingRecommenderAPI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,7 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddHttpClient<OmdbService>();
 builder.Services.AddScoped<OmdbService>();
+builder.Services.AddScoped<ISearchService, OmdbSearchService>();
 
 // Configurar CORS para permitir requisições do front-end
 builder.Services.AddCors(options =>
