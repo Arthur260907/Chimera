@@ -17,98 +17,156 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const carouselSlide = document.querySelector('.carousel-slide');
-    const carouselImages = document.querySelectorAll('.carousel-slide img');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+// ---------- main carousel + multi-carousel (inicializa APÓS apicatalago.js) ----------
+(function() {
+  let mainState = { initialized: false, counter: 0, slideWidth: 0, itemsPerSlide: 1, maxIndex: 0 };
+
+  function resetButton(id) {
+    const old = document.getElementById(id);
+    if (!old || !old.parentNode) return null;
+    const clone = old.cloneNode(true);
+    old.parentNode.replaceChild(clone, old);
+    return document.getElementById(id);
+  }
+
+  function createDots(count) {
     const dotsContainer = document.querySelector('.carousel-dots');
-    const dots = document.querySelectorAll('.dot');
+    if (!dotsContainer) return [];
+    dotsContainer.innerHTML = '';
+    const dots = [];
+    for (let i = 0; i < count; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.dataset.slide = i;
+      dotsContainer.appendChild(dot);
+      dots.push(dot);
+    }
+    return dots;
+  }
 
-    let counter = 0;
+  function updateDots(dots, index) {
+    if (!dots) return;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+  }
 
-    function getSlideWidth() {
-        return carouselImages[0].clientWidth;
+  function initMainCarousel() {
+    const carouselSlide = document.querySelector('.carousel-slide');
+    if (!carouselSlide) return;
+
+    // reset buttons to avoid listeners duplication
+    const prevBtn = resetButton('prevBtn');
+    const nextBtn = resetButton('nextBtn');
+
+    const items = carouselSlide.querySelectorAll('.carousel-item');
+    const images = carouselSlide.querySelectorAll('.carousel-item img');
+    if (items.length === 0) return;
+
+    // largura visível do container (viewport do carrossel)
+    const visibleWidth = carouselSlide.parentElement ? carouselSlide.parentElement.clientWidth : carouselSlide.clientWidth;
+    const itemWidth = images[0] && images[0].clientWidth ? images[0].clientWidth : Math.floor(visibleWidth / 4);
+
+    // quantos itens cabem por "página"
+    const itemsPerSlide = Math.max(1, Math.floor(visibleWidth / itemWidth));
+    const slideCount = Math.max(1, Math.ceil(items.length / itemsPerSlide));
+
+    mainState.itemsPerSlide = itemsPerSlide;
+    mainState.slideWidth = visibleWidth;
+    mainState.counter = 0;
+    mainState.maxIndex = slideCount - 1;
+
+    carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+    carouselSlide.style.transform = 'translateX(0px)';
+
+    const dots = createDots(slideCount);
+
+    function goTo(index) {
+      if (slideCount === 0) return;
+      const clamped = Math.max(0, Math.min(mainState.maxIndex, index));
+      mainState.counter = clamped;
+      const translateX = -mainState.counter * mainState.slideWidth;
+      carouselSlide.style.transform = 'translateX(' + translateX + 'px)';
+      updateDots(dots, mainState.counter);
     }
 
-    carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(mainState.counter - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(mainState.counter + 1));
 
-    nextBtn.addEventListener('click', () => {
-        counter++;
-        if (counter > carouselImages.length - 1) {
-            counter = 0; // goes back to the first
-        }
-        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-        carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
-        updateDots();
-    });
+    // dot clicks
+    const dotsNodes = document.querySelectorAll('.carousel-dots .dot');
+    dotsNodes.forEach(dot => dot.addEventListener('click', (e) => {
+      const idx = parseInt(e.target.dataset.slide, 10);
+      goTo(idx);
+    }));
 
-    prevBtn.addEventListener('click', () => {
-        counter--;
-        if (counter < 0) {
-            counter = carouselImages.length - 1; // goes to the last
-        }
-        carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-        carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
-        updateDots();
-    });
-    dots.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-            const slideIndex = parseInt(e.target.dataset.slide);
-            counter = slideIndex;
-            carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-            carouselSlide.style.transform = 'translateX(' + (-getSlideWidth() * counter) + 'px)';
-            updateDots();
-        });
-    });
-    function updateDots() {
-        dots.forEach((dot, index) => {
-            if (index === counter) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
+    // recompute width on resize / when images load
+    function recompute() {
+      const newVisible = carouselSlide.parentElement ? carouselSlide.parentElement.clientWidth : carouselSlide.clientWidth;
+      const newItemWidth = carouselSlide.querySelector('.carousel-item img') ? carouselSlide.querySelector('.carousel-item img').clientWidth : Math.floor(newVisible / 4);
+      const newItemsPerSlide = Math.max(1, Math.floor(newVisible / (newItemWidth || Math.floor(newVisible/4))));
+      const newSlideCount = Math.max(1, Math.ceil(items.length / newItemsPerSlide));
+      mainState.itemsPerSlide = newItemsPerSlide;
+      mainState.slideWidth = newVisible;
+      mainState.maxIndex = newSlideCount - 1;
+      // reajusta counter se necessário
+      if (mainState.counter > mainState.maxIndex) mainState.counter = mainState.maxIndex;
+      carouselSlide.style.transform = 'translateX(' + (-mainState.counter * mainState.slideWidth) + 'px)';
+      // recria dots
+      createDots(newSlideCount);
+      updateDots(document.querySelectorAll('.carousel-dots .dot'), mainState.counter);
     }
-    updateDots();
-});
+    window.addEventListener('resize', recompute);
+    images.forEach(img => img.addEventListener('load', recompute));
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Selects all multi carousels
-  const multiCarousels = document.querySelectorAll('.multi-carousel-container');
-  
-  multiCarousels.forEach(multiCarousel => {
-    const carouselList = multiCarousel.querySelector('.carousel-list');
-    const items = carouselList.querySelectorAll('.carousel-item');
-    let currentIndex = 0;
+    mainState.initialized = true;
+  }
 
-    function scrollToItem(index) {
-      // Infinite loop
-      if (index < 0) {
-        index = items.length - 1;
+  function initMultiCarousels() {
+    const multiCarousels = document.querySelectorAll('.multi-carousel-container');
+    multiCarousels.forEach(multiCarousel => {
+      const carouselList = multiCarousel.querySelector('.carousel-list');
+      if (!carouselList) return;
+      const items = carouselList.querySelectorAll('.carousel-item');
+      if (!items.length) return;
+
+      // limitar a quantidade exibida (por exemplo 12)
+      const maxItems = 12;
+      if (items.length > maxItems) {
+        // remove extras
+        for (let i = items.length - 1; i >= maxItems; i--) {
+          const el = items[i];
+          if (el && el.parentNode) el.parentNode.removeChild(el);
+        }
       }
-      if (index > items.length - 1) {
-        index = 0;
-      }
-      currentIndex = index;
-      items[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-    }
 
-    items.forEach((item, idx) => {
-      item.addEventListener('click', () => {
-        // If you click on the last, go back to the first; if you click on the first, go to the last
-        // Se clicar no último, volta ao primeiro; se clicar no primeiro, vai ao último
-        if (idx === items.length - 1) {
-          scrollToItem(0);
-        } else if (idx === 0) {
-          scrollToItem(items.length - 1);
-        } else {
-          scrollToItem(idx);
-        }
+      const newItems = carouselList.querySelectorAll('.carousel-item');
+      // garantir listeners limpos clonando
+      newItems.forEach((item, idx) => {
+        const clone = item.cloneNode(true);
+        item.parentNode.replaceChild(clone, item);
+      });
+
+      const finalItems = carouselList.querySelectorAll('.carousel-item');
+      finalItems.forEach((item, idx) => {
+        item.addEventListener('click', () => {
+          item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
       });
     });
+  }
+
+  // handler executado quando apicatalago.js terminar de inserir imagens e carregar
+  document.addEventListener('catalog:loaded', () => {
+    initMainCarousel();
+    initMultiCarousels();
   });
-});
+
+  // se já foi carregado antes, tenta inicializar (caso scripts executados em ordem diferente)
+  if (window.__CHIMERA_MOVIES) {
+    document.dispatchEvent(new Event('catalog:loaded'));
+  }
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
     const registrationForm = document.getElementById('registration-form'); // Certifique-se de que seu formulário em cadastro.html tem este id
