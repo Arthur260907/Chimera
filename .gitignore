@@ -40,3 +40,6 @@ Desktop.ini
 
 # Ignore node_modules if present
 node_modules/
+# Ignore build artifacts
+**/bin/
+**/obj/
