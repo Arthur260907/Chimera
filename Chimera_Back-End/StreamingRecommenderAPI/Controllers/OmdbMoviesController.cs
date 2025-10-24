@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +13,19 @@ using StreamingRecommenderAPI.Services;
 
 namespace StreamingRecommenderAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class OmdbMoviesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly OmdbService _omdbService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public OmdbMoviesController(ApplicationDbContext context, OmdbService omdbService)
+        public OmdbMoviesController(ApplicationDbContext context, OmdbService omdbService, IHttpClientFactory httpClientFactory)
         {
             _context = context;
             _omdbService = omdbService;
+            _httpClientFactory = httpClientFactory;
         }
 
         // --- NOVO ENDPOINT: Buscar filme da API OMDB pelo título ---
@@ -144,6 +148,42 @@ namespace StreamingRecommenderAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Proxy que retorna o conteúdo binário do poster indicado pela url.
+        /// Ex: GET /api/OmdbMovies/poster?url={encodedUrl}
+        /// </summary>
+        [HttpGet("poster")]
+        public async Task<IActionResult> GetPoster([FromQuery] string url, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return BadRequest("url is required.");
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+                return BadRequest("invalid url.");
+
+            try
+            {
+                var client = _httpClientFactory.CreateClient();
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Chimera/1.0");
+
+                using var resp = await client.GetAsync(uri, cancellationToken);
+                if (!resp.IsSuccessStatusCode)
+                    return NotFound();
+
+                var contentType = resp.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
+                var bytes = await resp.Content.ReadAsByteArrayAsync(cancellationToken);
+                return File(bytes, contentType);
+            }
+            catch (OperationCanceledException)
+            {
+                return StatusCode(499); // client closed request
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         private bool OmdbMovieExists(string id)

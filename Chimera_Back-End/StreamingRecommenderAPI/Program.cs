@@ -1,5 +1,3 @@
-
-
 // Localização: StreamingRecommenderAPI / Program.cs
 
 // Adicione estes usings no topo do arquivo
@@ -7,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Data;
 using StreamingRecommenderAPI.Repositories;
 using StreamingRecommenderAPI.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,11 +49,13 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddHttpClient<OmdbService>();
 builder.Services.AddScoped<OmdbService>();
+// registra HttpClient para uso no controller que proxia imagens
+builder.Services.AddHttpClient();
 
-// Configurar CORS para permitir requisições do front-end
+// Adicione isto para permitir requisições do front (dev). Substitua AllowAnyOrigin por WithOrigins("http://127.0.0.1:5500") se souber a origem do five-server.
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("DevAllowAll", policy =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
@@ -75,7 +78,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll"); // Habilitar CORS
+// Habilitar CORS antes dos endpoints
+app.UseCors("DevAllowAll");
 
 app.UseAuthorization();
 

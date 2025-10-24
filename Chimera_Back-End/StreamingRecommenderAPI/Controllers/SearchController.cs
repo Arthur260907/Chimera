@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StreamingRecommenderAPI.Models; // Namespace de OmdbMovie
-using StreamingRecommenderAPI.Services; // Para Adaptador e talvez Composite
-using StreamingRecommenderAPI.Services.Filters; // Para Decoradores
-using StreamingRecommenderAPI.Services.Interfaces; // Para ISearchService, IFilterService
-using System; // Para StringComparison e Exception
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+// usar namespaces das implementações que ajustamos
+using StreamingRecommenderAPI.Models.Midia;           // OmdbMovie
+using StreamingRecommenderAPI.Services;               // SearchFilterAdapter, ISearchService implementation
+using StreamingRecommenderAPI.Filters;                // TypeFilterDecorator, MinYearFilterDecorator
+using StreamingRecommenderAPI.Interfaces;             // IFilterService
 
 namespace StreamingRecommenderAPI.Controllers
 {
@@ -13,19 +15,15 @@ namespace StreamingRecommenderAPI.Controllers
     [Route("api/[controller]")]
     public class SearchController : ControllerBase
     {
-        private readonly ISearchService _searchService;
-        // Ou injete CompositeSearchService se você o criou e registrou:
-        // private readonly CompositeSearchService _searchService;
+        private readonly StreamingRecommenderAPI.Services.Interfaces.ISearchService _searchService;
 
-        // Ajuste o construtor dependendo do que você injetou no Program.cs
-        public SearchController(ISearchService searchService)
-        // public SearchController(CompositeSearchService searchService)
+        public SearchController(StreamingRecommenderAPI.Services.Interfaces.ISearchService searchService)
         {
             _searchService = searchService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StreamingRecommenderAPI.Models.Midia.OmdbMovie>>> Search(
+        public async Task<ActionResult<IEnumerable<OmdbMovie>>> Search(
             [FromQuery] string q,
             [FromQuery] string? type, // "movie" ou "series"
             [FromQuery] int? minYear)
@@ -37,6 +35,7 @@ namespace StreamingRecommenderAPI.Controllers
 
             try
             {
+                // usar IFilterService do namespace StreamingRecommenderAPI.Interfaces
                 IFilterService filterChain = new SearchFilterAdapter(_searchService);
 
                 if (!string.IsNullOrEmpty(type) &&
@@ -53,19 +52,16 @@ namespace StreamingRecommenderAPI.Controllers
 
                 var results = await filterChain.ExecuteAsync(q);
 
-                // Retorna NotFound se a lista de resultados estiver vazia após filtros/busca
-                if (!results.Any())
+                if (results == null || !System.Linq.Enumerable.Any(results))
                 {
                     return NotFound("Nenhum resultado encontrado para os critérios fornecidos.");
                 }
-
 
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                // TODO: Adicionar log do erro ex
-                Console.WriteLine($"Erro na API de busca: {ex.Message}"); // Log simples
+                Console.WriteLine($"Erro na API de busca: {ex.Message}");
                 return StatusCode(500, "Ocorreu um erro interno ao processar a busca.");
             }
         }
