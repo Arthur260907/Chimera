@@ -1,0 +1,246 @@
+/* --- Estilos Globais (Reset e Body) --- */
+/* --- Todo header esta aqui para ser reutilizado em todas as paginas necessarias sem dor de cabeça --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Regra 'correta' do seu ficheiro principal (com gradiente) */
+    background: 
+        radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
+        radial-gradient(ellipse at bottom, #1a2b3a86 25%, transparent 80%),
+        #000000; 
+    background-attachment: fixed;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+}
+
+h5 {
+    font-size: 1.5em;
+}
+
+/* --- Estilos do Header (Versão única e correta) --- */
+
+header {
+    width: 100%;
+    height: 4em;
+    background-color: #121116;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4em;
+    padding: 3em;
+    box-sizing: border-box; 
+}
+
+/* --- Logo --- */
+#logo-separator {
+    display: flex;
+    align-items: center; 
+    gap: 40px;
+}
+
+#logo {
+    height: 3em; 
+    border-radius: 100%;
+}
+
+/* --- Ícones de Navegação (Home, Movies...) --- */
+.header_icon:hover {
+    opacity: 0.7;
+    transition: 0.2s;
+}
+
+.header_icon:active {
+    transition: 0.2;
+    opacity: 1;
+    transition: 0.2s;
+}
+
+/* Regra geral para imagens no header (sino, etc.) */
+header img {
+    height: 2em;
+}
+
+/* --- Container da Direita (Pesquisa + Perfil) --- */
+#top-corner {
+    position: relative;
+    display: flex;
+    gap: 80px; 
+    align-items: center; 
+}
+
+/* --- Barra de Pesquisa --- */
+#search-form {
+    display: flex;
+    align-items: center;
+}
+
+#search-input {
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    background: #222; 
+    color: #fff;
+    margin-right: -2em;
+    width: 17em;
+    transition: width 0.3s;
+}
+
+#search-input:focus {
+    width: 26em;
+    background: #333;
+}
+
+#search-form button#search-btn {
+    width: 2em;
+    height: 2em;
+    display: inline-block;
+    background: url('../Imagens/magnifying-glass-11-svgrepo-com 1.png') no-repeat center center;
+    background-size: contain;
+    padding: 0;
+    margin-left: -0.5em;
+    border: none;
+    cursor: pointer;
+}
+
+/* --- Menu Dropdown (Perfil) --- */
+/* (ESTA É A PARTE QUE ESTAVA EM FALTA) */
+
+.profile-container {
+    position: relative; 
+    display: inline-block;
+}
+
+.profile-icon img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Adicionado (baseado no seu CSS original) */
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none; /* <<< ESTA LINHA CORRIGE O ERRO DA IMAGEM */
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #212125; 
+    border-radius: 4px;
+    width: 500px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    color: #fff;
+}
+
+/* Mostra o menu no hover (método do CSS principal) */
+.profile-container:hover .dropdown-menu {
+    display: block;
+}
+
+/* Mostra o menu via JS (se também usar) */
+.dropdown-menu.active {
+    display: block;
+}
+
+.menu-content {
+    display: flex;
+    padding: 20px 0;
+}
+
+.section {
+    padding: 0 25px;
+}
+
+.section h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.5px;
+}
+
+.section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.section-account {
+    flex: 1; 
+    border-right: 1px solid #3a4b5f;
+}
+
+.section-account ul li a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 15px;
+    margin-left: -15px; 
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.section-account ul li a:hover, 
+.active-item a {
+    background: linear-gradient(to right, #0f415c, rgba(0,0,0,0) 90%);
+}
+
+.section-profiles {
+    flex: 1; 
+}
+
+.section-profiles ul li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.section-profiles ul li:hover {
+    background-color: #2c3e50; 
+}
+
+.section-profiles ul li img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.section-profiles ul li span {
+    font-size: 15px;
+}
+
+.profile-actions {
+    margin-top: 20px;
+    border-top: 1px solid #3a4b5f;
+    padding-top: 15px;
+}
+
+.profile-actions a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 0;
+    font-size: 15px;
+}
+
+.profile-actions a:hover {
+    text-decoration: underline;
+}
+
+#flex-more {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#flex-more img {
+    margin-top: 5px;
+    height: 30px;
+    width: 30px;
+}
