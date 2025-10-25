@@ -95,37 +95,69 @@
         </form>
     </main> 
 
-    <script>
-        // 1. Seleciona os elementos que vamos usar
-        const profileIcon = document.querySelector('.profile-icon');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
+    <script src="js/header.js"></script>
 
-        // 2. Adiciona um "escutador" de clique no ÍCONE DE PERFIL
-        profileIcon.addEventListener('click', function(event) {
-            // Impede que o clique "vaze" para o documento (veja o passo 3)
-            event.stopPropagation();
-            
-            // Adiciona ou remove a classe 'active' do menu
-            dropdownMenu.classList.toggle('active');
-        });
+    <script src="../js/script.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form'); // Assumindo que seu form tem id="login-form"
+            const emailInput = document.getElementById('email'); // Assumindo input de email com id="email"
+            const passwordInput = document.getElementById('senha'); // Assumindo input de senha com id="senha"
+            const errorMessageElement = document.getElementById('login-error'); // Crie um <p id="login-error" style="color:red;"></p> para erros
 
-        // 3. Adiciona um "escutador" de clique no DOCUMENTO INTEIRO
-        //    (para fechar o menu se clicar em qualquer lugar FORA dele)
-        document.addEventListener('click', function(event) {
-            // Se o menu estiver visível (contém a classe 'active')
-            if (dropdownMenu.classList.contains('active')) {
-                // Remove a classe 'active' e esconde o menu
-                dropdownMenu.classList.remove('active');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); // Impede envio padrão
+                    if (errorMessageElement) errorMessageElement.textContent = ''; // Limpa erro anterior
+
+                    const email = emailInput.value.trim();
+                    const password = passwordInput.value.trim();
+
+                    if (!email || !password) {
+                         if (errorMessageElement) errorMessageElement.textContent = 'Por favor, preencha e-mail e senha.';
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/usuarios/login`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email: email, senha: password }), // O backend espera 'email' e 'senha'
+                        });
+
+                        if (response.ok) {
+                            const userData = await response.json(); // Espera { username: "...", token: "..." } ou similar
+                            if (userData && userData.username) {
+                                saveLoginData(userData); // Salva no localStorage
+                                window.location.href = '../index.html'; // Redireciona para a home
+                            } else {
+                                throw new Error("Resposta de login inválida recebida da API.");
+                            }
+                        } else {
+                            // Tenta ler a mensagem de erro da API, se houver
+                            let errorMsg = 'Falha no login. Verifique suas credenciais.';
+                            try {
+                                const errorData = await response.json();
+                                if(errorData && errorData.message) {
+                                    errorMsg = errorData.message;
+                                } else if (response.status === 401) {
+                                     errorMsg = 'E-mail ou senha inválidos.';
+                                }
+                            } catch(jsonError) {
+                                // Ignora erro ao parsear JSON de erro, usa mensagem padrão
+                            }
+                             if (errorMessageElement) errorMessageElement.textContent = errorMsg;
+                        }
+                    } catch (error) {
+                        console.error('Erro durante o login:', error);
+                         if (errorMessageElement) errorMessageElement.textContent = 'Erro ao tentar conectar. Tente novamente mais tarde.';
+                    }
+                });
+            } else {
+                 console.error("Formulário de login não encontrado. Verifique o ID.");
             }
         });
-        
-        // 4. (Opcional, mas recomendado)
-        // Impede que um clique DENTRO do menu feche o menu
-        dropdownMenu.addEventListener('click', function(event) {
-             // Impede que o clique "vaze" para o documento
-            event.stopPropagation();
-        });
-
     </script>
 </body>
 </html>

@@ -156,5 +156,79 @@
         </div>
     </div>
 
+    <script src="js/header.js"></script>
+
+    <script src="../js/script.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Pega o parâmetro 'id' da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const imdbId = urlParams.get('id');
+
+            const detailsContainer = document.getElementById('movie-details-container'); // Container principal para os detalhes
+            const statusElement = document.getElementById('details-status'); // Elemento para status (ex: <p id="details-status"></p>)
+
+            if (!imdbId) {
+                if(detailsContainer) detailsContainer.innerHTML = "<h2>ID do filme/série não fornecido.</h2>";
+                 if(statusElement) statusElement.textContent = "Erro: ID não encontrado na URL.";
+                return;
+            }
+
+             if(statusElement) statusElement.textContent = "Carregando detalhes...";
+
+            try {
+                // Chama o endpoint do backend que busca por ID
+                const response = await fetch(`${API_BASE_URL}/api/movies/id/${imdbId}`); // Usa o endpoint correto
+
+                if (!response.ok) {
+                    throw new Error(`Falha ao buscar detalhes (Status: ${response.status})`);
+                }
+
+                const data = await response.json();
+
+                // Verifica se a API OMDB retornou um erro (via backend)
+                if (data && data.response === "False") {
+                    throw new Error(data.error || "Filme/Série não encontrado na base de dados externa.");
+                }
+
+                if (data) {
+                    if(statusElement) statusElement.textContent = ""; // Limpa status
+                    populateMovieDetails(data); // Função para preencher o HTML com os dados
+                } else {
+                    throw new Error("Dados não recebidos ou inválidos.");
+                }
+
+            } catch (error) {
+                console.error('Erro ao buscar detalhes:', error);
+                 if(detailsContainer) detailsContainer.innerHTML = `<h2>Erro ao carregar detalhes.</h2><p>${error.message}</p>`;
+                 if(statusElement) statusElement.textContent = "Erro.";
+            }
+        });
+
+        // Função para preencher o HTML com os detalhes recebidos
+        function populateMovieDetails(data) {
+             // Exemplo: Selecione os elementos HTML pelos IDs e preencha-os
+             const titleElement = document.getElementById('movie-title');
+             const yearElement = document.getElementById('movie-year');
+             const posterElement = document.getElementById('movie-poster');
+             const plotElement = document.getElementById('movie-plot');
+             const ratingElement = document.getElementById('movie-rating');
+             const directorElement = document.getElementById('movie-director');
+             // Adicione mais elementos conforme necessário (genre, actors, runtime, etc.)
+
+             if(titleElement) titleElement.textContent = data.title || 'Título não disponível';
+             if(yearElement) yearElement.textContent = data.year || 'N/A';
+             if(posterElement && data.poster && data.poster !== 'N/A') {
+                 posterElement.src = data.poster;
+                 posterElement.alt = data.title;
+             } else if (posterElement) {
+                 posterElement.src = '../imagens/image_placeholder.png'; // Placeholder
+                 posterElement.alt = 'Pôster não disponível';
+             }
+             if(plotElement) plotElement.textContent = data.plot || 'Sinopse não disponível.';
+             if(ratingElement) ratingElement.textContent = `IMDb Rating: ${data.imdbRating || 'N/A'}`;
+             if(directorElement) directorElement.textContent = `Diretor: ${data.director || 'N/A'}`;
+             // Preencha outros campos...
+        }
+    </script>
 </body>
 </html>

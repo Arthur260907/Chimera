@@ -77,18 +77,9 @@
             </div>
 
         </form>
-    </div> <script>
-        document.querySelector('form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const response = await fetch('http://localhost:5000/api/usuario/recuperar-senha', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-            const result = await response.json();
-            alert(result.message + ' Check the backend console to see the test token.');
-        });
-    </script>
+    </div> 
+    
+    <script src="js/header.js"></script>
+
 </body>
 </html>

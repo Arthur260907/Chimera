@@ -80,22 +80,9 @@
             </div>
 
         </form>
-    </div> <script>
-        document.querySelector('form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const token = document.getElementById('token').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const response = await fetch('http://localhost:5000/api/usuario/redefinir-senha', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token, newPassword })
-            });
-            const result = await response.json();
-            alert(result.message);
-            if (response.ok) {
-                window.location.href = 'Login.html';
-            }
-        });
-    </script>
+    </div> 
+
+    <script src="js/header.js"></script>
+
 </body>
 </html>

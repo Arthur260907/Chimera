@@ -103,6 +103,85 @@
         </div>
     </form>
 </main>
-    
+
+    <script src="js/header.js"></script>
+
+    <script src="../js/script.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cadastroForm = document.getElementById('cadastro-form'); // Dê um ID ao seu formulário de cadastro
+            const nomeInput = document.getElementById('nome'); // Input de nome
+            const emailInput = document.getElementById('email'); // Input de email
+            const passwordInput = document.getElementById('senha'); // Input de senha
+            const confirmPasswordInput = document.getElementById('confirmar-senha'); // Input de confirmar senha
+            const messageElement = document.getElementById('cadastro-message'); // Crie um <p id="cadastro-message"></p> para mensagens
+
+            if (cadastroForm) {
+                cadastroForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (messageElement) messageElement.textContent = ''; // Limpa mensagem
+
+                    const nome = nomeInput.value.trim();
+                    const email = emailInput.value.trim();
+                    const password = passwordInput.value; // Não trim() senha
+                    const confirmPassword = confirmPasswordInput.value;
+
+                    if (!nome || !email || !password || !confirmPassword) {
+                         if (messageElement) { messageElement.textContent = 'Por favor, preencha todos os campos.'; messageElement.style.color = 'red';}
+                        return;
+                    }
+
+                    if (password !== confirmPassword) {
+                         if (messageElement) { messageElement.textContent = 'As senhas não coincidem.'; messageElement.style.color = 'red';}
+                        return;
+                    }
+
+                     // Validação simples de e-mail (pode ser melhorada)
+                     if (!/\S+@\S+\.\S+/.test(email)) {
+                         if (messageElement) { messageElement.textContent = 'Por favor, insira um e-mail válido.'; messageElement.style.color = 'red';}
+                         return;
+                     }
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/usuarios/cadastro`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            // O backend espera nome, email, senha
+                            body: JSON.stringify({ nome: nome, email: email, senha: password }),
+                        });
+
+                        if (response.ok) {
+                             if (messageElement) {
+                                messageElement.textContent = 'Cadastro realizado com sucesso! Redirecionando para login...';
+                                messageElement.style.color = 'green';
+                            }
+                            // Redireciona para login após sucesso
+                            setTimeout(() => { window.location.href = 'Login.html'; }, 2000);
+                        } else {
+                            let errorMsg = 'Falha no cadastro.';
+                            try {
+                                const errorData = await response.json();
+                                // O backend retorna { message: "Email já cadastrado" }
+                                if (errorData && errorData.message) {
+                                    errorMsg = errorData.message;
+                                } else if (response.status === 400) {
+                                    errorMsg = "Dados inválidos fornecidos."; // Mensagem genérica para Bad Request
+                                }
+                            } catch (jsonError) {
+                                // Ignora erro ao parsear JSON
+                            }
+                             if (messageElement) { messageElement.textContent = errorMsg; messageElement.style.color = 'red';}
+                        }
+                    } catch (error) {
+                        console.error('Erro durante o cadastro:', error);
+                         if (messageElement) { messageElement.textContent = 'Erro ao conectar com o servidor. Tente novamente.'; messageElement.style.color = 'red';}
+                    }
+                });
+            } else {
+                 console.error("Formulário de cadastro não encontrado. Verifique o ID.");
+            }
+        });
+    </script>
 </body>
 </html>

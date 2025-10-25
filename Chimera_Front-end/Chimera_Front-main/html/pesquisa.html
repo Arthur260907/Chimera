@@ -81,39 +81,105 @@
         </div>
 </div>
     </main>
+    
+<script src="../js/script.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const resultsContainer = document.querySelector('.grid-list'); // Container onde os resultados serão exibidos
+            const statusElement = document.getElementById('search-status'); // Crie um <p id="search-status"></p> para feedback
 
-    <script src="../js/script.js"></script>
-    <script src="../js/apicatalago.js"></script>
-     <script>
-        // 1. Seleciona os elementos que vamos usar
-        const profileIcon = document.querySelector('.profile-icon');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
+            if (!resultsContainer) {
+                console.error("Container de resultados '.grid-list' não encontrado.");
+                if(statusElement) statusElement.textContent = "Erro: Container de resultados não encontrado.";
+                return;
+            }
 
-        // 2. Adiciona um "escutador" de clique no ÍCONE DE PERFIL
-        profileIcon.addEventListener('click', function(event) {
-            // Impede que o clique "vaze" para o documento (veja o passo 3)
-            event.stopPropagation();
-            
-            // Adiciona ou remove a classe 'active' do menu
-            dropdownMenu.classList.toggle('active');
-        });
+            // Pega o parâmetro 'q' da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
 
-        // 3. Adiciona um "escutador" de clique no DOCUMENTO INTEIRO
-        //    (para fechar o menu se clicar em qualquer lugar FORA dele)
-        document.addEventListener('click', function(event) {
-            // Se o menu estiver visível (contém a classe 'active')
-            if (dropdownMenu.classList.contains('active')) {
-                // Remove a classe 'active' e esconde o menu
-                dropdownMenu.classList.remove('active');
+            if (!query) {
+                resultsContainer.innerHTML = '<p>Nenhum termo de pesquisa fornecido.</p>';
+                 if(statusElement) statusElement.textContent = "Digite algo na busca.";
+                return;
+            }
+
+            if(statusElement) statusElement.textContent = `Buscando por "${query}"...`;
+            resultsContainer.innerHTML = ''; // Limpa resultados anteriores
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) throw new Error('Falha ao buscar resultados');
+
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                     if(statusElement) statusElement.textContent = `Resultados para "${query}":`;
+                    data.forEach(item => {
+                        const card = createResultCard(item); // Função para criar o card de resultado
+                         if (card) {
+                            resultsContainer.appendChild(card);
+                        }
+                    });
+                } else {
+                    resultsContainer.innerHTML = `<p>Nenhum resultado encontrado para "${query}".</p>`;
+                     if(statusElement) statusElement.textContent = ""; // Limpa status
+                }
+            } catch (error) {
+                console.error('Erro ao buscar resultados da pesquisa:', error);
+                resultsContainer.innerHTML = '<p>Ocorreu um erro ao buscar os resultados.</p>';
+                if(statusElement) statusElement.textContent = "Erro na busca.";
             }
         });
-        
-        // 4. (Opcional, mas recomendado)
-        // Impede que um clique DENTRO do menu feche o menu
-        dropdownMenu.addEventListener('click', function(event) {
-             // Impede que o clique "vaze" para o documento
-            event.stopPropagation();
-        });
+
+        // Função para criar o card na página de resultados (similar ao createMovieCard, ajuste conforme necessário)
+       function createResultCard(item) {
+             if (!item || !item.imdbId) return null;
+
+            const listItem = document.createElement('li');
+
+            const movieCard = document.createElement('div');
+            movieCard.className = 'movie-card'; // Use a mesma classe ou uma específica
+
+            const anchor = document.createElement('a');
+            anchor.href = `./filmeSerie.html?id=${item.imdbId}`; // Link para detalhes
+
+            const figure = document.createElement('figure');
+            figure.className = 'card-banner';
+            const img = document.createElement('img');
+            img.src = (item.poster && item.poster !== 'N/A') ? item.poster : '../imagens/image_placeholder.png';
+            img.alt = item.title;
+            figure.appendChild(img);
+            anchor.appendChild(figure);
+
+            const titleWrapper = document.createElement('div');
+            titleWrapper.className = 'title-wrapper';
+            const titleLink = document.createElement('a');
+             titleLink.href = anchor.href;
+            const titleH3 = document.createElement('h3');
+            titleH3.className = 'card-title';
+            titleH3.textContent = item.title;
+            titleLink.appendChild(titleH3);
+            titleWrapper.appendChild(titleLink);
+
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'date'; // Ou outra classe se o estilo for diferente
+            dateSpan.textContent = item.year || 'N/A';
+            titleWrapper.appendChild(dateSpan);
+            anchor.appendChild(titleWrapper);
+
+            // Adicione meta (rating, duration) se a API /search retornar e se desejar
+             /*
+            const cardMeta = document.createElement('div');
+            cardMeta.className = 'card-meta';
+            // ... (adicionar badge, duration, rating como em createMovieCard) ...
+            anchor.appendChild(cardMeta);
+            */
+
+            movieCard.appendChild(anchor);
+            listItem.appendChild(movieCard);
+
+            return listItem;
+        }
 
     </script>
 </body>
