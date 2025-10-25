@@ -1,5 +1,5 @@
 ﻿// Localização: Services/OmdbMovieSearchService.cs
-using StreamingRecommenderAPI.Models; // Ou Models.Midia se OmdbMovie estiver lá
+using StreamingRecommenderAPI.Models.Midia; // Corrigido: usar o namespace que contém OmdbMovie
 using StreamingRecommenderAPI.Services.Interfaces; // Para ISearchService
 using System.Collections.Generic;
 using System.Threading.Tasks;

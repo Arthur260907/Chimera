@@ -14,7 +14,7 @@ using StreamingRecommenderAPI.Services;
 namespace StreamingRecommenderAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/movies")]
     public class OmdbMoviesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -29,9 +29,9 @@ namespace StreamingRecommenderAPI.Controllers
         }
 
         // --- NOVO ENDPOINT: Buscar filme da API OMDB pelo título ---
-        // GET: api/OmdbMovies/search?title=Batman
-        [HttpGet("search")]
-        public async Task<ActionResult<OmdbMovie>> SearchMovie([FromQuery] string title)
+        // GET: api/movies/title/Inception
+        [HttpGet("title/{title}")]
+        public async Task<ActionResult<OmdbMovie>> SearchMovie([FromRoute] string title)
         {
             if (string.IsNullOrWhiteSpace(title))
                 return BadRequest("O título não pode ser vazio.");
@@ -45,7 +45,7 @@ namespace StreamingRecommenderAPI.Controllers
         }
 
         // --- NOVO ENDPOINT: Buscar filme da API OMDB pelo ID ---
-        // GET: api/OmdbMovies/byId/tt0372784
+        // GET: api/movies/byId/tt0372784
         [HttpGet("byId/{imdbId}")]
         public async Task<ActionResult<OmdbMovie>> GetMovieById(string imdbId)
         {
@@ -78,7 +78,7 @@ namespace StreamingRecommenderAPI.Controllers
             return omdbMovie;
         }
 
-        // PUT: api/OmdbMovies/5
+        // PUT: api/movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOmdbMovie(string id, OmdbMovie omdbMovie)
@@ -109,7 +109,7 @@ namespace StreamingRecommenderAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/OmdbMovies
+        // POST: api/movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<OmdbMovie>> PostOmdbMovie(OmdbMovie omdbMovie)
@@ -134,7 +134,7 @@ namespace StreamingRecommenderAPI.Controllers
             return CreatedAtAction("GetOmdbMovie", new { id = omdbMovie.ImdbID }, omdbMovie);
         }
 
-        // DELETE: api/OmdbMovies/5
+        // DELETE: api/movies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOmdbMovie(string id)
         {
@@ -152,7 +152,7 @@ namespace StreamingRecommenderAPI.Controllers
 
         /// <summary>
         /// Proxy que retorna o conteúdo binário do poster indicado pela url.
-        /// Ex: GET /api/OmdbMovies/poster?url={encodedUrl}
+        /// Ex: GET /api/movies/poster?url={encodedUrl}
         /// </summary>
         [HttpGet("poster")]
         public async Task<IActionResult> GetPoster([FromQuery] string url, CancellationToken cancellationToken = default)
