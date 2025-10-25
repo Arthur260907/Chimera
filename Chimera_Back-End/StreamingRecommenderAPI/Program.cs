@@ -1,10 +1,16 @@
 // Localização: StreamingRecommenderAPI / Program.cs
 
 // Adicione estes usings no topo do arquivo
+using StreamingRecommenderAPI.Services.Interfaces; // Para ISearchService
 using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Data;
 using StreamingRecommenderAPI.Repositories;
 using StreamingRecommenderAPI.Services;
+
+
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,9 +49,10 @@ builder.Services.AddSwaggerGen(c =>
 
 // Registrar seus serviços e repositórios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<UsuarioService>();        
 // Registra OmdbService via HttpClientFactory — não é necessário AddScoped adicional
 builder.Services.AddHttpClient<OmdbService>();
+builder.Services.AddScoped<ISearchService, OmdbSearchService>();
 
 // Adicione isto para permitir requisições do front (dev). Substitua AllowAnyOrigin por WithOrigins("http://127.0.0.1:5500") se souber a origem do five-server.
 builder.Services.AddCors(options =>

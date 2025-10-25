@@ -8,6 +8,7 @@ public class OmdbMovie
 {
     [JsonPropertyName("imdbID")]
     [Key]
+    [StringLength(191)] // <-- ADICIONE ESTA LINHA
     public string? ImdbID { get; set; }
     [JsonPropertyName("Title")]
     public string? Title { get; set; }
