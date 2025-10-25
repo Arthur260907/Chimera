@@ -1,4 +1,4 @@
-create database Chimera;
+
 use chimera;
 
 create table streamings (
@@ -20,82 +20,35 @@ create table users (
 );
 
 
-create table movies (
-    id int primary key auto_increment,
+create table media (
     id_streaming int,
-    movie_title varchar(255) not null,
-    language varchar(50),
-    date_addition datetime,
-    rating_imdb float,
-    rating_rottentomatoes float,
-    rating_metacritic float,
-    rating varchar(100),
-    synopsis text,
-    time_watched int,
-    cast text,
-    director varchar(255),
-    trailer varchar(255),
-    foreign key (id_streaming) references streamings(id_streaming)
-);
-
-create table series (
-    id int primary key auto_increment,
-    id_streaming int,
-    serie_title varchar(255) not null,
-    lenguage varchar(50),
-    date_addition datetime,
-	rating_imdb float,
-    rating_rottentomatoes float,
-    rating_metacritic float,
-	rating varchar(100),
-    synopsis text,
-    time_watched int,
-    cast text,
-    director varchar(255),
-    trailer varchar(255),
+	imdb_id VARCHAR(32) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    launch_year YEAR(4),
+    rated VARCHAR(16),
+    released DATE,
+    runtime_minutes INT,
+    genre VARCHAR(255),
+    director VARCHAR(255),
+    writer VARCHAR(255),
+    actors VARCHAR(255),
+    plot VARCHAR(255),
+    language VARCHAR(255),
+    country VARCHAR(255),
+    awards VARCHAR(255),
+    poster_url VARCHAR(1024),
+    imdb_rating DECIMAL(3, 1),
+    type VARCHAR(32),
     foreign key (id_streaming) references streamings(id_streaming)
 );
 
 create table episodes (
     id int primary key auto_increment,
-    id_serie int,
+    imdb_id VARCHAR(32),
     episodie_number int not null,
     title varchar(255) not null,
     duration int,
-    foreign key (id_serie) references series(id)
-);
-
-create table payments (
-    id_payments int primary key auto_increment,
-    id_user int,
-    date_payment datetime,
-    value_payment float,
-    invoice_due_date date,
-    foreign key (id_user) references users(id)
-);
-
-create table card (
-    id_card int primary key auto_increment,
-    card_number varchar(255) not null,
-    id_user int,
-    holder_name varchar(255),
-    validity date,
-    cvc varchar(255),
-    card_type varchar(20),
-    foreign key (id_user) references users(id)
-);
-
-create table signature (
-    id_signature int primary key auto_increment,
-    id_user int,
-    id_streaming int,
-    plan_type varchar(50),
-    date_inicio date,
-    date_validity date,
-	mensal_value float,
-    signature_status varchar(20),
-    foreign key (id_user) references users(id),
-    foreign key (id_streaming) references streamings(id_streaming)
+    foreign key (imdb_id) references media(imdb_id)
 );
 
 create table access_history (
