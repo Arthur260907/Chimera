@@ -12,26 +12,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-   <header>
+  <header>
     <div id="logo-separator">
-        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
+        <img id="logo" src="Imagens/image0_large.png" alt="Logo">
     </div>
 
-    <a href="../index.html"><span class="header_icon"><h5>Home</h5></span></a>
+    <span class="header_icon"><a href="index.html"><h5>Home</h5></a></span>
     <span class="header_icon"><h5>Movies</h5></span>
     <span class="header_icon"><h5>Series</h5></span>
 
     <div id="top-corner">
 
-        <form id="search-form">
-            <input type="text" id="search-input" placeholder="Search...">
-            <button type="submit" id="search-btn">
-            </button>
-        </form>
+        <form id="search-form" action="html/pesquisa.html" method="GET">
+    
+    <input type="text" id="search-input" name="q" placeholder="Search...">
+    
+    <button type="submit" id="search-btn">
+        </button>
+</form>
 
         <div class="profile-container">
             <div class="profile-icon">
-                <img src="../Imagens/image 8.png" alt="Profile">
+                <img src="Imagens/image 8.png" alt="Profile">
             </div>
 
             <div class="dropdown-menu">
@@ -39,9 +41,7 @@
                     <div class="section section-account">
                         <h3>Account</h3>
                         <ul>
-                            <li class="active-item"><a href="../html/Login.html">Sign in</a></li>
-                            <li><a href="#">Help</a></li>
-                            <li><a href="#">Account & Settings</a></li>
+                            <li class="active-item"><a href="html/Login.html">Sign in</a></li>
                             <li><a href="#">Sign out</a></li>
                         </ul>
                     </div>
@@ -49,16 +49,13 @@
                         <h3>PROFILES</h3>
                         <ul>
                             <li>
-                                <img src="../imagens/image 8.png" alt="Avatar">
+                                <img src="imagens/image 8.png" alt="Avatar">
                                 <span>Gabriel</span>
                             </li>
                         </ul>
                         <div class="profile-actions">
                             <div id="flex-more">
-                                <img src="../imagens/mais.png" alt=""><a href="#">Add new profile</a>
                             </div>
-                            <a href="#">Edit profiles</a>
-                            <a href="#">Learn more</a>
                         </div>
                     </div>
                 </div>
@@ -66,9 +63,9 @@
         </div>
 
     </div>
-     <span class="header_icon">
-            <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-        </span>
+    <span class="header_icon">
+        <img src="Imagens/bell-svgrepo-com 1.png" alt="Notifications">
+    </span>
 </header>
   <main id="container">
     <form class="signup-form">

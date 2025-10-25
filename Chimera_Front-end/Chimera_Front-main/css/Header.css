@@ -9,8 +9,12 @@
 
 h5 {
     font-size: 1.5em;
+     color: white;
 }
 
+a {
+    text-decoration: none; /* Remove o sublinhado */
+  }
 /* --- Estilos do Header (Versão única e correta) --- */
 
 header {
@@ -173,8 +177,7 @@ header img {
     font-size: 15px;
 }
 
-.section-account ul li a:hover, 
-.active-item a {
+.section-account ul li a:hover {
     background: linear-gradient(to right, #0f415c, rgba(0,0,0,0) 90%);
 }
 
