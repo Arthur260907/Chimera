@@ -1,3 +1,22 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Delete estas regras do seu style.css */
+
+body {
+    /* Regra 'correta' do seu ficheiro principal (com gradiente) */
+    background: 
+        radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
+        radial-gradient(ellipse at bottom, #1a2b3a86 25%, transparent 80%),
+        #000000; 
+    background-attachment: fixed;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+}
+
 .container {
     font-family: 'Roboto', sans-serif;
     padding: 1em;
