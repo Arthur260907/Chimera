@@ -10,28 +10,19 @@ h5{
 }
 
 body {
-        /* Múltiplos backgrounds, separados por vírgula */
-        background: 
-                /* Gradiente de CIMA: vai do azul para TRANSPARENTE */
-                radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
-        
-                /* Gradiente de BAIXO: também vai do azul para TRANSPARENTE */
-                radial-gradient(ellipse at bottom, #1a2b3a86 25%, transparent 80%),
-        
-                /* Cor de fundo sólida final para preencher o resto */
-                #000000; 
-
-        /* Esta linha garante que o fundo não role com a página, criando um efeito mais imersivo */
-        background-attachment: fixed;
-
+    background: 
+        radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
+        radial-gradient(ellipse at bottom, #1a2b3a86 25%, transparent 80%),
+        #000000; 
+    background-attachment: fixed;
     color: #fff;
     font-family: "Inter", sans-serif;
 }
 
 /* O container principal que alinha o ícone e o menu */
 .profile-container {
-        position: relative; /* Essencial para o posicionamento do menu dropdown */
-        display: inline-block;
+    position: relative; 
+    display: inline-block;
 }
 #register-link {
     text-decoration: underline;
@@ -40,131 +31,118 @@ body {
 
 /* Estilo do ícone do perfil */
 .profile-icon img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .dropdown-menu {
-        display: none; /* Começa escondido */
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background-color: #212125; /* Cor de fundo mais próxima */
-        border-radius: 4px;
-        width: 500px; /* Largura para acomodar as duas colunas */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        z-index: 100;
-        color: #fff;
+    display: none; 
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #212125; 
+    border-radius: 4px;
+    width: 500px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    color: #fff;
 }
 
-/* Mostra o menu quando o mouse está sobre o container */
 .dropdown-menu.active {
-        display: block;
+    display: block;
 }
 
-/* Novo container para o layout flex */
 .menu-content {
-        display: flex;
-        padding: 20px 0;
+    display: flex;
+    padding: 20px 0;
 }
 
-/* Estilo geral para as duas seções (colunas) */
 .section {
-        padding: 0 25px;
+    padding: 0 25px;
 }
 
-/* Coluna da Conta (esquerda) com a barra vertical à direita */
 .section-account {
-        flex: 1; /* Ocupa metade do espaço */
-        border-right: 1px solid #3a4b5f;
+    flex: 1; 
+    border-right: 1px solid #3a4b5f;
 }
 
-/* Coluna dos Perfis (direita) */
 .section-profiles {
-        flex: 1; /* Ocupa a outra metade */
+    flex: 1; 
 }
 
-/* Títulos "SUA CONTA" e "PERFIS" */
 .section h3 {
-        font-size: 14px;
-        font-weight: bold;
-        margin: 0 0 10px 0;
-        letter-spacing: 0.5px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.5px;
 }
 
-/* Remove os estilos padrão das listas */
 .section ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-/* Estilo dos links na coluna da esquerda */
 .section-account ul li a {
-        display: block;
-        color: #fff;
-        text-decoration: none;
-        padding: 12px 15px;
-        margin-left: -15px; /* Compensa o padding para o hover pegar a largura toda */
-        border-radius: 4px;
-        font-size: 15px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 15px;
+    margin-left: -15px; 
+    border-radius: 4px;
+    font-size: 15px;
 }
 
-/* Efeito de hover nos links da esquerda */
 .section-account ul li a:hover, .active-item a {
-        /* Gradiente azulado igual ao da imagem */
-        background: linear-gradient(to right, #0f415c, rgba(0,0,0,0) 90%);
+    background: linear-gradient(to right, #0f415c, rgba(0,0,0,0) 90%);
 }
 
-/* Estilo para os itens da lista de perfis */
 .section-profiles ul li {
-        display: flex;
-        align-items: center;
-        padding: 8px 0;
-        cursor: pointer;
-        border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .section-profiles ul li:hover {
-        background-color: #2c3e50; /* Fundo cinza escuro no hover */
+    background-color: #2c3e50; 
 }
 
 .section-profiles ul li img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
 }
 
 .section-profiles ul li span {
-        font-size: 15px;
+    font-size: 15px;
 }
 
-/* Estilo para os links abaixo da lista de perfis */
 .profile-actions {
-        margin-top: 20px;
-        border-top: 1px solid #3a4b5f;
-        padding-top: 15px;
+    margin-top: 20px;
+    border-top: 1px solid #3a4b5f;
+    padding-top: 15px;
 }
 
 .profile-actions a {
-        display: block;
-        color: #fff;
-        text-decoration: none;
-        padding: 12px 0;
-        font-size: 15px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 0;
+    font-size: 15px;
 }
 
 .profile-actions a:hover {
-        text-decoration: underline;
+    text-decoration: underline;
 }
 
-/* Ícone de "+" */
 .profile-actions a i {
-        margin-right: 10px;
-        color: #8197a4;
+    margin-right: 10px;
+    color: #8197a4;
 }
 #flex-more {
     display: flex;
@@ -176,53 +154,51 @@ body {
     height: 30px;
     width: 30px;
 }
-/* ✨ AQUI ACONTECE A MÁGICA ✨ */
-/* Quando o mouse passa por cima do .perfil-container, o .menu-dropdown dentro dele muda para display: block */
+
 .perfil-container:hover .menu-dropdown {
-        display: block; /* Mostra o menu */
+    display: block; 
 }
 
-/* Estilizando o conteúdo do menu (similar à imagem) */
 .menu-dropdown h3 {
-        color: #2e7ca7;
-        font-size: 14px;
-        margin-top: 0;
+    color: #2e7ca7;
+    font-size: 14px;
+    margin-top: 0;
 }
 
 .menu-dropdown ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .menu-dropdown li a, .menu-dropdown > a {
-        color: white;
-        text-decoration: none;
-        display: block;
-        padding: 10px 0;
-        font-size: 16px;
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+    font-size: 16px;
 }
 
 .menu-dropdown li a:hover, .menu-dropdown > a:hover {
-        background-color: #333;
+    background-color: #333;
 }
 
 .menu-dropdown hr {
-        border: none;
-        border-top: 1px solid #444;
-        margin: 10px 0;
+    border: none;
+    border-top: 1px solid #444;
+    margin: 10px 0;
 }
 
 header {
-        width: 100%;
-        height: 4em;
-        background-color: #121116;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4em;
-        padding: 3em;
-        box-sizing: border-box; /* <<< ADICIONE APENAS ESTA LINHA */
+    width: 100%;
+    height: 4em;
+    background-color: #121116;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4em;
+    padding: 3em;
+    box-sizing: border-box; 
 }
 
 #logo-separator {
@@ -278,10 +254,10 @@ header img{
     opacity: 0.8;
 }
 
-/* Sugestão para barra de pesquisa no header */
 #search-form {
     display: flex;
     align-items: center;
+    justify-content: center
 }
 
 #search-input {
@@ -309,7 +285,7 @@ header img{
     background: url('../Imagens/magnifying-glass-11-svgrepo-com 1.png') no-repeat center center;
     background-size: contain;
     padding: 0;
-    margin-left: -0.5em; /* Espaçamento maior para a esquerda */
+    margin-left: -0.5em; 
     border: none;
     cursor: pointer;
 }
@@ -318,124 +294,129 @@ header img{
     height: 2em;
 }
 
-/* basic layout for pesquisa page */
-/* basic layout for pesquisa page */
-main { padding: 2rem; }
+main { 
+    padding: 2rem; 
+}
 
-/* Page-specific: center the header search for the pesquisa page */
 body.page-pesquisa {
-        position: relative; /* establish containing block for absolute centering */
+    position: relative; 
 }
 
-/* Position the search form centered horizontally and positioned vertically around the main title area */
-body.page-pesquisa #search-form {
-        position: fixed;
-        left: 50%;
-        transform: translateX(-50%);
-        top: calc(5rem + 8rem); /* placed under header + icon-line (approx) */
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        pointer-events: auto;
+.search-bar-container {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem 0;
+    background: 
+        radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
+        #000000;
+    background-attachment: fixed; 
 }
 
-/* Make the 'Home' header link white and remove decoration on pesquisa page */
+.search-bar-container #search-form {
+    width: 100%;
+    max-width: 800px; 
+    display: flex;
+}
+
+.search-bar-container #search-input {
+    width: 100%; 
+}
+
 body.page-pesquisa .header_icon a {
-        color: #fff;
-        text-decoration: none;
-        display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
 }
 
 body.page-pesquisa .header_icon a h5 {
-        color: #fff;
-        margin: 0;
+    color: #fff;
+    margin: 0;
 }
 
-/* Make the search input wider on the pesquisa page (centered container) */
 body.page-pesquisa #search-input {
-        width: 40vw;
-        min-width: 320px;
-        max-width: 800px;
+    width: 40vw;
+    min-width: 320px;
+    max-width: 800px;
 }
 
-/* Ensure header keeps its normal layout */
 body.page-pesquisa header {
-        position: relative;
+    position: relative;
 }
 
-/* Responsive tweaks */
 @media (max-width: 900px) {
-        body.page-pesquisa #search-form { top: 4.5rem; }
-        body.page-pesquisa #search-input { width: 70vw; min-width: 220px; }
+    body.page-pesquisa #search-form { top: 4.5rem; }
+    body.page-pesquisa #search-input { width: 70vw; min-width: 220px; }
 }
 
 @media (max-width: 480px) {
-        body.page-pesquisa #search-form { top: 4rem; }
-        body.page-pesquisa #search-input { width: 85vw; min-width: 160px; }
+    body.page-pesquisa #search-form { top: 4rem; }
+    body.page-pesquisa #search-input { width: 85vw; min-width: 160px; }
 }
 
-main {
-        margin-top: 20vh;
-}
-
-/*
- * ESTILOS PARA O GRID ESTÁTICO (SUBSTITUINDO O CARROSSEL)
- */
-
-/* Container Principal - Remove a rolagem horizontal */
 .static-grid-container {
-    /* Remove as propriedades de rolagem horizontal */
     overflow-x: hidden;
     overflow-y: hidden;
-    
-    /* Mantém o padding do carrossel para alinhamento */
     width: 100%;
     max-width: 100vw;
     margin-bottom: 2em;
 }
 
-/* A Lista de Itens - Usa Grid em vez de Flex e permite quebra de linha */
+
 .grid-list {
-    /* Remove as propriedades de rolagem e transição */
     margin: 0;
-    padding: 0 1rem;
+    padding: 0; /* O <main> já tem padding */
     list-style: none;
-    
-    /* Configuração principal do Grid */
     display: grid;
-    
-    /* Define as colunas do Grid para auto-ajuste e responsividade */
-    /* Cria colunas que tenham no mínimo 180px e no máximo 1fr (distribuição igual) */
-    grid-template-columns: repeat(auto-fit, minmax(11.25rem, 1fr));
-    
-    /* Espaçamento entre os itens (gap) */
-    gap: 1.5rem; 
-    
-    /* Garante que o grid-list ocupe 100% da largura do container */
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+
+    /* === CORREÇÃO 1: ESPAÇAMENTO === */
+    /* Damos mais espaço para a fileira (vertical) do que para a coluna (horizontal) */
+    column-gap: 2rem;
+    row-gap: 3.5rem;   /* Aumentado para dar espaço ao texto */
+
     width: 100%;
-    justify-content: center; /* Centraliza os itens na linha */
+    justify-content: center;
 }
 
-/* Estilo de cada item do Grid */
-/* Usamos a mesma definição de tamanho do carousel-item para manter a estética */
+.grid-list .movie-card a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+/* === CORREÇÃO 2: O CARD (li) === */
+/* O <li> (carousel-item) agora só define a largura e o zoom */
 .grid-list .carousel-item {
-    /* Remove margem lateral, agora controlada pelo 'gap' */
     margin: 0; 
-    
-    /* Mantém as dimensões de 180px x 270px */
-    width: 100%; /* Ajusta a largura para preencher a coluna do Grid */
-    height: 16.875rem; 
-    
-    /* Remove a transformação 'active' específica do carrossel */
+    width: 100%; 
     transform: none;
+    transition: transform 0.2s ease-in-out;
+    /* REMOVEMOS: aspect-ratio, border-radius, background-color, overflow */
 }
 
-/* Adaptação de Responsividade */
-@media (max-width: 600px) {
-    /* Em telas pequenas, podemos reduzir o tamanho mínimo do item
-       para caber mais na linha */
-    .grid-list {
-        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); /* 144px */
-        gap: 1rem;
-    }
+.grid-list .carousel-item:hover {
+    transform: scale(1.03); /* Mantém o efeito de zoom */
 }
+
+/* === CORREÇÃO 3: O PÔSTER (figure) === */
+/* Esta regra é do seu apicatalago.js (card-banner) */
+.grid-list .card-banner {
+    width: 100%;
+    aspect-ratio: 2 / 3; /* Proporção 2:3 MOVIDA PARA CÁ */
+    border-radius: 8px; 
+    background-color: #111; /* Fundo escuro */
+    overflow: hidden; /* Garante que a imagem não vaze */
+    display: block;
+}
+
+/* === CORREÇÃO 4: A IMAGEM (img) === */
+/* Mudamos o seletor para ser mais específico */
+.grid-list .card-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cobre a área, padronizando os tamanhos */
+    display: block;
+}
+/* --- Fim do Bloco Corrigido --- */

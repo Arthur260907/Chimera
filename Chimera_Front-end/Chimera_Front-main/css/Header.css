@@ -6,16 +6,16 @@
     padding: 0;
 }
 
-
-h5 {
-    font-size: 1.5em;
-}
-
 a {
     /* Define a cor do texto do link para branco */
     text-decoration: none; /* Remove o sublinhado */
     color: white;
   }
+
+h5 {
+    font-size: 1.5em;
+}
+
 /* --- Estilos do Header (Versão única e correta) --- */
 
 header {
