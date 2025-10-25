@@ -44,8 +44,8 @@ builder.Services.AddSwaggerGen(c =>
 // Registrar seus serviços e repositórios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
+// Registra OmdbService via HttpClientFactory — não é necessário AddScoped adicional
 builder.Services.AddHttpClient<OmdbService>();
-builder.Services.AddScoped<OmdbService>();
 
 // Adicione isto para permitir requisições do front (dev). Substitua AllowAnyOrigin por WithOrigins("http://127.0.0.1:5500") se souber a origem do five-server.
 builder.Services.AddCors(options =>
@@ -59,6 +59,23 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Aplicar migrações do EF automaticamente ao iniciar a aplicação
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetService<ILogger<Program>>();
+        logger?.LogError(ex, "An error occurred while migrating or initializing the database.");
+        // Não interrompe a inicialização — dependendo do cenário você pode querer rethrow
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
