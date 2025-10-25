@@ -319,4 +319,57 @@ header img{
 }
 
 /* basic layout for pesquisa page */
+/* basic layout for pesquisa page */
 main { padding: 2rem; }
+
+/* Page-specific: center the header search for the pesquisa page */
+body.page-pesquisa {
+        position: relative; /* establish containing block for absolute centering */
+}
+
+/* Position the search form centered horizontally and positioned vertically around the main title area */
+body.page-pesquisa #search-form {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        top: calc(5rem + 8rem); /* placed under header + icon-line (approx) */
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        pointer-events: auto;
+}
+
+/* Make the 'Home' header link white and remove decoration on pesquisa page */
+body.page-pesquisa .header_icon a {
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+}
+
+body.page-pesquisa .header_icon a h5 {
+        color: #fff;
+        margin: 0;
+}
+
+/* Make the search input wider on the pesquisa page (centered container) */
+body.page-pesquisa #search-input {
+        width: 40vw;
+        min-width: 320px;
+        max-width: 800px;
+}
+
+/* Ensure header keeps its normal layout */
+body.page-pesquisa header {
+        position: relative;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+        body.page-pesquisa #search-form { top: 4.5rem; }
+        body.page-pesquisa #search-input { width: 70vw; min-width: 220px; }
+}
+
+@media (max-width: 480px) {
+        body.page-pesquisa #search-form { top: 4rem; }
+        body.page-pesquisa #search-input { width: 85vw; min-width: 160px; }
+}
