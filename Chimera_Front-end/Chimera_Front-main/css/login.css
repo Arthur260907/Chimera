@@ -1,10 +1,16 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 a {
   color: inherit; /* Faz o link herdar a cor do texto do elemento pai */
   text-decoration: none; /* Remove o sublinhado */
 }
 
 body {
-    /* Regra 'correta' do seu ficheiro principal (com gradiente) */
+  /* Regra 'correta' do seu ficheiro principal (com gradiente) */
     background: 
         radial-gradient(ellipse at top, #22303b2f 30%, transparent 80%),
         radial-gradient(ellipse at bottom, #1a2b3a86 25%, transparent 80%),
