@@ -1,5 +1,5 @@
 // Bloco CORRIGIDO para substituir o original em js/script.js
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menu-toggle');
   const closeSidebar = document.getElementById('close-sidebar');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', function (e) {
     // Verificações adicionadas aqui também (garante que sidebar e menuToggle não são null)
     if (sidebar && menuToggle && sidebar.classList.contains('active') && !sidebar.contains(e.target) && e.target !== menuToggle) {
       sidebar.classList.remove('active');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ---------- main carousel + multi-carousel (inicializa APÓS apicatalago.js) ----------
-(function() {
+(function () {
   let mainState = { initialized: false, counter: 0, slideWidth: 0, itemsPerSlide: 1, maxIndex: 0 };
 
   function resetButton(id) {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function recompute() {
       const newVisible = carouselSlide.parentElement ? carouselSlide.parentElement.clientWidth : carouselSlide.clientWidth;
       const newItemWidth = carouselSlide.querySelector('.carousel-item img') ? carouselSlide.querySelector('.carousel-item img').clientWidth : Math.floor(newVisible / 4);
-      const newItemsPerSlide = Math.max(1, Math.floor(newVisible / (newItemWidth || Math.floor(newVisible/4))));
+      const newItemsPerSlide = Math.max(1, Math.floor(newVisible / (newItemWidth || Math.floor(newVisible / 4))));
       const newSlideCount = Math.max(1, Math.ceil(items.length / newItemsPerSlide));
       mainState.itemsPerSlide = newItemsPerSlide;
       mainState.slideWidth = newVisible;
@@ -131,11 +131,41 @@ document.addEventListener('DOMContentLoaded', function() {
     mainState.initialized = true;
   }
 
+  //
+  // --- ESTA É A FUNÇÃO QUE FOI CORRIGIDA ---
+  //
   function initMultiCarousels() {
     const multiCarousels = document.querySelectorAll('.multi-carousel-container');
+    
     multiCarousels.forEach(multiCarousel => {
       const carouselList = multiCarousel.querySelector('.carousel-list');
       if (!carouselList) return;
+
+      // --- INÍCIO DA LÓGICA DE BOTÕES ADICIONADA ---
+      const prevBtn = multiCarousel.querySelector('.multi-carousel-btn.prev');
+      const nextBtn = multiCarousel.querySelector('.multi-carousel-btn.next');
+
+      if (prevBtn && nextBtn) {
+          prevBtn.addEventListener('click', () => {
+              // Rola 80% da largura visível do carrossel para a esquerda
+              const scrollAmount = carouselList.clientWidth * 0.8; 
+              carouselList.scrollBy({
+                  left: -scrollAmount,
+                  behavior: 'smooth'
+              });
+          });
+
+          nextBtn.addEventListener('click', () => {
+              // Rola 80% da largura visível do carrossel para a direita
+              const scrollAmount = carouselList.clientWidth * 0.8;
+              carouselList.scrollBy({
+                  left: scrollAmount,
+                  behavior: 'smooth'
+              });
+          });
+      }
+      // --- FIM DA LÓGICA DE BOTÕES ADICIONADA ---
+
       const items = carouselList.querySelectorAll('.carousel-item');
       if (!items.length) return;
 
@@ -164,6 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+  // --- FIM DA FUNÇÃO CORRIGIDA ---
+
 
   // handler executado quando apicatalago.js terminar de inserir imagens e carregar
   document.addEventListener('catalog:loaded', () => {
@@ -178,40 +210,40 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-    const registrationForm = document.getElementById('registration-form'); // Certifique-se de que seu formulário em cadastro.html tem este id
+  const registrationForm = document.getElementById('registration-form'); // Certifique-se de que seu formulário em cadastro.html tem este id
 
-    if (registrationForm) {
-        registrationForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Impede o envio padrão do formulário
+  if (registrationForm) {
+    registrationForm.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Impede o envio padrão do formulário
 
-            // Obtém os dados dos campos do formulário. Certifique-se de que seus inputs têm esses ids.
-            const nome = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
+      // Obtém os dados dos campos do formulário. Certifique-se de que seus inputs têm esses ids.
+      const nome = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
 
-            // A URL do endpoint de cadastro do seu backend
-            const apiUrl = 'https://localhost:DESKTOP-UVKH0C1/api/Usuario/registrar'; // Supondo que sua API está rodando nesta porta
+      // A URL do endpoint de cadastro do seu backend
+      const apiUrl = 'https://localhost:DESKTOP-UVKH0C1/api/Usuario/registrar'; // Supondo que sua API está rodando nesta porta
 
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ nome, email, senha }),
-                });
-
-                if (response.ok) {
-                    alert('Cadastro realizado com sucesso!');
-                    window.location.href = 'Login.html'; // Redireciona para a página de login
-                } else {
-                    const errorData = await response.json();
-                    alert(`Falha no cadastro: ${errorData.message}`);
-                }
-            } catch (error) {
-                console.error('Erro durante o cadastro:', error);
-                alert('Ocorreu um erro. Por favor, tente novamente.');
-            }
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ nome, email, senha }),
         });
-    }
+
+        if (response.ok) {
+          alert('Cadastro realizado com sucesso!');
+          window.location.href = 'Login.html'; // Redireciona para a página de login
+        } else {
+          const errorData = await response.json();
+          alert(`Falha no cadastro: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Erro durante o cadastro:', error);
+        alert('Ocorreu um erro. Por favor, tente novamente.');
+      }
+    });
+  }
 });

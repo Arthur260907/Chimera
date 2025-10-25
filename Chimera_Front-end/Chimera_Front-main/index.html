@@ -17,61 +17,67 @@
 
 <body>
     <header>
-    <div id="logo-separator">
-        <img id="logo" src="Imagens/image0_large.png" alt="Logo">
-    </div>
-
-  <span class="header_icon" id="filter-home"><a href="index.html"><h5>Home</h5></a></span>
-<span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
-<span class="header_icon" id="filter-series"><h5>Series</h5></span>
-
-    <div id="top-corner">
-
-        <form id="search-form" action="html/pesquisa.html" method="GET">
-    <input type="text" id="search-input" name="q" placeholder="Search...">
-    <button type="submit" id="search-btn"></button>
-</form>
-
-<div id="search-suggestions" class="suggestions-dropdown"></div> 
-
-<div class="profile-container">
-
-
-            <div class="profile-icon">
-                <img src="Imagens/image 8.png" alt="Profile">
-            </div>
-
-          <div class="dropdown-menu">
-    <div class="menu-content">
-        <div class="section section-account">
-            <h3>Account</h3>
-            <ul>
-                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
-                <li><a id="signout-link" href="#">Sign out</a></li>
-            </ul>
+        <div id="logo-separator">
+            <img id="logo" src="Imagens/image0_large.png" alt="Logo">
         </div>
-        <div class="section section-profiles">
-            <h3>PROFILES</h3>
-            <ul>
-                <li>
-                    <img src="imagens/image 8.png" alt="Avatar">
-                    <span id="profile-username">Gabriel</span>
-                </li>
-            </ul>
-                        <div class="profile-actions">
-                            <div id="flex-more">
+
+        <span class="header_icon" id="filter-home"><a href="index.html">
+                <h5>Home</h5>
+            </a></span>
+        <span class="header_icon" id="filter-movies">
+            <h5>Movies</h5>
+        </span>
+        <span class="header_icon" id="filter-series">
+            <h5>Series</h5>
+        </span>
+
+        <div id="top-corner">
+
+            <form id="search-form" action="html/pesquisa.html" method="GET">
+                <input type="text" id="search-input" name="q" placeholder="Search...">
+                <button type="submit" id="search-btn"></button>
+            </form>
+
+            <div id="search-suggestions" class="suggestions-dropdown"></div>
+
+            <div class="profile-container">
+
+
+                <div class="profile-icon">
+                    <img src="Imagens/image 8.png" alt="Profile">
+                </div>
+
+                <div class="dropdown-menu">
+                    <div class="menu-content">
+                        <div class="section section-account">
+                            <h3>Account</h3>
+                            <ul>
+                                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
+                                <li><a id="signout-link" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                        <div class="section section-profiles">
+                            <h3>PROFILES</h3>
+                            <ul>
+                                <li>
+                                    <img src="imagens/image 8.png" alt="Avatar">
+                                    <span id="profile-username">Gabriel</span>
+                                </li>
+                            </ul>
+                            <div class="profile-actions">
+                                <div id="flex-more">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-    <span class="header_icon">
-        <img src="Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-    </span>
-</header>
+        </div>
+        <span class="header_icon">
+            <img src="Imagens/bell-svgrepo-com 1.png" alt="Notifications">
+        </span>
+    </header>
     <!-- Icon line after header -->
     <div id="icon-line">
         <span class="header_icon"><img src="imagens/image.png" alt=""></span>
@@ -96,31 +102,50 @@
             </div>
         </div>
     </main>
-
-   <div class="movies-list-section">
+    <!-- Multiple Carousels -->
+    </div>
+    <div class="movies-list-section">
         <h2 class="category-title">Comedy</h2>
         <div class="multi-carousel-container" id="comedy-section">
+
+            <button class="multi-carousel-btn prev">&#10094;</button>
+
             <div class="carousel-list" data-section="comedy">
-                </div>
+            </div>
+
+            <button class="multi-carousel-btn next">&#10095;</button>
+
         </div>
     </div>
 
     <div class="movies-list-section">
         <h2 class="category-title">Action</h2>
         <div class="multi-carousel-container" id="action-section">
+
+            <button class="multi-carousel-btn prev">&#10094;</button>
+
             <div class="carousel-list" data-section="action">
-                </div>
+            </div>
+
+            <button class="multi-carousel-btn next">&#10095;</button>
+
         </div>
     </div>
 
     <div class="movies-list-section">
         <h2 class="category-title">Adventure</h2>
         <div class="multi-carousel-container" id="adventure-section">
+
+            <button class="multi-carousel-btn prev">&#10094;</button>
+
             <div class="carousel-list" data-section="adventure">
-                </div>
+            </div>
+
+            <button class="multi-carousel-btn next">&#10095;</button>
+
         </div>
     </div>
-    
+
     <footer>
         <div class="footer-links">
             <ul>
@@ -149,31 +174,32 @@
         </div>
     </footer>
 
-     <script src="js/script.js"></script>
+    <script src="js/script.js"></script>
     <script src="js/apicatalago.js"></script>
     <script src="js/header.js"></script>
 
     <script>
-      // Código do menu de perfil
-      const profileIcon = document.querySelector('.profile-icon');
-      const dropdownMenu = document.querySelector('.dropdown-menu');
+        // Código do menu de perfil
+        const profileIcon = document.querySelector('.profile-icon');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
 
-      profileIcon.addEventListener('click', function(event) {
-          event.stopPropagation();
-          dropdownMenu.classList.toggle('active');
-      });
+        profileIcon.addEventListener('click', function (event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
 
-      document.addEventListener('click', function() {
-          if (dropdownMenu.classList.contains('active')) {
-              dropdownMenu.classList.remove('active');
-          }
-      });
+        document.addEventListener('click', function () {
+            if (dropdownMenu.classList.contains('active')) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
 
-      dropdownMenu.addEventListener('click', function(event) {
-          event.stopPropagation();
-      });
+        dropdownMenu.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
     </script>
 
 
 </body>
+
 </html>

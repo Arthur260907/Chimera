@@ -62,6 +62,7 @@ function createMovieCard(item) {
 if (!item || !item.imdbID) return null; // Validação básica
 
     const listItem = document.createElement('li');
+    listItem.className = 'carousel-item'; // <-- ESTA É A CORREÇÃO PRINCIPAL
 
     const movieCard = document.createElement('div');
     movieCard.className = 'movie-card';
