@@ -239,3 +239,31 @@ header img {
     height: 30px;
     width: 30px;
 }
+
+/* Adicione ao final do seu Header.css */
+#search-suggestions {
+    display: none;
+    position: absolute;
+    top: 45px; /* Ajuste esta posição para ficar abaixo da barra */
+    left: 0;
+    width: 17em; /* Mesma largura do search-input */
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    z-index: 1001;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#search-input:focus ~ #search-suggestions {
+    width: 26em; /* Mesma largura do input focado */
+}
+
+.suggestion-item {
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+.suggestion-item:hover {
+    background: #555;
+}

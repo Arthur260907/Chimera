@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://localhost:7196'; // <-- AJUSTE A PORTA SE NECESSÁRIO!
+const API_BASE_URL = 'http://localhost:5012'; // <-- AJUSTE A PORTA SE NECESSÁRIO!
 
 document.addEventListener('DOMContentLoaded', () => {
     updateHeaderUI();
@@ -146,7 +146,7 @@ function setupSearchForm() {
         const query = searchInput.value.trim();
         if (query) {
             // Redireciona para a página de pesquisa com o parâmetro
-            window.location.href = `pesquisa.html?q=${encodeURIComponent(query)}`;
+            window.location.href = `html/pesquisa.html?q=${encodeURIComponent(query)}`;
         }
     });
 }

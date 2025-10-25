@@ -3,91 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Page</title>
+    <title>Movie/Series Details</title> 
     <link rel="stylesheet" href="../css/filmeSerie.css">
     <link rel="stylesheet" href="../css/Header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <header>
-    <div id="logo-separator">
-        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
-    </div>
-
-    <span class="header_icon"><a href="../index.html"><h5>Home</h5></a></span>
-    <span class="header_icon"><h5>Movies</h5></span>
-    <span class="header_icon"><h5>Series</h5></span>
-
-    <div id="top-corner">
-
-        <form id="search-form" action="../html/pesquisa.html" method="GET">
-    
-    <input type="text" id="search-input" name="q" placeholder="Search...">
-    
-    <button type="submit" id="search-btn">
-        </button>
-</form>
-
-        <div class="profile-container">
-            <div class="profile-icon">
-                <img src="../Imagens/image 8.png" alt="Profile">
-            </div>
-
-            <div class="dropdown-menu">
-                <div class="menu-content">
-                    <div class="section section-account">
-                        <h3>Account</h3>
-                        <ul>
-                            <li class="active-item"><a href="html/Login.html">Sign in</a></li>
-                            <li><a href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                    <div class="section section-profiles">
-                        <h3>PROFILES</h3>
-                        <ul>
-                            <li>
-                                <img src="../imagens/image 8.png" alt="Avatar">
-                                <span>Gabriel</span>
-                            </li>
-                        </ul>
-                        <div class="profile-actions">
-                            <div id="flex-more">
+        <div id="logo-separator">
+            <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
+        </div>
+        <span class="header_icon" id="filter-home"><a href="../index.html"><h5>Home</h5></a></span>
+        <span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
+        <span class="header_icon" id="filter-series"><h5>Series</h5></span>
+        <div id="top-corner">
+            <form id="search-form" action="pesquisa.html" method="GET">
+                <input type="text" id="search-input" name="q" placeholder="Search...">
+                <button type="submit" id="search-btn"></button>
+            </form>
+            <div id="search-suggestions" class="suggestions-dropdown"></div>
+            <div class="profile-container">
+                <div class="profile-icon">
+                    <img src="../Imagens/image 8.png" alt="Profile">
+                </div>
+                <div class="dropdown-menu">
+                    <div class="menu-content">
+                        <div class="section section-account">
+                            <h3>Account</h3>
+                            <ul>
+                                <li class="active-item"><a id="signin-link" href="Login.html">Sign in</a></li>
+                                <li><a id="signout-link" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                        <div class="section section-profiles">
+                            <h3>PROFILES</h3>
+                            <ul>
+                                <li>
+                                    <img src="../imagens/image 8.png" alt="Avatar">
+                                    <span id="profile-username">Gabriel</span>
+                                </li>
+                            </ul>
+                            <div class="profile-actions">
+                                <div id="flex-more"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <span class="header_icon">
+            <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
+        </span>
+    </header>
 
-    </div>
-    <span class="header_icon">
-        <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-    </span>
-</header>
-
-
-    <div class="container">
+    <div class="container" id="movie-details-container"> 
         <div class="left-column">
+            <img id="movie-poster" src="../imagens/image_placeholder.png" alt="Poster Loading..." style="width: 100%; max-width: 300px; height: auto; border-radius: 8px; margin-bottom: 1em;">
             <button class="button play-button">Play</button>
             <button class="button download-button">Download</button>
-
             <div class="action-icons">
                 <i class="fa-solid fa-plus"></i>
                 <i class="fa-solid fa-thumbs-up"></i>
                 <i class="fa-solid fa-thumbs-down"></i>
                 <i class="fa-solid fa-share-nodes"></i>
             </div>
-
             <div class="synopsis">
-                <h2>Synopsis</h2>
-                <p>
-                    A hero driven by belief and hope in the goodness of humanity. In Superman, we follow the superhero's journey as he tries to reconcile his two personas: his extraterrestrial heritage as a Kryptonian and his human life, raised as Clark Kent (David Corenswet) in the city of Smallville, Kansas. Directed by James Gunn, the new film will bring together classic Superman characters, heroes, and villains such as Lex Luthor (Nicholas Hoult), Lois Lane (Rachel Brosnahan), Green Lantern (Nathan Fillion), Hawkgirl (Isabela Merced), among others. Superman's calling will be put to the test through a series of new epic adventures and in the face of a society that sees his values of justice and truth as outdated.
-                </p>
+                <h2 id="movie-title">Loading title...</h2>
+                <p><strong>Year:</strong> <span id="movie-year">N/A</span> | <strong>Rating:</strong> <span id="movie-rating">N/A</span></p>
+                <p><strong>Director:</strong> <span id="movie-director">N/A</span></p>
+                <h3>Synopsis</h3>
+                <p id="movie-plot">Loading plot...</p>
+                <p><strong>Genre:</strong> <span id="movie-genre">N/A</span></p>
+                 <p><strong>Actors:</strong> <span id="movie-actors">N/A</span></p>
+                 <p><strong>Runtime:</strong> <span id="movie-runtime">N/A</span></p>
             </div>
         </div>
 
         <div class="right-column">
             <div class="video-player">
+                <p><i>Trailer placeholder (vídeo abaixo é estático):</i></p>
                 <iframe 
                     width="560" 
                     height="315" 
@@ -98,74 +92,27 @@
                     allowfullscreen>
                 </iframe>
             </div>
-
             <div class="reviews-container">
                 <div class="user-reviews">
-                    <h3>Reviews</h3>
-                    <div class="review-item">
-                        <img src="https://imgs.search.brave.com/TCR5sPm_soi9Pc5smSpcXbdI5Mel6KtAWj6FggN_jXc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pMS5z/bmRjZG4uY29tL2Fy/dHdvcmtzLXh0aWd6/SXpZMkxNSFRPajkt/RUtJMUNnLXQxMDgw/eDEwODAucG5n" alt="Avatar of Tung Tung Negociado">
-                        <div class="review-content">
-                            <h4>Tung Tung Negociado</h4>
-                            <p>Great movie, great actors, an epic soundtrack and humorous moments at the right times. A masterpiece of cinema.</p>
-                            <br>
-                        </div>
+                    <h3>Reviews (Static Example)</h3>
                     </div>
-                    <div class="review-item">
-                        <img src="https://imgs.search.brave.com/q4EzcDKVPqg5Pv3KAPrYST24o7-J2KWFlCUfx3Coz7w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC8wLzkv/Ni8yMDE1Nzk2LTE5/MjB4MjQwNy1pcGhv/bmUtaGQtd2FsdGVy/LXdoaXRlLXdhbGxw/YXBlci1waG90by5q/cGc" alt="Avatar of António Esterco">
-                        <div class="review-content">
-                            <h4>António Esterco</h4>
-                            <p>What a trash movie! DC only has trash movies, Marvel is much better!</p>
-                             <br>
-                        </div>
+                 <div class="ratings">
+                      <h3>Ratings (Static Example)</h3>
                     </div>
-                    <div class="review-item">
-                        <img src="https://imgs.search.brave.com/XTMFpnd7Ct8xcbqWkjXwfRGhdJw8-k775rTDHjCrTSA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L2pv/Z2FuZG9mb2RkYWNp/cHRicjY5YnVycmlu/aG8vaW1hZ2VzLzYv/NjQvR29yZG8uanBn/L3JldmlzaW9uL2xh/dGVzdC9zY2FsZS10/by13aWR0aC1kb3du/LzI2OD9jYj0yMDI0/MTEwNDE3MTczOSZw/YXRoLXByZWZpeD1w/dC1icg" alt="Avatar of Valter Blanco">
-                        <div class="review-content">
-                            <h4>O MAGO</h4>
-                            <p>Fanboy is one of the worst things in the world... from there you understand the difference of these pathetic beings.</p>
-                             <br>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ratings">
-                    <div class="rating-box">
-                        <h3>Critic Ratings</h3>
-                        <div class="rating-item">
-                            <h4>IMDB</h4>
-                            <p>8/10</p>
-                        </div>
-                        <div class="rating-item">
-                            <span class="tomato-icon">🍅</span>
-                            <p>88%</p>
-                        </div>
-                    </div>
-                    <div class="rating-box">
-                        <h3>User Ratings</h3>
-                        <div class="rating-item">
-                            <h4>IMDB</h4>
-                            <p>10/10</p>
-                        </div>
-                        <div class="rating-item">
-                            <span class="tomato-icon">🍅</span>
-                            <p>95%</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+    
+    <p id="details-status" style="text-align: center; margin-top: 20px;"></p>
 
-    <script src="js/header.js"></script>
-
-    <script src="../js/script.js"></script> <script>
+    <script src="../js/header.js"></script> 
+    <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            // Pega o parâmetro 'id' da URL
             const urlParams = new URLSearchParams(window.location.search);
             const imdbId = urlParams.get('id');
 
-            const detailsContainer = document.getElementById('movie-details-container'); // Container principal para os detalhes
-            const statusElement = document.getElementById('details-status'); // Elemento para status (ex: <p id="details-status"></p>)
+            const detailsContainer = document.getElementById('movie-details-container'); 
+            const statusElement = document.getElementById('details-status'); 
 
             if (!imdbId) {
                 if(detailsContainer) detailsContainer.innerHTML = "<h2>ID do filme/série não fornecido.</h2>";
@@ -177,7 +124,8 @@
 
             try {
                 // Chama o endpoint do backend que busca por ID
-                const response = await fetch(`${API_BASE_URL}/api/movies/id/${imdbId}`); // Usa o endpoint correto
+                // Usa API_BASE_URL de header.js
+                const response = await fetch(`${API_BASE_URL}/api/movies/byId/${imdbId}`); 
 
                 if (!response.ok) {
                     throw new Error(`Falha ao buscar detalhes (Status: ${response.status})`);
@@ -186,13 +134,14 @@
                 const data = await response.json();
 
                 // Verifica se a API OMDB retornou um erro (via backend)
-                if (data && data.response === "False") {
-                    throw new Error(data.error || "Filme/Série não encontrado na base de dados externa.");
+                if (data && data.Response === "False") { // CORREÇÃO: Usa 'Response' (maiúsculo)
+                    throw new Error(data.Error || "Filme/Série não encontrado na base de dados externa."); // CORREÇÃO: Usa 'Error' (maiúsculo)
                 }
 
                 if (data) {
                     if(statusElement) statusElement.textContent = ""; // Limpa status
                     populateMovieDetails(data); // Função para preencher o HTML com os dados
+                    document.title = data.Title || "Details"; // Atualiza o título da aba
                 } else {
                     throw new Error("Dados não recebidos ou inválidos.");
                 }
@@ -206,28 +155,33 @@
 
         // Função para preencher o HTML com os detalhes recebidos
         function populateMovieDetails(data) {
-             // Exemplo: Selecione os elementos HTML pelos IDs e preencha-os
+             // Seleciona os elementos HTML pelos IDs
              const titleElement = document.getElementById('movie-title');
              const yearElement = document.getElementById('movie-year');
              const posterElement = document.getElementById('movie-poster');
              const plotElement = document.getElementById('movie-plot');
              const ratingElement = document.getElementById('movie-rating');
              const directorElement = document.getElementById('movie-director');
-             // Adicione mais elementos conforme necessário (genre, actors, runtime, etc.)
+             const genreElement = document.getElementById('movie-genre'); // Adicionado
+             const actorsElement = document.getElementById('movie-actors'); // Adicionado
+             const runtimeElement = document.getElementById('movie-runtime'); // Adicionado
 
-             if(titleElement) titleElement.textContent = data.title || 'Título não disponível';
-             if(yearElement) yearElement.textContent = data.year || 'N/A';
-             if(posterElement && data.poster && data.poster !== 'N/A') {
-                 posterElement.src = data.poster;
-                 posterElement.alt = data.title;
+             // CORREÇÃO: Usa nomes das propriedades com inicial maiúscula
+             if(titleElement) titleElement.textContent = data.Title || 'Título não disponível';
+             if(yearElement) yearElement.textContent = data.Year || 'N/A';
+             if(posterElement && data.Poster && data.Poster !== 'N/A') {
+                 posterElement.src = data.Poster;
+                 posterElement.alt = data.Title;
              } else if (posterElement) {
                  posterElement.src = '../imagens/image_placeholder.png'; // Placeholder
                  posterElement.alt = 'Pôster não disponível';
              }
-             if(plotElement) plotElement.textContent = data.plot || 'Sinopse não disponível.';
-             if(ratingElement) ratingElement.textContent = `IMDb Rating: ${data.imdbRating || 'N/A'}`;
-             if(directorElement) directorElement.textContent = `Diretor: ${data.director || 'N/A'}`;
-             // Preencha outros campos...
+             if(plotElement) plotElement.textContent = data.Plot || 'Sinopse não disponível.';
+             if(ratingElement) ratingElement.textContent = `${data.ImdbRating || 'N/A'}`;
+             if(directorElement) directorElement.textContent = `${data.Director || 'N/A'}`;
+             if(genreElement) genreElement.textContent = data.Genre || 'N/A'; // Adicionado
+             if(actorsElement) actorsElement.textContent = data.Actors || 'N/A'; // Adicionado
+             if(runtimeElement) runtimeElement.textContent = data.Runtime || 'N/A'; // Adicionado
         }
     </script>
 </body>

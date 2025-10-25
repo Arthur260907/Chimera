@@ -21,42 +21,43 @@
         <img id="logo" src="Imagens/image0_large.png" alt="Logo">
     </div>
 
-    <span class="header_icon"><a href="index.html"><h5>Home</h5></a></span>
-    <span class="header_icon"><h5>Movies</h5></span>
-    <span class="header_icon"><h5>Series</h5></span>
+  <span class="header_icon" id="filter-home"><a href="index.html"><h5>Home</h5></a></span>
+<span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
+<span class="header_icon" id="filter-series"><h5>Series</h5></span>
 
     <div id="top-corner">
 
         <form id="search-form" action="html/pesquisa.html" method="GET">
-    
     <input type="text" id="search-input" name="q" placeholder="Search...">
-    
-    <button type="submit" id="search-btn">
-        </button>
+    <button type="submit" id="search-btn"></button>
 </form>
 
-        <div class="profile-container">
+<div id="search-suggestions" class="suggestions-dropdown"></div> 
+
+<div class="profile-container">
+
+
             <div class="profile-icon">
                 <img src="Imagens/image 8.png" alt="Profile">
             </div>
 
-            <div class="dropdown-menu">
-                <div class="menu-content">
-                    <div class="section section-account">
-                        <h3>Account</h3>
-                        <ul>
-                            <li class="active-item"><a href="html/Login.html">Sign in</a></li>
-                            <li><a href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                    <div class="section section-profiles">
-                        <h3>PROFILES</h3>
-                        <ul>
-                            <li>
-                                <img src="imagens/image 8.png" alt="Avatar">
-                                <span>Gabriel</span>
-                            </li>
-                        </ul>
+          <div class="dropdown-menu">
+    <div class="menu-content">
+        <div class="section section-account">
+            <h3>Account</h3>
+            <ul>
+                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
+                <li><a id="signout-link" href="#">Sign out</a></li>
+            </ul>
+        </div>
+        <div class="section section-profiles">
+            <h3>PROFILES</h3>
+            <ul>
+                <li>
+                    <img src="imagens/image 8.png" alt="Avatar">
+                    <span id="profile-username">Gabriel</span>
+                </li>
+            </ul>
                         <div class="profile-actions">
                             <div id="flex-more">
                             </div>
@@ -96,26 +97,27 @@
         </div>
     </main>
 
-    <div class="category-section">
+   <div class="movies-list-section">
         <h2 class="category-title">Comedy</h2>
         <div class="multi-carousel-container" id="comedy-section">
             <div class="carousel-list" data-section="comedy">
-                <!-- itens preenchidos pelo js -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <h2 class="category-title">Action</h2>
-    <div class="multi-carousel-container" id="action-section">
-        <div class="carousel-list" data-section="action">
-            <!-- itens preenchidos pelo js -->
+    <div class="movies-list-section">
+        <h2 class="category-title">Action</h2>
+        <div class="multi-carousel-container" id="action-section">
+            <div class="carousel-list" data-section="action">
+                </div>
         </div>
     </div>
 
-    <h2 class="category-title">Adventure</h2>
-    <div class="multi-carousel-container" id="adventure-section">
-        <div class="carousel-list" data-section="adventure">
-            <!-- itens preenchidos pelo js -->
+    <div class="movies-list-section">
+        <h2 class="category-title">Adventure</h2>
+        <div class="multi-carousel-container" id="adventure-section">
+            <div class="carousel-list" data-section="adventure">
+                </div>
         </div>
     </div>
     
@@ -172,133 +174,6 @@
       });
     </script>
 
-    <script>
-      /*
-        Busca filmes da API backend (/api/OmdbMovies) e popula:
-         - #main-carousel
-         - cada .carousel-list dentro de .multi-carousel-container
-      */
-      (() => {
-        const API_BASE = window.API_BASE || 'http://localhost:5012';
-        const FALLBACK_PLACEHOLDER = '';
 
-        function proxyPosterUrl(posterUrl) {
-          if (!posterUrl) return '';
-          return `${API_BASE}/api/OmdbMovies/poster?url=${encodeURIComponent(posterUrl)}`;
-        }
-
-        async function fetchMovies() {
-          try {
-            const res = await fetch(`${API_BASE}/api/OmdbMovies`);
-            if (!res.ok) throw new Error(`API error ${res.status}`);
-            const movies = await res.json();
-            return Array.isArray(movies) ? movies : [];
-          } catch (err) {
-            console.error('Erro ao buscar filmes da API:', err);
-            return [];
-          }
-        }
-
-        function shuffle(array) {
-          for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-          }
-          return array;
-        }
-
-        function extractUniquePosters(movies) {
-          const set = new Set();
-          const posters = [];
-          for (const m of movies) {
-            const p = (m && m.Poster) ? m.Poster.trim() : '';
-            if (!p || p.toLowerCase() === 'n/a') continue;
-            if (!set.has(p)) {
-              set.add(p);
-              posters.push({ poster: p, title: m.Title || '' });
-            }
-          }
-          return posters;
-        }
-
-        function createImgElement(src, alt = '') {
-          const img = document.createElement('img');
-          img.src = src ? proxyPosterUrl(src) : FALLBACK_PLACEHOLDER;
-          img.alt = alt;
-          img.loading = 'lazy';
-          return img;
-        }
-
-        function populateFromPosters(posters) {
-          shuffle(posters);
-
-          const mainCount = Math.min(6, posters.length);
-          const sectionCount = 12;
-
-          const working = posters.slice();
-          const mainPosters = working.splice(0, mainCount);
-          const comedyPosters = working.splice(0, sectionCount);
-          const actionPosters = working.splice(0, sectionCount);
-          const adventurePosters = working.splice(0, sectionCount);
-
-          const mainSlide = document.querySelector('#main-carousel');
-          if (mainSlide) {
-            mainSlide.innerHTML = '';
-            mainPosters.forEach(p => {
-              const wrapper = document.createElement('div');
-              wrapper.className = 'carousel-item main';
-              wrapper.appendChild(createImgElement(p.poster, p.title));
-              mainSlide.appendChild(wrapper);
-            });
-          }
-
-          function fillSection(sectionId, listItems) {
-            const container = document.querySelector(sectionId);
-            if (!container) return;
-            container.innerHTML = `<div class="carousel-list" data-section="${sectionId.replace('#','')}"></div>`;
-            const list = container.querySelector('.carousel-list');
-            listItems.forEach(p => {
-              const item = document.createElement('div');
-              item.className = 'carousel-item';
-              item.appendChild(createImgElement(p.poster, p.title));
-              list.appendChild(item);
-            });
-          }
-
-          fillSection('#comedy-section', comedyPosters);
-          fillSection('#action-section', actionPosters);
-          fillSection('#adventure-section', adventurePosters);
-        }
-
-        function waitForImagesLoad(selectorList = ['#main-carousel img', '.carousel-list img'], timeout = 5000) {
-          const selectors = selectorList.join(', ');
-          const imgs = Array.from(document.querySelectorAll(selectors));
-          if (imgs.length === 0) return Promise.resolve();
-          const promises = imgs.map(img => new Promise(resolve => {
-            if (img.complete) return resolve();
-            const done = () => {
-              img.removeEventListener('load', done);
-              img.removeEventListener('error', done);
-              resolve();
-            };
-            img.addEventListener('load', done);
-            img.addEventListener('error', done);
-          }));
-          return Promise.race([Promise.all(promises), new Promise(resolve => setTimeout(resolve, timeout))]);
-        }
-
-        async function initCatalog() {
-          const movies = await fetchMovies();
-          const posters = extractUniquePosters(movies);
-          if (posters.length === 0) console.warn('Nenhum poster válido retornado pela API.');
-          populateFromPosters(posters);
-          await waitForImagesLoad();
-          window.__CHIMERA_MOVIES = movies;
-          document.dispatchEvent(new CustomEvent('catalog:loaded', { detail: { movies } }));
-        }
-
-        document.addEventListener('DOMContentLoaded', initCatalog);
-      })();
-    </script>
 </body>
 </html>

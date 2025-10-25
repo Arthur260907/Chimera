@@ -1,17 +1,26 @@
+// Bloco CORRIGIDO para substituir o original em js/script.js
 document.addEventListener('DOMContentLoaded', function() {
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menu-toggle');
   const closeSidebar = document.getElementById('close-sidebar');
-  menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    sidebar.classList.add('active');
-  });
-  closeSidebar.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-  });
+
+  // Verifica se os elementos existem antes de adicionar listeners
+  if (menuToggle) { // <-- Verificação adicionada
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sidebar) sidebar.classList.add('active'); // <-- Verificação adicionada
+    });
+  }
+
+  if (closeSidebar) { // <-- Verificação adicionada
+    closeSidebar.addEventListener('click', () => {
+      if (sidebar) sidebar.classList.remove('active'); // <-- Verificação adicionada
+    });
+  }
 
   document.addEventListener('click', function(e) {
-    if (sidebar.classList.contains('active') && !sidebar.contains(e.target) && e.target !== menuToggle) {
+    // Verificações adicionadas aqui também (garante que sidebar e menuToggle não são null)
+    if (sidebar && menuToggle && sidebar.classList.contains('active') && !sidebar.contains(e.target) && e.target !== menuToggle) {
       sidebar.classList.remove('active');
     }
   });

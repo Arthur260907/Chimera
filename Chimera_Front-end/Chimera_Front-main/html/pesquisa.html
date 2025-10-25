@@ -36,23 +36,24 @@
                 <img src="../Imagens/image 8.png" alt="Profile">
             </div>
 
-            <div class="dropdown-menu">
-                <div class="menu-content">
-                    <div class="section section-account">
-                        <h3>Account</h3>
-                        <ul>
-                            <li class="active-item"><a href="html/Login.html">Sign in</a></li>
-                            <li><a href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                    <div class="section section-profiles">
-                        <h3>PROFILES</h3>
-                        <ul>
-                            <li>
-                                <img src="../imagens/image 8.png" alt="Avatar">
-                                <span>Gabriel</span>
-                            </li>
-                        </ul>
+          <div class="dropdown-menu">
+    <div class="menu-content">
+        <div class="section section-account">
+            <h3>Account</h3>
+            <ul>
+                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
+                <li><a id="signout-link" href="#">Sign out</a></li>
+            </ul>
+        </div>
+        <div class="section section-profiles">
+            <h3>PROFILES</h3>
+            <ul>
+                <li>
+                    <img src="../imagens/image 8.png" alt="Avatar">
+                    <span id="profile-username">Gabriel</span>
+                </li>
+            </ul>
+            
                         <div class="profile-actions">
                             <div id="flex-more">
                             </div>
@@ -107,24 +108,36 @@
             resultsContainer.innerHTML = ''; // Limpa resultados anteriores
 
             try {
+                // 1. BUSCAR OS DADOS (DENTRO DO TRY)
                 const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`);
                 if (!response.ok) throw new Error('Falha ao buscar resultados');
 
+                // 2. PROCESSAR A RESPOSTA (DENTRO DO TRY)
                 const data = await response.json();
+                console.log("Dados recebidos da API:", data); // Log para ver os dados
 
+                // 3. VERIFICAR E EXIBIR OS DADOS (DENTRO DO TRY)
                 if (data && data.length > 0) {
-                     if(statusElement) statusElement.textContent = `Resultados para "${query}":`;
+                    if(statusElement) statusElement.textContent = `Resultados para "${query}":`;
+
                     data.forEach(item => {
-                        const card = createResultCard(item); // Função para criar o card de resultado
-                         if (card) {
+                        console.log("Processando item:", item); // Log antes de criar
+                        const card = createResultCard(item);
+                        console.log("Card criado:", card); // Log depois de criar
+
+                        if (card) {
+                            console.log("Adicionando card ao container..."); // Log antes de adicionar
                             resultsContainer.appendChild(card);
+                            console.log("Card adicionado."); // Log depois de adicionar
+                        } else {
+                            console.warn("Card nulo para o item:", item); // Log se o card for nulo
                         }
                     });
                 } else {
                     resultsContainer.innerHTML = `<p>Nenhum resultado encontrado para "${query}".</p>`;
-                     if(statusElement) statusElement.textContent = ""; // Limpa status
+                    if(statusElement) statusElement.textContent = ""; // Limpa status
                 }
-            } catch (error) {
+            } catch (error) { // O CATCH permaneceu igual e está correto
                 console.error('Erro ao buscar resultados da pesquisa:', error);
                 resultsContainer.innerHTML = '<p>Ocorreu um erro ao buscar os resultados.</p>';
                 if(statusElement) statusElement.textContent = "Erro na busca.";
@@ -132,55 +145,25 @@
         });
 
         // Função para criar o card na página de resultados (similar ao createMovieCard, ajuste conforme necessário)
-       function createResultCard(item) {
-             if (!item || !item.imdbId) return null;
-
-            const listItem = document.createElement('li');
-
-            const movieCard = document.createElement('div');
-            movieCard.className = 'movie-card'; // Use a mesma classe ou uma específica
-
-            const anchor = document.createElement('a');
-            anchor.href = `./filmeSerie.html?id=${item.imdbId}`; // Link para detalhes
-
-            const figure = document.createElement('figure');
-            figure.className = 'card-banner';
-            const img = document.createElement('img');
-            img.src = (item.poster && item.poster !== 'N/A') ? item.poster : '../imagens/image_placeholder.png';
-            img.alt = item.title;
-            figure.appendChild(img);
-            anchor.appendChild(figure);
-
-            const titleWrapper = document.createElement('div');
-            titleWrapper.className = 'title-wrapper';
-            const titleLink = document.createElement('a');
-             titleLink.href = anchor.href;
-            const titleH3 = document.createElement('h3');
-            titleH3.className = 'card-title';
-            titleH3.textContent = item.title;
-            titleLink.appendChild(titleH3);
-            titleWrapper.appendChild(titleLink);
-
-            const dateSpan = document.createElement('span');
-            dateSpan.className = 'date'; // Ou outra classe se o estilo for diferente
-            dateSpan.textContent = item.year || 'N/A';
-            titleWrapper.appendChild(dateSpan);
-            anchor.appendChild(titleWrapper);
-
-            // Adicione meta (rating, duration) se a API /search retornar e se desejar
-             /*
-            const cardMeta = document.createElement('div');
-            cardMeta.className = 'card-meta';
-            // ... (adicionar badge, duration, rating como em createMovieCard) ...
-            anchor.appendChild(cardMeta);
-            */
-
-            movieCard.appendChild(anchor);
-            listItem.appendChild(movieCard);
-
-            return listItem;
-        }
+      
+        
 
     </script>
+    <script src="../js/script.js"></script>
+
+<script src="../js/header.js"></script> 
+<script src="../js/apicatalago.js"></script>
+
+<script>
+    // Renomeia a função para o script local poder usar
+    const createResultCard = createMovieCard; 
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        // ... resto do seu script da página de pesquisa ...
+    });
+
+    // A função createResultCard (que era createMovieCard) já não é mais necessária aqui
+    // pois foi carregada do apicatalago.js
+</script>
 </body>
 </html>

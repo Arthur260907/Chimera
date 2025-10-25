@@ -59,7 +59,7 @@ async function fetchAndPopulateCategory(query, containerElement, clearContainer 
  * @returns {HTMLLIElement|null} O elemento li contendo o card do filme, ou null.
  */
 function createMovieCard(item) {
-    if (!item || !item.imdbId) return null; // Validação básica
+if (!item || !item.imdbID) return null; // Validação básica
 
     const listItem = document.createElement('li');
 
@@ -68,15 +68,15 @@ function createMovieCard(item) {
 
     const anchor = document.createElement('a');
     // Link para a página de detalhes (filmeSerie.html), passando o ID do IMDB
-    anchor.href = `./html/filmeSerie.html?id=${item.imdbId}`; // Ajuste o caminho se necessário
+   anchor.href = `html/filmeSerie.html?id=${item.imdbID}`;
 
     const figure = document.createElement('figure');
     figure.className = 'card-banner';
 
     const img = document.createElement('img');
     // Usa o pôster da API. Se não tiver, pode usar uma imagem padrão.
-    img.src = (item.poster && item.poster !== 'N/A') ? item.poster : '../imagens/image_placeholder.png'; // Crie uma imagem placeholder
-    img.alt = item.title;
+    img.src = (item.Poster && item.Poster !== 'N/A') ? item.Poster : '../imagens/image_placeholder.png'; // Crie uma imagem placeholder
+    img.alt = item.Title;
     img.loading = 'lazy'; // Adiciona carregamento lazy
 
     figure.appendChild(img);
@@ -88,13 +88,13 @@ function createMovieCard(item) {
     titleLink.href = anchor.href; // Mesmo link
     const titleH3 = document.createElement('h3');
     titleH3.className = 'card-title';
-    titleH3.textContent = item.title;
+    titleH3.textContent = item.Title;
     titleLink.appendChild(titleH3);
     titleWrapper.appendChild(titleLink);
 
     const dateSpan = document.createElement('span');
     dateSpan.className = 'date';
-    dateSpan.textContent = item.year || 'N/A'; // Mostra o ano
+    dateSpan.textContent = item.Year || 'N/A'; // Mostra o ano
     titleWrapper.appendChild(dateSpan);
 
     anchor.appendChild(titleWrapper);
@@ -175,11 +175,11 @@ function createMainCarouselCard(item) {
     wrapper.className = 'carousel-item main'; // Classe esperada
 
     const anchor = document.createElement('a');
-    anchor.href = `./html/filmeSerie.html?id=${item.imdbId}`; 
+    anchor.href = `html/filmeSerie.html?id=${item.imdbID}`;
 
     const img = document.createElement('img');
-    img.src = (item.poster && item.poster !== 'N/A') ? item.poster : '../imagens/image_placeholder.png';
-    img.alt = item.title;
+    img.src = (item.Poster && item.Poster !== 'N/A') ? item.Poster : '../imagens/image_placeholder.png';
+    img.alt = item.Title;
     img.loading = 'lazy'; 
 
     anchor.appendChild(img);
