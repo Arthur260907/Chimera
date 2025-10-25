@@ -373,3 +373,69 @@ body.page-pesquisa header {
         body.page-pesquisa #search-form { top: 4rem; }
         body.page-pesquisa #search-input { width: 85vw; min-width: 160px; }
 }
+
+main {
+        margin-top: 20vh;
+}
+
+/*
+ * ESTILOS PARA O GRID ESTÁTICO (SUBSTITUINDO O CARROSSEL)
+ */
+
+/* Container Principal - Remove a rolagem horizontal */
+.static-grid-container {
+    /* Remove as propriedades de rolagem horizontal */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    
+    /* Mantém o padding do carrossel para alinhamento */
+    width: 100%;
+    max-width: 100vw;
+    margin-bottom: 2em;
+}
+
+/* A Lista de Itens - Usa Grid em vez de Flex e permite quebra de linha */
+.grid-list {
+    /* Remove as propriedades de rolagem e transição */
+    margin: 0;
+    padding: 0 1rem;
+    list-style: none;
+    
+    /* Configuração principal do Grid */
+    display: grid;
+    
+    /* Define as colunas do Grid para auto-ajuste e responsividade */
+    /* Cria colunas que tenham no mínimo 180px e no máximo 1fr (distribuição igual) */
+    grid-template-columns: repeat(auto-fit, minmax(11.25rem, 1fr));
+    
+    /* Espaçamento entre os itens (gap) */
+    gap: 1.5rem; 
+    
+    /* Garante que o grid-list ocupe 100% da largura do container */
+    width: 100%;
+    justify-content: center; /* Centraliza os itens na linha */
+}
+
+/* Estilo de cada item do Grid */
+/* Usamos a mesma definição de tamanho do carousel-item para manter a estética */
+.grid-list .carousel-item {
+    /* Remove margem lateral, agora controlada pelo 'gap' */
+    margin: 0; 
+    
+    /* Mantém as dimensões de 180px x 270px */
+    width: 100%; /* Ajusta a largura para preencher a coluna do Grid */
+    height: 16.875rem; 
+    
+    /* Remove a transformação 'active' específica do carrossel */
+    transform: none;
+}
+
+/* Adaptação de Responsividade */
+@media (max-width: 600px) {
+    /* Em telas pequenas, podemos reduzir o tamanho mínimo do item
+       para caber mais na linha */
+    .grid-list {
+        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); /* 144px */
+        gap: 1rem;
+    }
+}
