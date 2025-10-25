@@ -1,11 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR"> <head>
     <meta charset="UTF-8">
-    <title>Reset Password</title>
+    <title>Recover Password</title>
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/Header.css">
 </head>
 <body>
+ <header>
+    <div id="logo-separator">
+        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
+    </div>
 
+    <span class="header_icon"><h5>Home</h5></span>
+    <span class="header_icon"><h5>Movies</h5></span>
+    <span class="header_icon"><h5>Series</h5></span>
+
+    <div id="top-corner">
+
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button type="submit" id="search-btn">
+            </button>
+        </form>
+
+        <div class="profile-container">
+            <div class="profile-icon">
+                <img src="../Imagens/image 8.png" alt="Profile">
+            </div>
+
+            <div class="dropdown-menu">
+                <div class="menu-content">
+                    <div class="section section-account">
+                        <h3>Account</h3>
+                        <ul>
+                            <li class="active-item"><a href="html/Login.html">Sign in</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Account & Settings</a></li>
+                            <li><a href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                    <div class="section section-profiles">
+                        <h3>PROFILES</h3>
+                        <ul>
+                            <li>
+                                <img src="../imagens/image 8.png" alt="Avatar">
+                                <span>Gabriel</span>
+                            </li>
+                        </ul>
+                        <div class="profile-actions">
+                            <div id="flex-more">
+                                <img src="../imagens/mais.png" alt=""><a href="#">Add new profile</a>
+                            </div>
+                            <a href="#">Edit profiles</a>
+                            <a href="#">Learn more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <span class="header_icon">
+        <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
+    </span>
+</header>
     <div id="container">
         <form class="login-form" id="resetForm">
             <h2>Reset Password</h2>
