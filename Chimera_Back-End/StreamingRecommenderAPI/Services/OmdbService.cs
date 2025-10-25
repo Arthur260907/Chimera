@@ -5,6 +5,7 @@ using StreamingRecommenderAPI.Repositories;
 using System.Text.Json;
 using Stj = System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using StreamingRecommenderAPI.Data;
 
 
 namespace StreamingRecommenderAPI.Services
@@ -14,12 +15,14 @@ namespace StreamingRecommenderAPI.Services
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly string _baseUrl;
+        private readonly ApplicationDbContext _dbContext;
 
-        public OmdbService(HttpClient httpClient, IConfiguration configuration)
+        public OmdbService(HttpClient httpClient, IConfiguration configuration, ApplicationDbContext dbContext)
         {
             _httpClient = httpClient;
             _apiKey = configuration["ApiKeys:Omdb"];
             _baseUrl = configuration["ApiUrls:Omdb"] ?? "https://www.omdbapi.com/";
+            _dbContext = dbContext;
         }
 
         public async Task<OmdbMovie> GetMovieByTitleAsync(string title)
@@ -75,6 +78,9 @@ namespace StreamingRecommenderAPI.Services
                     };
                 }
 
+                // Salva/atualiza no banco de dados
+                await SaveMovieToDbAsync(movie);
+
                 return movie;
             }
             catch (Exception ex)
@@ -119,11 +125,19 @@ namespace StreamingRecommenderAPI.Services
 
                 var movie = Stj.JsonSerializer.Deserialize<OmdbMovie>(jsonResponse, options);
 
-                return movie ?? new OmdbMovie
+                if (movie == null)
                 {
-                    Response = "False",
-                    Error = "Falha na deserialização"
-                };
+                    return new OmdbMovie
+                    {
+                        Response = "False",
+                        Error = "Falha na deserialização"
+                    };
+                }
+
+                // Salva/atualiza no banco de dados
+                await SaveMovieToDbAsync(movie);
+
+                return movie;
             }
             catch (Exception ex)
             {
@@ -164,6 +178,15 @@ namespace StreamingRecommenderAPI.Services
                     return new OmdbSearchResult { Search = new List<OmdbMovie>(), totalResults = "0", Response = "False", Error = searchResult.Error }; // Retorna resultado vazio com erro
                 }
 
+                // Salva os itens retornados (se houver) no banco de dados
+                if (searchResult?.Search != null)
+                {
+                    foreach (var item in searchResult.Search)
+                    {
+                        // Salva/atualiza cada item
+                        await SaveMovieToDbAsync(item);
+                    }
+                }
 
                 return searchResult;
             }
@@ -198,6 +221,53 @@ namespace StreamingRecommenderAPI.Services
             public string? totalResults { get; set; }
             public string Response { get; set; } = "False"; // Default para False
             public string? Error { get; set; } // Para capturar mensagens de erro da API
+        }
+
+        // Helper para inserir/atualizar filmes no banco
+        private async Task SaveMovieToDbAsync(OmdbMovie movie)
+        {
+            if (movie == null || string.IsNullOrEmpty(movie.ImdbID))
+                return;
+
+            try
+            {
+                var existing = await _dbContext.Filmes.FindAsync(movie.ImdbID);
+                if (existing == null)
+                {
+                    // Insere novo registro
+                    await _dbContext.Filmes.AddAsync(movie);
+                }
+                else
+                {
+                    // Atualiza campos relevantes
+                    existing.Title = movie.Title ?? existing.Title;
+                    existing.Year = movie.Year ?? existing.Year;
+                    existing.Rated = movie.Rated ?? existing.Rated;
+                    existing.Released = movie.Released ?? existing.Released;
+                    existing.Runtime = movie.Runtime ?? existing.Runtime;
+                    existing.Genre = movie.Genre ?? existing.Genre;
+                    existing.Director = movie.Director ?? existing.Director;
+                    existing.Writer = movie.Writer ?? existing.Writer;
+                    existing.Actors = movie.Actors ?? existing.Actors;
+                    existing.Plot = movie.Plot ?? existing.Plot;
+                    existing.Language = movie.Language ?? existing.Language;
+                    existing.Country = movie.Country ?? existing.Country;
+                    existing.Awards = movie.Awards ?? existing.Awards;
+                    existing.Poster = movie.Poster ?? existing.Poster;
+                    existing.ImdbRating = movie.ImdbRating ?? existing.ImdbRating;
+                    existing.Type = movie.Type ?? existing.Type;
+                    existing.Response = movie.Response ?? existing.Response;
+                    existing.Error = movie.Error ?? existing.Error;
+
+                    _dbContext.Filmes.Update(existing);
+                }
+
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao salvar filme no banco: {ex.Message}");
+            }
         }
     }
 }

@@ -14,9 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // 2. Adiciona o DbContext ao contêiner de serviços
-//    Aqui estamos usando InMemory database para desenvolvimento
+//    Agora usando MySQL via Pomelo.EntityFrameworkCore.MySql
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("ChimeraDB"));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // --- FIM DA CONFIGURAÇÃO DO DBCONTEXT ---
 
