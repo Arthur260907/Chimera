@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../css/cadastro.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/Header.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Causten&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <div id="logo-separator">
-        <img id="logo" src="Imagens/image0_large.png" alt="Logo">
+        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
     </div>
 
     <span class="header_icon"><a href="index.html"><h5>Home</h5></a></span>
@@ -24,16 +27,14 @@
     <div id="top-corner">
 
         <form id="search-form" action="html/pesquisa.html" method="GET">
-    
-    <input type="text" id="search-input" name="q" placeholder="Search...">
-    
-    <button type="submit" id="search-btn">
-        </button>
-</form>
+            <input type="text" id="search-input" name="q" placeholder="Search...">
+            <button type="submit" id="search-btn">
+            </button>
+        </form>
 
         <div class="profile-container">
             <div class="profile-icon">
-                <img src="Imagens/image 8.png" alt="Profile">
+                <img src="../Imagens/image 8.png" alt="Profile">
             </div>
 
             <div class="dropdown-menu">
@@ -49,7 +50,7 @@
                         <h3>PROFILES</h3>
                         <ul>
                             <li>
-                                <img src="imagens/image 8.png" alt="Avatar">
+                                <img src="../imagens/image 8.png" alt="Avatar">
                                 <span>Gabriel</span>
                             </li>
                         </ul>
@@ -64,11 +65,13 @@
 
     </div>
     <span class="header_icon">
-        <img src="Imagens/bell-svgrepo-com 1.png" alt="Notifications">
+        <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
     </span>
 </header>
+  
   <main id="container">
-    <form class="signup-form">
+    
+    <form class="login-form">
         <h2>Create your account:</h2>
 
         <div class="input-group">
@@ -95,7 +98,7 @@
             <button type="submit" class="btn-submit">Sign Up</button>
         </div>
         
-        <div class="login-link">
+        <div class="register-link" id="register-link">
             <p>Already have an account? <a href="Login.html">Sign in</a></p>
         </div>
     </form>

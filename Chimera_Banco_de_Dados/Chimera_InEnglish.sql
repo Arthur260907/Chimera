@@ -1,4 +1,4 @@
-
+Create database chimera;
 use chimera;
 
 create table streamings (
