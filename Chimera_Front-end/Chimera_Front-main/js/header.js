@@ -10,27 +10,35 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateHeaderUI() {
     const signInLink = document.getElementById('signin-link');
     const signOutLink = document.getElementById('signout-link');
+    // Encontra os elementos LI pais para esconder/mostrar
+    const signInListItem = signInLink ? signInLink.closest('li') : null;
+    const signOutListItem = signOutLink ? signOutLink.closest('li') : null;
     const profileUsernameElement = document.getElementById('profile-username');
     const loggedInUser = getLoggedInUser();
 
-    // Garante que ambos os links estejam visíveis
-    if (signInLink) signInLink.style.display = 'block';
-    if (signOutLink) signOutLink.style.display = 'block';
-
     if (loggedInUser && loggedInUser.username) {
         // Usuário Logado
-        if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username; // Atualiza nome
+        if (signInListItem) signInListItem.style.display = 'none'; // Esconde LI do "Sign in"
+        if (signOutListItem) {
+            signOutListItem.style.display = 'list-item'; // Mostra LI do "Sign out"
 
-        // Adiciona evento ao link de Sign out (se ele existir na página atual)
-        if (signOutLink) {
-            signOutLink.addEventListener('click', (e) => {
-                e.preventDefault(); // Impede a navegação padrão do link
-                logoutUser();
-            });
+            // Garante que o listener só é adicionado uma vez ou é atualizado
+            const currentSignOutLink = document.getElementById('signout-link'); // Pega o link atual
+            if(currentSignOutLink && !currentSignOutLink.dataset.listenerAttached) { // Verifica se já tem listener
+                currentSignOutLink.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    logoutUser();
+                });
+                currentSignOutLink.dataset.listenerAttached = 'true'; // Marca que adicionou listener
+            }
         }
+        if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username; 
+
     } else {
         // Usuário Deslogado
-        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; // Ou texto padrão
+        if (signInListItem) signInListItem.style.display = 'list-item'; // Mostra LI do "Sign in"
+        if (signOutListItem) signOutListItem.style.display = 'none'; // Esconde LI do "Sign out"
+        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; 
     }
 }
 
@@ -57,8 +65,18 @@ function getLoggedInUser() {
 
 function logoutUser() {
     localStorage.removeItem('chimeraUser');
-    // Redireciona para a página de login ou recarrega a página atual
-    window.location.href = 'Login.html'; // Ou window.location.reload();
+    console.log("Usuário deslogado.");
+
+    // Verifica se JÁ está na página de Login para evitar loop
+    // (Considera caminhos que terminam com Login.html ou /Login.html)
+    const currentPath = window.location.pathname;
+    if (!currentPath.endsWith('Login.html') && !currentPath.endsWith('/Login.html')) {
+        // SEMPRE redireciona para o caminho relativo a partir da raiz esperada
+        window.location.href = 'html/Login.html'; 
+    } else {
+        // Se já está na página de login, apenas atualiza a interface
+        updateHeaderUI(); 
+    }
 }
 
 // --- Funcionalidade de Pesquisa do Header ---

@@ -84,72 +84,108 @@
 </div>
     </main>
     
-<script src="../js/script.js"></script> <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const resultsContainer = document.querySelector('.grid-list'); // Container onde os resultados serão exibidos
-            const statusElement = document.getElementById('search-status'); // Crie um <p id="search-status"></p> para feedback
+<script>
+    // Variáveis de escopo mais amplo
+    let resultsContainer;
+    let statusElement;
+    // A função createResultCard será definida pelo apicatalago.js (incluído depois)
 
-            if (!resultsContainer) {
-                console.error("Container de resultados '.grid-list' não encontrado.");
-                if(statusElement) statusElement.textContent = "Erro: Container de resultados não encontrado.";
-                return;
+    // Função para buscar e exibir os resultados
+    async function searchAndDisplay(query) {
+        if (!resultsContainer) {
+            console.error("resultsContainer não encontrado ao tentar buscar.");
+            return;
+        }
+        // Validação básica da query
+        if (!query || query.trim().length === 0) {
+            resultsContainer.innerHTML = '<p>Nenhum termo de pesquisa fornecido.</p>';
+            if (statusElement) statusElement.textContent = "Digite algo na busca.";
+            // Limpa a URL se a query for vazia (opcional)
+            history.pushState(null, '', `pesquisa.html`);
+            return;
+        }
+
+        // Limpa query e atualiza status
+        const trimmedQuery = query.trim();
+        if (statusElement) statusElement.textContent = `Buscando por "${trimmedQuery}"...`;
+        resultsContainer.innerHTML = ''; // Limpa resultados anteriores
+
+        try {
+            // Busca na API
+            // API_BASE_URL vem do header.js (incluído depois)
+            const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(trimmedQuery)}`);
+            if (!response.ok) throw new Error(`Falha ao buscar resultados (Status: ${response.status})`);
+
+            const data = await response.json();
+            console.log("Dados recebidos da API:", data);
+
+            // Exibe os resultados ou mensagem de "não encontrado"
+            if (data && Array.isArray(data) && data.length > 0) {
+                if (statusElement) statusElement.textContent = `Resultados para "${trimmedQuery}":`;
+                data.forEach(item => {
+                    const card = createResultCard(item); // Usa a função global createResultCard (que é createMovieCard)
+                    if (card) {
+                        resultsContainer.appendChild(card);
+                    } else {
+                        console.warn("Card nulo retornado para o item:", item);
+                    }
+                });
+            } else {
+                resultsContainer.innerHTML = `<p>Nenhum resultado encontrado para "${trimmedQuery}".</p>`;
+                if (statusElement) statusElement.textContent = "";
             }
+        } catch (error) {
+            console.error('Erro ao buscar resultados da pesquisa:', error);
+            resultsContainer.innerHTML = `<p>Ocorreu um erro ao buscar os resultados. Verifique o console.</p>`;
+            if (statusElement) statusElement.textContent = "Erro na busca.";
+        }
+    }
 
-            // Pega o parâmetro 'q' da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const query = urlParams.get('q');
+    // Listener principal que roda quando o HTML inicial é carregado
+    document.addEventListener('DOMContentLoaded', () => {
+        // Define as variáveis de container
+        resultsContainer = document.querySelector('.grid-list');
+        statusElement = document.getElementById('search-status'); // Opcional: Para mensagens
 
-            if (!query) {
-                resultsContainer.innerHTML = '<p>Nenhum termo de pesquisa fornecido.</p>';
-                 if(statusElement) statusElement.textContent = "Digite algo na busca.";
-                return;
-            }
+        if (!resultsContainer) {
+            console.error("Container de resultados '.grid-list' não encontrado no DOMContentLoaded.");
+            if(statusElement) statusElement.textContent = "Erro: Container de resultados não encontrado.";
+            return;
+        }
 
-            if(statusElement) statusElement.textContent = `Buscando por "${query}"...`;
-            resultsContainer.innerHTML = ''; // Limpa resultados anteriores
+        // Pega o parâmetro 'q' da URL inicial
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialQuery = urlParams.get('q');
+        const searchInputOnPage = document.getElementById('search-input'); // Pega o input DESTA página
 
-            try {
-                // 1. BUSCAR OS DADOS (DENTRO DO TRY)
-                const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`);
-                if (!response.ok) throw new Error('Falha ao buscar resultados');
+        // Preenche o input com a query inicial (se existir)
+        if(initialQuery && searchInputOnPage) {
+            searchInputOnPage.value = initialQuery;
+        }
 
-                // 2. PROCESSAR A RESPOSTA (DENTRO DO TRY)
-                const data = await response.json();
-                console.log("Dados recebidos da API:", data); // Log para ver os dados
+        // Chama a função de busca com a query inicial
+        // Espera um pouco para garantir que createResultCard de apicatalago.js esteja disponível
+        setTimeout(() => searchAndDisplay(initialQuery), 0);
 
-                // 3. VERIFICAR E EXIBIR OS DADOS (DENTRO DO TRY)
-                if (data && data.length > 0) {
-                    if(statusElement) statusElement.textContent = `Resultados para "${query}":`;
+        // Adiciona listener para o formulário de busca NESTA PÁGINA
+        const searchFormOnPage = document.getElementById('search-form');
 
-                    data.forEach(item => {
-                        console.log("Processando item:", item); // Log antes de criar
-                        const card = createResultCard(item);
-                        console.log("Card criado:", card); // Log depois de criar
+        if (searchFormOnPage && searchInputOnPage) {
+            searchFormOnPage.addEventListener('submit', (e) => {
+                e.preventDefault(); // Previne o envio padrão do FORM
+                e.stopPropagation(); // IMPORTANTE: Impede que o listener do header.js seja executado!
 
-                        if (card) {
-                            console.log("Adicionando card ao container..."); // Log antes de adicionar
-                            resultsContainer.appendChild(card);
-                            console.log("Card adicionado."); // Log depois de adicionar
-                        } else {
-                            console.warn("Card nulo para o item:", item); // Log se o card for nulo
-                        }
-                    });
-                } else {
-                    resultsContainer.innerHTML = `<p>Nenhum resultado encontrado para "${query}".</p>`;
-                    if(statusElement) statusElement.textContent = ""; // Limpa status
-                }
-            } catch (error) { // O CATCH permaneceu igual e está correto
-                console.error('Erro ao buscar resultados da pesquisa:', error);
-                resultsContainer.innerHTML = '<p>Ocorreu um erro ao buscar os resultados.</p>';
-                if(statusElement) statusElement.textContent = "Erro na busca.";
-            }
-        });
-
-        // Função para criar o card na página de resultados (similar ao createMovieCard, ajuste conforme necessário)
-      
-        
-
-    </script>
+                const newQuery = searchInputOnPage.value; // Pega o valor atual do input
+                // Atualiza a URL sem recarregar
+                history.pushState(null, '', `?q=${encodeURIComponent(newQuery.trim())}`);
+                // Chama a função de busca com a nova query
+                searchAndDisplay(newQuery);
+            });
+        } else {
+            console.error("Formulário de busca (#search-form ou #search-input) não encontrado nesta página.");
+        }
+    });
+</script>
     <script src="../js/script.js"></script>
 
 <script src="../js/header.js"></script> 

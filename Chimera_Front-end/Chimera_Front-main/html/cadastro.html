@@ -4,117 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/Header.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Causten&display=swap" rel="stylesheet">
-</head>
+    </head>
 <body>
   <header>
-    <div id="logo-separator">
-        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
-    </div>
-
-    <span class="header_icon"><a href="../index.html"><h5>Home</h5></a></span>
-    <span class="header_icon"><h5>Movies</h5></span>
-    <span class="header_icon"><h5>Series</h5></span>
-
+    <div id="logo-separator"> <img id="logo" src="../Imagens/image0_large.png" alt="Logo"> </div>
+    <span class="header_icon" id="filter-home"><a href="../index.html"><h5>Home</h5></a></span>
+    <span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
+    <span class="header_icon" id="filter-series"><h5>Series</h5></span>
     <div id="top-corner">
-
-        <form id="search-form" action="../html/pesquisa.html" method="GET">
-            <input type="text" id="search-input" name="q" placeholder="Search...">
-            <button type="submit" id="search-btn">
-            </button>
-        </form>
-
+        <form id="search-form" action="pesquisa.html" method="GET"> <input type="text" id="search-input" name="q" placeholder="Search..."> <button type="submit" id="search-btn"></button> </form>
+        <div id="search-suggestions" class="suggestions-dropdown"></div>
         <div class="profile-container">
-            <div class="profile-icon">
-                <img src="../Imagens/image 8.png" alt="Profile">
-            </div>
-
-          <div class="dropdown-menu">
-    <div class="menu-content">
-        <div class="section section-account">
-            <h3>Account</h3>
-            <ul>
-                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
-                <li><a id="signout-link" href="#">Sign out</a></li>
-            </ul>
+            <div class="profile-icon"> <img src="../Imagens/image 8.png" alt="Profile"> </div>
+            <div class="dropdown-menu"> <div class="menu-content"> <div class="section section-account"> <h3>Account</h3> <ul> <li class="active-item"><a id="signin-link" href="Login.html">Sign in</a></li> <li><a id="signout-link" href="#">Sign out</a></li> </ul> </div> <div class="section section-profiles"> <h3>PROFILES</h3> <ul> <li> <img src="../imagens/image 8.png" alt="Avatar"> <span id="profile-username">Visitante</span> </li> </ul> <div class="profile-actions"> <div id="flex-more"></div> </div> </div> </div> </div>
         </div>
-        <div class="section section-profiles">
-            <h3>PROFILES</h3>
-            <ul>
-                <li>
-                    <img src="imagens/image 8.png" alt="Avatar">
-                    <span id="profile-username">Gabriel</span>
-                </li>
-            </ul>
-            
-                        <div class="profile-actions">
-                            <div id="flex-more">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <span class="header_icon">
-        <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-    </span>
+    <span class="header_icon"> <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications"> </span>
 </header>
   
   <main id="container">
-    
-    <form class="login-form">
+    <form class="login-form" id="cadastro-form">
         <h2>Create your account:</h2>
-
         <div class="input-group">
             <input type="text" id="username" name="username" class="input-field" placeholder=" " required>
             <label for="username" class="input-label">Username</label>
         </div>
-
         <div class="input-group">
             <input type="email" id="email" name="email" class="input-field" placeholder=" " required>
             <label for="email" class="input-label">Email</label>
         </div>
-
         <div class="input-group">
             <input type="password" id="password" name="password" class="input-field" placeholder=" " required>
             <label for="password" class="input-label">Create your password</label>
         </div>
-
         <div class="input-group">
             <input type="password" id="confirm-password" name="confirm-password" class="input-field" placeholder=" " required>
             <label for="confirm-password" class="input-label">Confirm your password</label>
         </div>
-        
         <div class="button-group">
             <button type="submit" class="btn-submit">Sign Up</button>
         </div>
-        
+        <p id="cadastro-message" style="margin-top: 1em; height: 1em; color: white;"></p>
         <div class="register-link" id="register-link">
             <p>Already have an account? <a href="Login.html">Sign in</a></p>
         </div>
     </form>
 </main>
 
-    <script src="js/header.js"></script>
-
-    <script src="../js/script.js"></script> <script>
+    <script src="../js/header.js"></script> <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const cadastroForm = document.getElementById('cadastro-form'); // Dê um ID ao seu formulário de cadastro
-            const nomeInput = document.getElementById('nome'); // Input de nome
-            const emailInput = document.getElementById('email'); // Input de email
-            const passwordInput = document.getElementById('senha'); // Input de senha
-            const confirmPasswordInput = document.getElementById('confirmar-senha'); // Input de confirmar senha
-            const messageElement = document.getElementById('cadastro-message'); // Crie um <p id="cadastro-message"></p> para mensagens
+            const cadastroForm = document.getElementById('cadastro-form'); // ID correto do form
+            const nomeInput = document.getElementById('username'); // ID correto do input username/nome
+            const emailInput = document.getElementById('email'); // ID correto
+            const passwordInput = document.getElementById('password'); // ID correto
+            const confirmPasswordInput = document.getElementById('confirm-password'); // ID correto
+            const messageElement = document.getElementById('cadastro-message'); // ID correto
 
             if (cadastroForm) {
                 cadastroForm.addEventListener('submit', async (e) => {
@@ -123,65 +69,49 @@
 
                     const nome = nomeInput.value.trim();
                     const email = emailInput.value.trim();
-                    const password = passwordInput.value; // Não trim() senha
+                    const password = passwordInput.value; 
                     const confirmPassword = confirmPasswordInput.value;
 
+                    // Validações
                     if (!nome || !email || !password || !confirmPassword) {
-                         if (messageElement) { messageElement.textContent = 'Por favor, preencha todos os campos.'; messageElement.style.color = 'red';}
+                         if (messageElement) { messageElement.textContent = 'Por favor, preencha todos os campos.'; messageElement.style.color = 'orange';}
                         return;
                     }
-
                     if (password !== confirmPassword) {
-                         if (messageElement) { messageElement.textContent = 'As senhas não coincidem.'; messageElement.style.color = 'red';}
+                         if (messageElement) { messageElement.textContent = 'As senhas não coincidem.'; messageElement.style.color = 'orange';}
                         return;
                     }
-
-                     // Validação simples de e-mail (pode ser melhorada)
                      if (!/\S+@\S+\.\S+/.test(email)) {
-                         if (messageElement) { messageElement.textContent = 'Por favor, insira um e-mail válido.'; messageElement.style.color = 'red';}
+                         if (messageElement) { messageElement.textContent = 'Por favor, insira um e-mail válido.'; messageElement.style.color = 'orange';}
                          return;
                      }
 
                     try {
-                        const response = await fetch(`${API_BASE_URL}/api/usuarios/cadastro`, {
+                        // API_BASE_URL vem do header.js
+                        const response = await fetch(`${API_BASE_URL}/api/Usuarios/cadastro`, { // Endpoint correto
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            // O backend espera nome, email, senha
-                            body: JSON.stringify({ nome: nome, email: email, senha: password }),
+                            headers: { 'Content-Type': 'application/json', },
+                            // O backend espera Nome, Email, Senha (maiúsculo como na classe C#)
+                            body: JSON.stringify({ Nome: nome, Email: email, Senha: password }), 
                         });
 
-                        if (response.ok) {
+                        if (response.ok || response.status === 201) { 
                              if (messageElement) {
                                 messageElement.textContent = 'Cadastro realizado com sucesso! Redirecionando para login...';
-                                messageElement.style.color = 'green';
+                                messageElement.style.color = 'lightgreen';
                             }
-                            // Redireciona para login após sucesso
                             setTimeout(() => { window.location.href = 'Login.html'; }, 2000);
                         } else {
                             let errorMsg = 'Falha no cadastro.';
-                            try {
-                                const errorData = await response.json();
-                                // O backend retorna { message: "Email já cadastrado" }
-                                if (errorData && errorData.message) {
-                                    errorMsg = errorData.message;
-                                } else if (response.status === 400) {
-                                    errorMsg = "Dados inválidos fornecidos."; // Mensagem genérica para Bad Request
-                                }
-                            } catch (jsonError) {
-                                // Ignora erro ao parsear JSON
-                            }
-                             if (messageElement) { messageElement.textContent = errorMsg; messageElement.style.color = 'red';}
+                            try { const errorData = await response.json(); if (errorData && errorData.message) { errorMsg = errorData.message; } else if (response.status === 400) { errorMsg = "Dados inválidos fornecidos."; } } catch (jsonError) { errorMsg = `Falha no cadastro (Status: ${response.status})`; }
+                             if (messageElement) { messageElement.textContent = errorMsg; messageElement.style.color = 'salmon';}
                         }
                     } catch (error) {
                         console.error('Erro durante o cadastro:', error);
                          if (messageElement) { messageElement.textContent = 'Erro ao conectar com o servidor. Tente novamente.'; messageElement.style.color = 'red';}
                     }
                 });
-            } else {
-                 console.error("Formulário de cadastro não encontrado. Verifique o ID.");
-            }
+            } else { console.error("Formulário de cadastro (#cadastro-form) não encontrado."); }
         });
     </script>
 </body>

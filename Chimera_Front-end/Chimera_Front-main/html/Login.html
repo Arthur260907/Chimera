@@ -6,112 +6,62 @@
     <title>Sign In</title>
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/Header.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-</head>
+    </head>
 <body>
  <header>
-    <div id="logo-separator">
-        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
-    </div>
-
-    <span class="header_icon"><a href="../index.html"><h5>Home</h5></a></span>
-    <span class="header_icon"><h5>Movies</h5></span>
-    <span class="header_icon"><h5>Series</h5></span>
-
+    <div id="logo-separator"> <img id="logo" src="../Imagens/image0_large.png" alt="Logo"> </div>
+    <span class="header_icon" id="filter-home"><a href="../index.html"><h5>Home</h5></a></span>
+    <span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
+    <span class="header_icon" id="filter-series"><h5>Series</h5></span>
     <div id="top-corner">
-
-        <form id="search-form" action="../html/pesquisa.html" method="GET">
-    
-    <input type="text" id="search-input" name="q" placeholder="Search...">
-    
-    <button type="submit" id="search-btn">
-        </button>
-</form>
-
+        <form id="search-form" action="pesquisa.html" method="GET"> <input type="text" id="search-input" name="q" placeholder="Search..."> <button type="submit" id="search-btn"></button> </form>
+        <div id="search-suggestions" class="suggestions-dropdown"></div>
         <div class="profile-container">
-            <div class="profile-icon">
-                <img src="../Imagens/image 8.png" alt="Profile">
-            </div>
-
-           <div class="dropdown-menu">
-    <div class="menu-content">
-        <div class="section section-account">
-            <h3>Account</h3>
-            <ul>
-                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
-                <li><a id="signout-link" href="#">Sign out</a></li>
-            </ul>
+            <div class="profile-icon"> <img src="../Imagens/image 8.png" alt="Profile"> </div>
+            <div class="dropdown-menu"> <div class="menu-content"> <div class="section section-account"> <h3>Account</h3> <ul> <li class="active-item"><a id="signin-link" href="Login.html">Sign in</a></li> <li><a id="signout-link" href="#">Sign out</a></li> </ul> </div> <div class="section section-profiles"> <h3>PROFILES</h3> <ul> <li> <img src="../imagens/image 8.png" alt="Avatar"> <span id="profile-username">Visitante</span> </li> </ul> <div class="profile-actions"> <div id="flex-more"></div> </div> </div> </div> </div>
         </div>
-        <div class="section section-profiles">
-            <h3>PROFILES</h3>
-            <ul>
-                <li>
-                    <img src="imagens/image 8.png" alt="Avatar">
-                    <span id="profile-username">Gabriel</span>
-                </li>
-            </ul>
-            
-                        <div class="profile-actions">
-                            <div id="flex-more">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <span class="header_icon">
-        <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-    </span>
+    <span class="header_icon"> <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications"> </span>
 </header>
 
     <main id="container">
-        <form class="login-form">
+        <form class="login-form" id="login-form">
             <h2>Sign In</h2>
-
             <div class="input-group">
                 <input type="email" id="email" name="email" class="input-field" placeholder=" " required>
                 <label for="email" class="input-label">Email</label>
             </div>
-
             <div class="input-group">
                 <input type="password" id="password" name="password" class="input-field" placeholder=" " required>
                 <label for="password" class="input-label">Password</label>
             </div>
-            
             <div class="forgot-password-link">
                 <a href="recuperar_senha.html">Forgot password</a>
             </div>
-
             <div class="button-group">
                 <button type="submit" class="btn-submit">Sign In</button>
             </div>
-            
+            <p id="login-error" style="color:red; margin-top: 1em; height: 1em;"></p>
             <div class="register-link">
                  <p>Don't have an account? <a href="cadastro.html">Sign up now</a></p>
             </div>
         </form>
     </main> 
 
-    <script src="js/header.js"></script>
-
-    <script src="../js/script.js"></script> <script>
+    <script src="../js/header.js"></script> <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form'); // Assumindo que seu form tem id="login-form"
-            const emailInput = document.getElementById('email'); // Assumindo input de email com id="email"
-            const passwordInput = document.getElementById('senha'); // Assumindo input de senha com id="senha"
-            const errorMessageElement = document.getElementById('login-error'); // Crie um <p id="login-error" style="color:red;"></p> para erros
+            const loginForm = document.getElementById('login-form'); // ID correto
+            const emailInput = document.getElementById('email'); // ID correto
+            const passwordInput = document.getElementById('password'); // ID correto
+            const errorMessageElement = document.getElementById('login-error'); // ID correto
 
             if (loginForm) {
                 loginForm.addEventListener('submit', async (e) => {
-                    e.preventDefault(); // Impede envio padrão
-                    if (errorMessageElement) errorMessageElement.textContent = ''; // Limpa erro anterior
+                    e.preventDefault(); 
+                    if (errorMessageElement) errorMessageElement.textContent = ''; 
 
                     const email = emailInput.value.trim();
-                    const password = passwordInput.value.trim();
+                    const password = passwordInput.value; 
 
                     if (!email || !password) {
                          if (errorMessageElement) errorMessageElement.textContent = 'Por favor, preencha e-mail e senha.';
@@ -119,35 +69,24 @@
                     }
 
                     try {
-                        const response = await fetch(`${API_BASE_URL}/api/usuarios/login`, {
+                        // API_BASE_URL vem do header.js
+                        const response = await fetch(`${API_BASE_URL}/api/Usuarios/login`, { // Endpoint correto
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ email: email, senha: password }), // O backend espera 'email' e 'senha'
+                            headers: { 'Content-Type': 'application/json', },
+                            body: JSON.stringify({ Email: email, Senha: password }), // O backend espera Email e Senha (maiúsculo)
                         });
 
                         if (response.ok) {
-                            const userData = await response.json(); // Espera { username: "...", token: "..." } ou similar
+                            const userData = await response.json(); // Espera { username: "..." }
                             if (userData && userData.username) {
-                                saveLoginData(userData); // Salva no localStorage
+                                saveLoginData(userData); // Salva no localStorage (função do header.js)
                                 window.location.href = '../index.html'; // Redireciona para a home
                             } else {
                                 throw new Error("Resposta de login inválida recebida da API.");
                             }
                         } else {
-                            // Tenta ler a mensagem de erro da API, se houver
                             let errorMsg = 'Falha no login. Verifique suas credenciais.';
-                            try {
-                                const errorData = await response.json();
-                                if(errorData && errorData.message) {
-                                    errorMsg = errorData.message;
-                                } else if (response.status === 401) {
-                                     errorMsg = 'E-mail ou senha inválidos.';
-                                }
-                            } catch(jsonError) {
-                                // Ignora erro ao parsear JSON de erro, usa mensagem padrão
-                            }
+                            try { const errorData = await response.json(); if(errorData && errorData.message) { errorMsg = errorData.message; } else if (response.status === 401) { errorMsg = 'E-mail ou senha inválidos.'; } } catch(jsonError) { errorMsg = `Falha no login (Status: ${response.status})`; }
                              if (errorMessageElement) errorMessageElement.textContent = errorMsg;
                         }
                     } catch (error) {
@@ -155,9 +94,7 @@
                          if (errorMessageElement) errorMessageElement.textContent = 'Erro ao tentar conectar. Tente novamente mais tarde.';
                     }
                 });
-            } else {
-                 console.error("Formulário de login não encontrado. Verifique o ID.");
-            }
+            } else { console.error("Formulário de login (#login-form) não encontrado."); }
         });
     </script>
 </body>
