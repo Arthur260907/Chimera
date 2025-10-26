@@ -3,46 +3,57 @@ using MySql.Data.MySqlClient;
 using Dapper;
 using StreamingRecommenderAPI.Models.User;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration; 
+using System; 
 
 namespace StreamingRecommenderAPI.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly string _connectionString;
+        private readonly string? _connectionString;
 
         public UsuarioRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrEmpty(_connectionString))
+            {
+                throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            }
         }
 
-        public async Task<Usuario> GetByEmailAsync(string email)
+        public async Task<Usuario?> GetByEmailAsync(string email)
         {
             using var conn = new MySqlConnection(_connectionString);
-            return await conn.QueryFirstOrDefaultAsync<Usuario>("SELECT * FROM usuarios WHERE email = @email", new { email });
+            // Assume coluna 'Email'
+            return await conn.QueryFirstOrDefaultAsync<Usuario>("SELECT * FROM usuarios WHERE Email = @email", new { email });
         }
 
-        public async Task<Usuario> GetByTokenAsync(string token)
+        public async Task<Usuario?> GetByTokenAsync(string token)
         {
             using var conn = new MySqlConnection(_connectionString);
-            return await conn.QueryFirstOrDefaultAsync<Usuario>("SELECT * FROM usuarios WHERE token_recuperacao = @token AND token_expira_em > NOW()", new { token });
+            // CORREÇÃO: Usa TokenRecuperacao e TokenExpiraEm (PascalCase)
+            return await conn.QueryFirstOrDefaultAsync<Usuario>("SELECT * FROM usuarios WHERE TokenRecuperacao = @token AND TokenExpiraEm > NOW()", new { token });
         }
 
         public async Task SalvarTokenAsync(string email, string token, DateTime expiraEm)
         {
             using var conn = new MySqlConnection(_connectionString);
-            await conn.ExecuteAsync("UPDATE usuarios SET token_recuperacao = @token, token_expira_em = @expiraEm WHERE email = @email", new { token, expiraEm, email });
+             // CORREÇÃO: Usa TokenRecuperacao e TokenExpiraEm (PascalCase)
+            await conn.ExecuteAsync("UPDATE usuarios SET TokenRecuperacao = @token, TokenExpiraEm = @expiraEm WHERE Email = @email", new { token, expiraEm, email });
         }
 
         public async Task AtualizarSenhaAsync(string token, string novaSenhaHash)
         {
             using var conn = new MySqlConnection(_connectionString);
-            await conn.ExecuteAsync("UPDATE usuarios SET senha = @novaSenhaHash, token_recuperacao = NULL, token_expira_em = NULL WHERE token_recuperacao = @token", new { novaSenhaHash, token });
+            // CORREÇÃO: Usa Senha, TokenRecuperacao e TokenExpiraEm (PascalCase)
+            await conn.ExecuteAsync("UPDATE usuarios SET Senha = @novaSenhaHash, TokenRecuperacao = NULL, TokenExpiraEm = NULL WHERE TokenRecuperacao = @token", new { novaSenhaHash, token });
         }
 
         public async Task CadastrarUsuarioAsync(Usuario usuario)
         {
             using var conn = new MySqlConnection(_connectionString);
-            var sql = "INSERT INTO usuarios (Nome, Email, Senha, Data_Cadastro) VALUES (@Nome, @Email, @Senha, @Data_Cadastro)";
+            // Usa Nome, Email, Senha, Data_Cadastro, Foto_Perfil (PascalCase)
+            var sql = "INSERT INTO usuarios (Nome, Email, Senha, Data_Cadastro, Foto_Perfil) VALUES (@Nome, @Email, @Senha, @Data_Cadastro, @Foto_Perfil)";
             await conn.ExecuteAsync(sql, usuario);
         }
     }

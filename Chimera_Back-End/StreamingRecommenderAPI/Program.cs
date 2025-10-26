@@ -1,60 +1,39 @@
-// Localização: StreamingRecommenderAPI / Program.cs
-
-// Adicione estes usings no topo do arquivo
-using StreamingRecommenderAPI.Services.Interfaces; // Para ISearchService
+// Arquivo: Program.cs
 using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Data;
 using StreamingRecommenderAPI.Repositories;
 using StreamingRecommenderAPI.Services;
-
-
-
-
-
+using StreamingRecommenderAPI.Models; // Para EmailSettings
+using StreamingRecommenderAPI.Services.Interfaces; // Para ISearchService e IEmailService
+using Microsoft.Extensions.Options; // Para IOptions
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- INÍCIO DA CONFIGURAÇÃO DO DBCONTEXT ---
-
-// 1. Pega a string de conexão que vamos adicionar no appsettings.json
+// --- Configuração do DbContext ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// 2. Adiciona o DbContext ao contêiner de serviços
-//    Agora usando MySQL via Pomelo.EntityFrameworkCore.MySql
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-// --- FIM DA CONFIGURAÇÃO DO DBCONTEXT ---
-
-
-// Adicionar serviços ao container.
+// --- Adicionar serviços ao container ---
 builder.Services.AddControllers();
-
-// Serviços para documentação da API (Swagger), muito útil para testes.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Streaming Recommender API",
-        Version = "v1",
-        Description = "API de recomendação de streaming para o projeto Chimera",
-        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-        {
-            Name = "Chimera Team",
-            Email = "contato@chimera.com"
-        }
-    });
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Streaming Recommender API", Version = "v1" });
 });
 
-// Registrar seus serviços e repositórios
+// --- Registrar Repositórios e Serviços ---
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<UsuarioService>();        
-// Registra OmdbService via HttpClientFactory — não é necessário AddScoped adicional
+builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddHttpClient<OmdbService>();
 builder.Services.AddScoped<ISearchService, OmdbSearchService>();
 
-// Adicione isto para permitir requisições do front (dev). Substitua AllowAnyOrigin por WithOrigins("http://127.0.0.1:5500") se souber a origem do five-server.
+// --- Configuração e Registro do EmailService ---
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
+// --- Fim Configuração EmailService ---
+
+// --- Configuração do CORS ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DevAllowAll", policy =>
@@ -67,7 +46,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Aplicar migrações do EF automaticamente ao iniciar a aplicação
+// --- Aplicar Migrações do EF ---
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -80,30 +59,27 @@ using (var scope = app.Services.CreateScope())
     {
         var logger = services.GetService<ILogger<Program>>();
         logger?.LogError(ex, "An error occurred while migrating or initializing the database.");
-        // Não interrompe a inicialização — dependendo do cenário você pode querer rethrow
     }
 }
 
-// Configure the HTTP request pipeline.
+// --- Configurar o HTTP request pipeline ---
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Streaming Recommender API v1");
-        c.RoutePrefix = "swagger"; // Define que o Swagger estará em /swagger
+        c.RoutePrefix = "swagger";
     });
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Comentado para simplificar testes locais com http://
+app.UseRouting(); // Adicionado para garantir a ordem correta
 
-// Habilitar CORS antes dos endpoints
-app.UseCors("DevAllowAll");
+app.UseCors("DevAllowAll"); // CORS deve vir antes de UseAuthorization e MapControllers
 
 app.UseAuthorization();
 
-// Mapeia as rotas definidas nos controllers.
 app.MapControllers();
-
 
 app.Run();
