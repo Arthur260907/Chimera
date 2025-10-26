@@ -1,89 +1,91 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <head>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
-    <title>Recover Password</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/Header.css">
-</head>
+    </head>
 <body>
  <header>
-    <div id="logo-separator">
-        <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
-    </div>
-
-    <span class="header_icon"><a href="../index.html"><h5>Home</h5></a></span>
-    <span class="header_icon"><h5>Movies</h5></span>
-    <span class="header_icon"><h5>Series</h5></span>
-
+    <div id="logo-separator"> <img id="logo" src="../Imagens/image0_large.png" alt="Logo"> </div>
+    <span class="header_icon" id="filter-home"><a href="../index.html"><h5>Home</h5></a></span>
+    <span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
+    <span class="header_icon" id="filter-series"><h5>Series</h5></span>
     <div id="top-corner">
-
-        <form id="search-form" action="../html/pesquisa.html" method="GET">
-    
-    <input type="text" id="search-input" name="q" placeholder="Search...">
-    
-    <button type="submit" id="search-btn">
-        </button>
-</form>
-        
+        <form id="search-form" action="pesquisa.html" method="GET"> <input type="text" id="search-input" name="q" placeholder="Search..."> <button type="submit" id="search-btn"></button> </form>
+        <div id="search-suggestions" class="suggestions-dropdown"></div>
         <div class="profile-container">
-            <div class="profile-icon">
-                <img src="../Imagens/image 8.png" alt="Profile">
-            </div>
-
-          <div class="dropdown-menu">
-    <div class="menu-content">
-        <div class="section section-account">
-            <h3>Account</h3>
-            <ul>
-                <li class="active-item"><a id="signin-link" href="html/Login.html">Sign in</a></li>
-                <li><a id="signout-link" href="#">Sign out</a></li>
-            </ul>
+            <div class="profile-icon"> <img src="../Imagens/image 8.png" alt="Profile"> </div>
+            <div class="dropdown-menu"> <div class="menu-content"> <div class="section section-account"> <h3>Account</h3> <ul> <li class="active-item"><a id="signin-link" href="Login.html">Sign in</a></li> <li><a id="signout-link" href="#">Sign out</a></li> </ul> </div> <div class="section section-profiles"> <h3>PROFILES</h3> <ul> <li> <img src="../imagens/image 8.png" alt="Avatar"> <span id="profile-username">Visitante</span> </li> </ul> <div class="profile-actions"> <div id="flex-more"></div> </div> </div> </div> </div>
         </div>
-        <div class="section section-profiles">
-            <h3>PROFILES</h3>
-            <ul>
-                <li>
-                    <img src="imagens/image 8.png" alt="Avatar">
-                    <span id="profile-username">Gabriel</span>
-                </li>
-            </ul>
-            
-                        <div class="profile-actions">
-                            <div id="flex-more">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <span class="header_icon">
-        <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-    </span>
+    <span class="header_icon"> <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications"> </span>
 </header>
-    <div id="container">
-        <form class="login-form" id="resetForm">
-            <h2>Reset Password</h2>
 
+    <div id="container">
+        <form class="login-form" id="resetForm"> <h2>Reset Password</h2>
             <div class="input-group">
                 <input type="text" name="token" id="token" class="input-field" placeholder=" " required>
-                <label for="token" class="input-label">Token received by email</label>
-            </div>
-            
+                <label for="token" class="input-label">Token (from backend console)</label> </div>
             <div class="input-group">
                 <input type="password" name="newPassword" id="newPassword" class="input-field" placeholder=" " required>
                 <label for="newPassword" class="input-label">New password</label>
             </div>
-
             <div class="button-group">
+                 <p id="reset-message" style="margin-bottom: 1em; height: 1em; color: white;"></p>
                 <button type="submit" class="btn-submit">Reset</button>
             </div>
-
         </form>
-    </div> 
+    </div>
 
-    <script src="js/header.js"></script>
+    <script src="../js/header.js"></script> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const resetForm = document.getElementById('resetForm');
+            const tokenInput = document.getElementById('token');
+            const newPasswordInput = document.getElementById('newPassword');
+            const messageElement = document.getElementById('reset-message');
 
+            if (resetForm) {
+                resetForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    if(messageElement) messageElement.textContent = 'Redefinindo...'; // Feedback inicial
+                    messageElement.style.color = 'white';
+
+                    const token = tokenInput.value.trim();
+                    const newPassword = newPasswordInput.value;
+
+                    if (!token || !newPassword) {
+                        if(messageElement) { messageElement.textContent = 'Por favor, preencha o token e a nova senha.'; messageElement.style.color = 'orange'; }
+                        return;
+                    }
+                    if (newPassword.length < 6) { // Validação opcional
+                         if(messageElement) { messageElement.textContent = 'A nova senha deve ter pelo menos 6 caracteres.'; messageElement.style.color = 'orange'; }
+                         return;
+                    }
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/api/Usuarios/redefinir-senha`, { // Endpoint correto
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', },
+                            body: JSON.stringify({ Token: token, NovaSenha: newPassword }), // Usa 'Token' e 'NovaSenha' maiúsculo
+                        });
+
+                        if (response.ok) {
+                            if(messageElement) { messageElement.textContent = 'Senha redefinida com sucesso! Redirecionando para login...'; messageElement.style.color = 'lightgreen'; }
+                            setTimeout(() => { window.location.href = 'Login.html'; }, 2500);
+                        } else {
+                            let errorMsg = 'Falha ao redefinir a senha.';
+                            try { const errorData = await response.json(); if(errorData && errorData.message) { errorMsg = errorData.message; } else if (response.status === 400) { errorMsg = "Token inválido, expirado ou senha inválida."; } } catch (jsonError) { errorMsg = `Falha (Status: ${response.status})`; }
+                            if(messageElement) { messageElement.textContent = errorMsg; messageElement.style.color = 'salmon'; }
+                        }
+                    } catch (error) {
+                        console.error('Erro ao redefinir senha:', error);
+                        if(messageElement) { messageElement.textContent = 'Erro ao conectar com o servidor.'; messageElement.style.color = 'red'; }
+                    }
+                });
+            } else { console.error("Formulário de redefinição (#resetForm) não encontrado."); }
+        });
+    </script>
 </body>
 </html>
