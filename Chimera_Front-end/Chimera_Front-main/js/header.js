@@ -13,10 +13,12 @@ function updateHeaderUI() {
     const profileUsernameElement = document.getElementById('profile-username');
     const loggedInUser = getLoggedInUser();
 
+    // Garante que ambos os links estejam visíveis
+    if (signInLink) signInLink.style.display = 'block';
+    if (signOutLink) signOutLink.style.display = 'block';
+
     if (loggedInUser && loggedInUser.username) {
         // Usuário Logado
-        if (signInLink) signInLink.style.display = 'none'; // Esconde "Sign in"
-        if (signOutLink) signOutLink.style.display = 'block'; // Mostra "Sign out"
         if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username; // Atualiza nome
 
         // Adiciona evento ao link de Sign out (se ele existir na página atual)
@@ -28,8 +30,6 @@ function updateHeaderUI() {
         }
     } else {
         // Usuário Deslogado
-        if (signInLink) signInLink.style.display = 'block'; // Mostra "Sign in"
-        if (signOutLink) signOutLink.style.display = 'none'; // Esconde "Sign out"
         if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; // Ou texto padrão
     }
 }

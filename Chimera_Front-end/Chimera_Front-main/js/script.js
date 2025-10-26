@@ -68,17 +68,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevBtn = resetButton('prevBtn');
     const nextBtn = resetButton('nextBtn');
 
-    const items = carouselSlide.querySelectorAll('.carousel-item');
-    const images = carouselSlide.querySelectorAll('.carousel-item img');
+    const items = carouselSlide.querySelectorAll('.carousel-item.main');
     if (items.length === 0) return;
 
-    // largura visível do container (viewport do carrossel)
+    // Para o carrossel principal, cada item ocupa 100% da largura
     const visibleWidth = carouselSlide.parentElement ? carouselSlide.parentElement.clientWidth : carouselSlide.clientWidth;
-    const itemWidth = images[0] && images[0].clientWidth ? images[0].clientWidth : Math.floor(visibleWidth / 4);
-
-    // quantos itens cabem por "página"
-    const itemsPerSlide = Math.max(1, Math.floor(visibleWidth / itemWidth));
-    const slideCount = Math.max(1, Math.ceil(items.length / itemsPerSlide));
+    const itemsPerSlide = 1; // Um item por vez no carrossel principal
+    const slideCount = items.length; // Total de slides
 
     mainState.itemsPerSlide = itemsPerSlide;
     mainState.slideWidth = visibleWidth;
@@ -92,8 +88,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function goTo(index) {
       if (slideCount === 0) return;
-      const clamped = Math.max(0, Math.min(mainState.maxIndex, index));
-      mainState.counter = clamped;
+      
+      // Loop infinito: volta ao início ou final
+      let newIndex = index;
+      if (index < 0) {
+        newIndex = mainState.maxIndex;
+      } else if (index > mainState.maxIndex) {
+        newIndex = 0;
+      }
+      
+      mainState.counter = newIndex;
       const translateX = -mainState.counter * mainState.slideWidth;
       carouselSlide.style.transform = 'translateX(' + translateX + 'px)';
       updateDots(dots, mainState.counter);
@@ -109,30 +113,21 @@ document.addEventListener('DOMContentLoaded', function () {
       goTo(idx);
     }));
 
-    // recompute width on resize / when images load
+    // recompute width on resize
     function recompute() {
       const newVisible = carouselSlide.parentElement ? carouselSlide.parentElement.clientWidth : carouselSlide.clientWidth;
-      const newItemWidth = carouselSlide.querySelector('.carousel-item img') ? carouselSlide.querySelector('.carousel-item img').clientWidth : Math.floor(newVisible / 4);
-      const newItemsPerSlide = Math.max(1, Math.floor(newVisible / (newItemWidth || Math.floor(newVisible / 4))));
-      const newSlideCount = Math.max(1, Math.ceil(items.length / newItemsPerSlide));
-      mainState.itemsPerSlide = newItemsPerSlide;
       mainState.slideWidth = newVisible;
-      mainState.maxIndex = newSlideCount - 1;
       // reajusta counter se necessário
       if (mainState.counter > mainState.maxIndex) mainState.counter = mainState.maxIndex;
       carouselSlide.style.transform = 'translateX(' + (-mainState.counter * mainState.slideWidth) + 'px)';
-      // recria dots
-      createDots(newSlideCount);
-      updateDots(document.querySelectorAll('.carousel-dots .dot'), mainState.counter);
     }
     window.addEventListener('resize', recompute);
-    images.forEach(img => img.addEventListener('load', recompute));
 
     mainState.initialized = true;
   }
 
   //
-  // --- ESTA É A FUNÇÃO QUE FOI CORRIGIDA ---
+  // --- FUNÇÃO MODIFICADA PARA NAVEGAÇÃO COM TRANSFORM E LOOP ---
   //
   function initMultiCarousels() {
     const multiCarousels = document.querySelectorAll('.multi-carousel-container');
@@ -141,60 +136,61 @@ document.addEventListener('DOMContentLoaded', function () {
       const carouselList = multiCarousel.querySelector('.carousel-list');
       if (!carouselList) return;
 
-      // --- INÍCIO DA LÓGICA DE BOTÕES ADICIONADA ---
       const prevBtn = multiCarousel.querySelector('.multi-carousel-btn.prev');
       const nextBtn = multiCarousel.querySelector('.multi-carousel-btn.next');
-
-      if (prevBtn && nextBtn) {
-          prevBtn.addEventListener('click', () => {
-              // Rola 80% da largura visível do carrossel para a esquerda
-              const scrollAmount = carouselList.clientWidth * 0.8; 
-              carouselList.scrollBy({
-                  left: -scrollAmount,
-                  behavior: 'smooth'
-              });
-          });
-
-          nextBtn.addEventListener('click', () => {
-              // Rola 80% da largura visível do carrossel para a direita
-              const scrollAmount = carouselList.clientWidth * 0.8;
-              carouselList.scrollBy({
-                  left: scrollAmount,
-                  behavior: 'smooth'
-              });
-          });
-      }
-      // --- FIM DA LÓGICA DE BOTÕES ADICIONADA ---
-
       const items = carouselList.querySelectorAll('.carousel-item');
       if (!items.length) return;
 
-      // limitar a quantidade exibida (por exemplo 12)
+      // Limitar itens exibidos
       const maxItems = 12;
       if (items.length > maxItems) {
-        // remove extras
         for (let i = items.length - 1; i >= maxItems; i--) {
           const el = items[i];
           if (el && el.parentNode) el.parentNode.removeChild(el);
         }
       }
 
-      const newItems = carouselList.querySelectorAll('.carousel-item');
-      // garantir listeners limpos clonando
-      newItems.forEach((item, idx) => {
-        const clone = item.cloneNode(true);
-        item.parentNode.replaceChild(clone, item);
-      });
-
       const finalItems = carouselList.querySelectorAll('.carousel-item');
-      finalItems.forEach((item, idx) => {
-        item.addEventListener('click', () => {
-          item.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      if (!finalItems.length) return;
+
+      // Estado do carrossel
+      let currentPosition = 0;
+      const itemWidth = finalItems[0].offsetWidth + parseFloat(getComputedStyle(finalItems[0]).marginLeft) + parseFloat(getComputedStyle(finalItems[0]).marginRight);
+      const visibleWidth = carouselList.parentElement.clientWidth;
+      const itemsPerView = Math.floor(visibleWidth / itemWidth);
+      const totalItems = finalItems.length;
+
+      carouselList.style.transform = 'translateX(0px)';
+
+      function updatePosition() {
+        const translateX = -currentPosition * itemWidth;
+        carouselList.style.transform = `translateX(${translateX}px)`;
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          // Loop: volta ao final se estiver no início
+          currentPosition = currentPosition - itemsPerView;
+          if (currentPosition < 0) {
+            currentPosition = Math.max(0, totalItems - itemsPerView);
+          }
+          updatePosition();
         });
-      });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          // Loop: volta ao início se chegar ao final
+          currentPosition = currentPosition + itemsPerView;
+          if (currentPosition >= totalItems) {
+            currentPosition = 0;
+          }
+          updatePosition();
+        });
+      }
     });
   }
-  // --- FIM DA FUNÇÃO CORRIGIDA ---
+  // --- FIM DA FUNÇÃO MODIFICADA ---
 
 
   // handler executado quando apicatalago.js terminar de inserir imagens e carregar

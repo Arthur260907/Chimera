@@ -3,8 +3,8 @@
 // const API_BASE_URL = 'https://localhost:7196'; // Remova se já estiver em script.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadMainCarousel(); // Chama o carregamento do carrossel principal primeiro
     loadAllCategories();
-    loadMainCarousel(); // Chama o carregamento do carrossel principal
     setupFilterLinks();
 });
 
@@ -154,12 +154,16 @@ async function loadMainCarousel() {
              mainCarousel.innerHTML = '<p>Nenhum item encontrado para o carrossel principal.</p>';
         }
 
-        // Você pode disparar um evento aqui para inicializar o slider/carrossel JS se necessário
-        document.dispatchEvent(new CustomEvent('mainCarousel:loaded'));
+        // Dispara evento para inicializar o carrossel
+        window.__CHIMERA_MOVIES = true;
+        document.dispatchEvent(new Event('catalog:loaded'));
 
     } catch (error) {
         console.error('Falha ao carregar carrossel principal:', error);
         mainCarousel.innerHTML = '<p>Erro ao carregar itens principais.</p>';
+        // Dispara evento mesmo com erro para não bloquear
+        window.__CHIMERA_MOVIES = true;
+        document.dispatchEvent(new Event('catalog:loaded'));
     }
 }
 
@@ -170,7 +174,7 @@ async function loadMainCarousel() {
  * @returns {HTMLElement|null} O elemento div do carrossel principal.
  */
 function createMainCarouselCard(item) {
-    if (!item || !item.imdbId) return null;
+    if (!item || !item.imdbID) return null;
 
     const wrapper = document.createElement('div');
     wrapper.className = 'carousel-item main'; // Classe esperada
@@ -179,9 +183,28 @@ function createMainCarouselCard(item) {
     anchor.href = `html/filmeSerie.html?id=${item.imdbID}`;
 
     const img = document.createElement('img');
-    img.src = (item.Poster && item.Poster !== 'N/A') ? item.Poster : '../imagens/image_placeholder.png';
+    // Obter versão de máxima qualidade da imagem
+    let posterUrl = item.Poster;
+    if (posterUrl && posterUrl !== 'N/A') {
+        // Remover todas as restrições de tamanho para obter imagem original em máxima resolução
+        posterUrl = posterUrl
+            .replace(/SX\d+/g, 'SX2000')  // Aumentar largura para 2000px
+            .replace(/SY\d+/g, 'SY2000')  // Aumentar altura para 2000px
+            .replace(/_V1_.*?\.(jpg|png)/i, '_V1_UX2000_CR0,0,2000,3000_AL_.$1')  // Forçar dimensões máximas
+            .replace(/_UX\d+/g, '_UX2000')  // Máxima largura
+            .replace(/_UY\d+/g, '_UY3000'); // Máxima altura
+    } else {
+        posterUrl = '../imagens/image_placeholder.png';
+    }
+    
+    img.src = posterUrl;
     img.alt = item.Title;
-    img.loading = 'lazy'; 
+    // Eager loading para carrossel principal (carrega imediatamente com prioridade)
+    img.loading = 'eager';
+    img.fetchPriority = 'high'; // Prioridade alta para carregamento
+    // Propriedades para máxima qualidade
+    img.decoding = 'sync'; // Decodificação síncrona para qualidade
+    img.style.imageRendering = 'high-quality';
 
     anchor.appendChild(img);
     wrapper.appendChild(anchor);
