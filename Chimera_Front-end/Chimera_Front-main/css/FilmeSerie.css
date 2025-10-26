@@ -52,18 +52,6 @@ body {
     text-align: left;
 }
 
-/* Alterado de .botao-reproduzir */
-.play-button {
-    background-color: #f0f0f0;
-    color: #121212;
-}
-
-/* Alterado de .botao-baixar */
-.download-button {
-    background-color: #333333;
-    color: #e0e0e0;
-}
-
 /* Alterado de .icones-acao */
 .action-icons {
     display: flex;
