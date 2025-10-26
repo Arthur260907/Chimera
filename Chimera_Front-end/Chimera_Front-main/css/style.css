@@ -13,6 +13,18 @@ body {
     background-attachment: fixed;
     color: #fff;
     font-family: "Inter", sans-serif;
+    /* Remover scrollbar */
+    overflow-x: hidden;
+}
+
+/* Remover scrollbar do html e body em todos os navegadores */
+html {
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 #icon-line {

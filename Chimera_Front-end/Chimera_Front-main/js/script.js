@@ -131,18 +131,28 @@ document.addEventListener('DOMContentLoaded', function () {
   //
   function initMultiCarousels() {
     const multiCarousels = document.querySelectorAll('.multi-carousel-container');
+    console.log('Inicializando', multiCarousels.length, 'carrosséis');
     
-    multiCarousels.forEach(multiCarousel => {
+    multiCarousels.forEach((multiCarousel, index) => {
       const carouselList = multiCarousel.querySelector('.carousel-list');
-      if (!carouselList) return;
+      if (!carouselList) {
+        console.warn('Carrossel', index, 'sem .carousel-list');
+        return;
+      }
 
       const prevBtn = multiCarousel.querySelector('.multi-carousel-btn.prev');
       const nextBtn = multiCarousel.querySelector('.multi-carousel-btn.next');
       const items = carouselList.querySelectorAll('.carousel-item');
-      if (!items.length) return;
+      
+      if (!items.length) {
+        console.warn('Carrossel', index, 'sem itens ainda');
+        return;
+      }
+      
+      console.log('Carrossel', index, 'tem', items.length, 'itens');
 
       // Limitar itens exibidos
-      const maxItems = 12;
+      const maxItems = 100; // Aumentado para 100 itens por carrossel
       if (items.length > maxItems) {
         for (let i = items.length - 1; i >= maxItems; i--) {
           const el = items[i];
@@ -155,20 +165,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Estado do carrossel
       let currentPosition = 0;
-      const itemWidth = finalItems[0].offsetWidth + parseFloat(getComputedStyle(finalItems[0]).marginLeft) + parseFloat(getComputedStyle(finalItems[0]).marginRight);
-      const visibleWidth = carouselList.parentElement.clientWidth;
-      const itemsPerView = Math.floor(visibleWidth / itemWidth);
-      const totalItems = finalItems.length;
+      
+      // Função para calcular dimensões (necessária para recalcular após carregamento)
+      function calculateDimensions() {
+        const itemWidth = finalItems[0].offsetWidth + parseFloat(getComputedStyle(finalItems[0]).marginLeft) + parseFloat(getComputedStyle(finalItems[0]).marginRight);
+        const visibleWidth = carouselList.parentElement.clientWidth;
+        const itemsPerView = Math.max(1, Math.floor(visibleWidth / itemWidth));
+        const totalItems = finalItems.length;
+        return { itemWidth, visibleWidth, itemsPerView, totalItems };
+      }
 
       carouselList.style.transform = 'translateX(0px)';
 
       function updatePosition() {
+        const { itemWidth } = calculateDimensions();
         const translateX = -currentPosition * itemWidth;
         carouselList.style.transform = `translateX(${translateX}px)`;
       }
 
       if (prevBtn) {
         prevBtn.addEventListener('click', () => {
+          const { itemsPerView, totalItems } = calculateDimensions();
           // Loop: volta ao final se estiver no início
           currentPosition = currentPosition - itemsPerView;
           if (currentPosition < 0) {
@@ -180,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
+          const { itemsPerView, totalItems } = calculateDimensions();
           // Loop: volta ao início se chegar ao final
           currentPosition = currentPosition + itemsPerView;
           if (currentPosition >= totalItems) {
@@ -195,8 +213,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // handler executado quando apicatalago.js terminar de inserir imagens e carregar
   document.addEventListener('catalog:loaded', () => {
-    initMainCarousel();
-    initMultiCarousels();
+    // Delay para garantir que as imagens foram renderizadas
+    setTimeout(() => {
+      initMainCarousel();
+      initMultiCarousels();
+    }, 300); // Aumentado para 300ms
   });
 
   // se já foi carregado antes, tenta inicializar (caso scripts executados em ordem diferente)

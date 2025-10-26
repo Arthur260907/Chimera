@@ -18,7 +18,8 @@ async function fetchAndPopulateCategory(query, containerElement, clearContainer 
     if (!containerElement) return;
 
     const currentFilter = sessionStorage.getItem('mediaFilter'); // Pega o filtro atual ('movie', 'series' ou null)
-    let searchUrl = `${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`;
+    // Aumenta count para 100 para ter mais resultados
+    let searchUrl = `${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}&count=100`; // Solicita até 100 itens
 
     if (currentFilter) {
         searchUrl += `&type=${currentFilter}`; // Adiciona o filtro de tipo se existir
@@ -76,9 +77,20 @@ if (!item || !item.imdbID) return null; // Validação básica
 
     const img = document.createElement('img');
     // Usa o pôster da API. Se não tiver, pode usar uma imagem padrão.
-    img.src = (item.Poster && item.Poster !== 'N/A') ? item.Poster : '../imagens/image_placeholder.png'; // Crie uma imagem placeholder
+    if (item.Poster && item.Poster !== 'N/A') {
+        img.src = item.Poster;
+    } else {
+        // Se não tiver poster, usa placeholder
+        img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="180" height="270"%3E%3Crect fill="%23333" width="180" height="270"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="16"%3ENo Image%3C/text%3E%3C/svg%3E';
+    }
     img.alt = item.Title;
     img.loading = 'lazy'; // Adiciona carregamento lazy
+    
+    // Tratamento de erro de carregamento
+    img.onerror = function() {
+        this.onerror = null; // Previne loop infinito
+        this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="180" height="270"%3E%3Crect fill="%23333" width="180" height="270"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="16"%3ENo Image%3C/text%3E%3C/svg%3E';
+    };
 
     figure.appendChild(img);
     anchor.appendChild(figure);
@@ -205,6 +217,17 @@ function createMainCarouselCard(item) {
     // Propriedades para máxima qualidade
     img.decoding = 'sync'; // Decodificação síncrona para qualidade
     img.style.imageRendering = 'high-quality';
+    
+    // Tratamento de erro de carregamento
+    img.onerror = function() {
+        this.onerror = null;
+        // Tenta URL alternativa sem modificações
+        if (item.Poster && item.Poster !== 'N/A' && this.src !== item.Poster) {
+            this.src = item.Poster;
+        } else {
+            this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080"%3E%3Crect fill="%23111" width="1920" height="1080"/%3E%3Ctext fill="%23666" x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="48"%3EImage Not Available%3C/text%3E%3C/svg%3E';
+        }
+    };
 
     anchor.appendChild(img);
     wrapper.appendChild(anchor);

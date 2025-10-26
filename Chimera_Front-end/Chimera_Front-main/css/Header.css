@@ -6,6 +6,17 @@
     padding: 0;
 }
 
+/* Remover scrollbar horizontal */
+html, body {
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 a {
     /* Define a cor do texto do link para branco */
     text-decoration: none; /* Remove o sublinhado */
