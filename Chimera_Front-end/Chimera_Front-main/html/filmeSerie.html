@@ -57,6 +57,7 @@
     <div class="container" id="movie-details-container">
         <div class="left-column">
             <img id="movie-poster" src="../imagens/image_placeholder.png" alt="Poster Loading..." style="width: 100%; max-width: 300px; height: auto; border-radius: 8px; margin-bottom: 1em; background-color: #111;">
+
             <div class="action-icons">
                 <i class="fa-solid fa-plus"></i>
                 <i class="fa-solid fa-thumbs-up"></i>
@@ -105,7 +106,7 @@
     <script> const API_BASE_URL = 'http://localhost:5012'; // AJUSTE A PORTA SE NECESSÁRIO! </script>
     <script src="../js/header.js"></script>
     <script>
-        // --- CÓDIGO JAVASCRIPT CORRIGIDO ---
+        // --- CÓDIGO JAVASCRIPT CORRIGIDO (ENDPOINT E camelCase) ---
          document.addEventListener('DOMContentLoaded', async () => {
              const urlParams = new URLSearchParams(window.location.search);
              const imdbId = urlParams.get('id');
@@ -120,14 +121,13 @@
              if(statusElement) statusElement.textContent = "Carregando detalhes...";
 
              try {
-                 // *** CORREÇÃO 1: Endpoint correto ***
+                 // Endpoint correto que retorna o DTO
                  const response = await fetch(`${API_BASE_URL}/api/movies/byId/${imdbId}`); // Usa 'byId'
 
                  if (!response.ok) {
                      let errorMsg = `Falha ao buscar detalhes (Status: ${response.status})`;
                      try {
                           const errorData = await response.json();
-                          // Ajuste para pegar a mensagem de erro correta do seu backend
                           if(errorData) errorMsg = errorData.title || errorData.detail || errorData.message || JSON.stringify(errorData);
                      } catch(e) { /* Ignora */ }
                      throw new Error(errorMsg);
@@ -135,14 +135,12 @@
 
                  const data = await response.json(); // 'data' é o MovieDetailDto em JSON (camelCase)
 
-                 // Verifica se o objeto tem um título (propriedade 'title' em camelCase)
+                 // Verifica 'title' (camelCase)
                  if (data && data.title) {
                      if(statusElement) statusElement.textContent = "";
-                     populateMovieDetails(data); // Chama a função com os dados corretos
+                     populateMovieDetails(data);
                      document.title = data.title || "Details";
                  } else {
-                     // Verifica se a OMDB retornou erro (Response com 'F' pode não existir mais no DTO)
-                     // Se não tem título, assume erro
                      throw new Error(data?.error || "Dados recebidos inválidos ou filme não encontrado.");
                  }
              } catch (error) {
@@ -154,7 +152,7 @@
 
           // --- FUNÇÃO populateMovieDetails CORRIGIDA (usa camelCase) ---
           function populateMovieDetails(data) {
-               console.log("Dados recebidos (DTO JSON):", data); // Verifica a estrutura exata
+               console.log("Dados recebidos (DTO JSON):", data);
 
                if (!data || typeof data !== 'object') {
                    console.error("populateMovieDetails recebeu dados inválidos:", data);
@@ -211,6 +209,8 @@
                   if (!hasRatings) {
                        ratingsContainer.innerHTML += '<p style="font-size: 14px; color: #aaa;"><i>Ratings not available.</i></p>';
                   }
+              } else {
+                   console.error("Container '.ratings' não encontrado.");
               }
 
                // Atualiza Pôster (Usa camelCase: bestPosterUrl, originalPosterUrl)
