@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,55 +9,66 @@
     <link rel="stylesheet" href="../css/Header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
     <header>
-         <div id="logo-separator">
-             <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
-         </div>
-         <span class="header_icon" id="filter-home"><a href="../index.html"><h5>Home</h5></a></span>
-         <span class="header_icon" id="filter-movies"><h5>Movies</h5></span>
-         <span class="header_icon" id="filter-series"><h5>Series</h5></span>
-         <div id="top-corner">
-             <form id="search-form" action="/Chimera_Front-end/Chimera_Front-main/html/pesquisa.html" method="GET"> <input type="text" id="search-input" name="q" placeholder="Search...">
-                 <button type="submit" id="search-btn"></button>
-             </form>
-             <div id="search-suggestions" class="suggestions-dropdown"></div>
-             <div class="profile-container">
-                 <div class="profile-icon">
-                     <img src="../Imagens/image 8.png" alt="Profile">
-                 </div>
-                 <div class="dropdown-menu">
-                     <div class="menu-content">
-                         <div class="section section-account">
-                             <h3>Account</h3>
-                             <ul>
-                                 <li class="active-item"><a id="signin-link" href="/Chimera_Front-end/Chimera_Front-main/html/Login.html">Sign in</a></li> <li><a id="signout-link" href="#">Sign out</a></li>
-                             </ul>
-                         </div>
-                         <div class="section section-profiles">
-                             <h3>PROFILES</h3>
-                             <ul>
-                                 <li>
-                                     <img src="../imagens/image 8.png" alt="Avatar">
-                                     <span id="profile-username">Gabriel</span>
-                                 </li>
-                             </ul>
-                             <div class="profile-actions">
-                                 <div id="flex-more"></div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <span class="header_icon">
-             <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
-         </span>
+        <div id="logo-separator">
+            <img id="logo" src="../Imagens/image0_large.png" alt="Logo">
+        </div>
+        <span class="header_icon" id="filter-home"><a href="../index.html">
+                <h5>Home</h5>
+            </a></span>
+        <span class="header_icon" id="filter-movies">
+            <h5>Movies</h5>
+        </span>
+        <span class="header_icon" id="filter-series">
+            <h5>Series</h5>
+        </span>
+        <div id="top-corner">
+            <form id="search-form" action="/Chimera_Front-end/Chimera_Front-main/html/pesquisa.html" method="GET">
+                <input type="text" id="search-input" name="q" placeholder="Search...">
+                <button type="submit" id="search-btn"></button>
+            </form>
+            <div id="search-suggestions" class="suggestions-dropdown"></div>
+            <div class="profile-container">
+                <div class="profile-icon">
+                    <img src="../Imagens/image 8.png" alt="Profile">
+                </div>
+                <div class="dropdown-menu">
+                    <div class="menu-content">
+                        <div class="section section-account">
+                            <h3>Account</h3>
+                            <ul>
+                                <li class="active-item"><a id="signin-link"
+                                        href="/Chimera_Front-end/Chimera_Front-main/html/Login.html">Sign in</a></li>
+                                <li><a id="signout-link" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                        <div class="section section-profiles">
+                            <h3>PROFILES</h3>
+                            <ul>
+                                <li>
+                                    <img src="../imagens/image 8.png" alt="Avatar">
+                                    <span id="profile-username">Gabriel</span>
+                                </li>
+                            </ul>
+                            <div class="profile-actions">
+                                <div id="flex-more"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="header_icon">
+            <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications">
+        </span>
     </header>
 
     <div class="container" id="movie-details-container">
         <div class="left-column">
-            <img id="movie-poster" src="../imagens/image_placeholder.png" alt="Poster Loading..." style="width: 100%; max-width: 300px; height: auto; border-radius: 8px; margin-bottom: 1em; background-color: #111;">
+            <img id="movie-poster" src="../imagens/image_placeholder.png" alt="Poster Loading..."
+                style="width: 100%; max-width: 300px; height: auto; border-radius: 8px; margin-bottom: 1em; background-color: #111;">
 
             <div class="action-icons">
                 <i class="fa-solid fa-plus"></i>
@@ -71,34 +83,39 @@
                 <h3>Synopsis</h3>
                 <p id="movie-plot">Loading plot...</p>
                 <p><strong>Genre:</strong> <span id="movie-genre">N/A</span></p>
-                 <p><strong>Actors:</strong> <span id="movie-actors">N/A</span></p>
-                 <p><strong>Runtime:</strong> <span id="movie-runtime">N/A</span></p>
+                <p><strong>Actors:</strong> <span id="movie-actors">N/A</span></p>
+                <p><strong>Runtime:</strong> <span id="movie-runtime">N/A</span></p>
             </div>
         </div>
 
         <div class="right-column">
-             <div class="video-player">
-                 <p><i>Trailer:</i></p>
-                 <iframe
-                     width="560"
-                     height="315"
-                     src="" title="YouTube video player"
-                     frameborder="0"
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                     allowfullscreen
-                     style="display: none; background-color: #000;"> </iframe>
-             </div>
-             <div class="reviews-container">
-                 <div class="user-reviews">
-                     <h3>Reviews (Static Example)</h3>
-                     <p style="font-size: 14px; color: #aaa;"><i>User reviews coming soon.</i></p>
-                  </div>
-                  <div class="ratings">
-                       <h3>Ratings</h3>
-                       <p style="font-size: 14px; color: #aaa;"><i>Loading ratings...</i></p>
-                  </div>
-             </div>
-          </div>
+            <div class="video-player">
+                <p><i>Trailer:</i></p>
+                <iframe width="560" height="315" src="" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen style="display: none; background-color: #000;"> </iframe>
+            </div>
+
+            <div class="related-search">
+                <form>
+                    <input type="text" name="comment" placeholder="Escreva seu comentário aqui..." required>
+                    <button type="button" aria-label="Comentar">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="reviews-container">
+                <div class="user-reviews">
+                    <h3>Reviews (Static Example)</h3>
+                    <p style="font-size: 14px; color: #aaa;"><i>User reviews coming soon.</i></p>
+                </div>
+                <div class="ratings">
+                    <h3>Ratings</h3>
+                    <p style="font-size: 14px; color: #aaa;"><i>Loading ratings...</i></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <p id="details-status" style="text-align: center; margin-top: 20px;"></p>
@@ -107,141 +124,142 @@
     <script src="../js/header.js"></script>
     <script>
         // --- CÓDIGO JAVASCRIPT CORRIGIDO (ENDPOINT E camelCase) ---
-         document.addEventListener('DOMContentLoaded', async () => {
-             const urlParams = new URLSearchParams(window.location.search);
-             const imdbId = urlParams.get('id');
-             const detailsContainer = document.getElementById('movie-details-container');
-             const statusElement = document.getElementById('details-status');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const imdbId = urlParams.get('id');
+            const detailsContainer = document.getElementById('movie-details-container');
+            const statusElement = document.getElementById('details-status');
 
-             if (!imdbId) {
-                 if(detailsContainer) detailsContainer.innerHTML = "<h2>ID do filme/série não fornecido.</h2>";
-                 if(statusElement) statusElement.textContent = "Erro: ID não encontrado na URL.";
-                 return;
-             }
-             if(statusElement) statusElement.textContent = "Carregando detalhes...";
+            if (!imdbId) {
+                if (detailsContainer) detailsContainer.innerHTML = "<h2>ID do filme/série não fornecido.</h2>";
+                if (statusElement) statusElement.textContent = "Erro: ID não encontrado na URL.";
+                return;
+            }
+            if (statusElement) statusElement.textContent = "Carregando detalhes...";
 
-             try {
-                 // Endpoint correto que retorna o DTO
-                 const response = await fetch(`${API_BASE_URL}/api/movies/byId/${imdbId}`); // Usa 'byId'
+            try {
+                // Endpoint correto que retorna o DTO
+                const response = await fetch(`${API_BASE_URL}/api/movies/byId/${imdbId}`); // Usa 'byId'
 
-                 if (!response.ok) {
-                     let errorMsg = `Falha ao buscar detalhes (Status: ${response.status})`;
-                     try {
-                          const errorData = await response.json();
-                          if(errorData) errorMsg = errorData.title || errorData.detail || errorData.message || JSON.stringify(errorData);
-                     } catch(e) { /* Ignora */ }
-                     throw new Error(errorMsg);
-                 }
+                if (!response.ok) {
+                    let errorMsg = `Falha ao buscar detalhes (Status: ${response.status})`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData) errorMsg = errorData.title || errorData.detail || errorData.message || JSON.stringify(errorData);
+                    } catch (e) { /* Ignora */ }
+                    throw new Error(errorMsg);
+                }
 
-                 const data = await response.json(); // 'data' é o MovieDetailDto em JSON (camelCase)
+                const data = await response.json(); // 'data' é o MovieDetailDto em JSON (camelCase)
 
-                 // Verifica 'title' (camelCase)
-                 if (data && data.title) {
-                     if(statusElement) statusElement.textContent = "";
-                     populateMovieDetails(data);
-                     document.title = data.title || "Details";
-                 } else {
-                     throw new Error(data?.error || "Dados recebidos inválidos ou filme não encontrado.");
-                 }
-             } catch (error) {
-                 console.error('Erro ao buscar ou processar detalhes:', error);
-                 if(detailsContainer) detailsContainer.innerHTML = `<h2>Erro ao carregar detalhes.</h2><p>${error.message || error}</p>`;
-                 if(statusElement) statusElement.textContent = "Erro.";
-             }
-          });
+                // Verifica 'title' (camelCase)
+                if (data && data.title) {
+                    if (statusElement) statusElement.textContent = "";
+                    populateMovieDetails(data);
+                    document.title = data.title || "Details";
+                } else {
+                    throw new Error(data?.error || "Dados recebidos inválidos ou filme não encontrado.");
+                }
+            } catch (error) {
+                console.error('Erro ao buscar ou processar detalhes:', error);
+                if (detailsContainer) detailsContainer.innerHTML = `<h2>Erro ao carregar detalhes.</h2><p>${error.message || error}</p>`;
+                if (statusElement) statusElement.textContent = "Erro.";
+            }
+        });
 
-          // --- FUNÇÃO populateMovieDetails CORRIGIDA (usa camelCase) ---
-          function populateMovieDetails(data) {
-               console.log("Dados recebidos (DTO JSON):", data);
+        // --- FUNÇÃO populateMovieDetails CORRIGIDA (usa camelCase) ---
+        function populateMovieDetails(data) {
+            console.log("Dados recebidos (DTO JSON):", data);
 
-               if (!data || typeof data !== 'object') {
-                   console.error("populateMovieDetails recebeu dados inválidos:", data);
-                   // Tratamento de erro...
-                   return;
-               }
+            if (!data || typeof data !== 'object') {
+                console.error("populateMovieDetails recebeu dados inválidos:", data);
+                // Tratamento de erro...
+                return;
+            }
 
-               // Seleciona elementos
-               const titleElement = document.getElementById('movie-title');
-               const yearElement = document.getElementById('movie-year');
-               const posterElement = document.getElementById('movie-poster');
-               const plotElement = document.getElementById('movie-plot');
-               const directorElement = document.getElementById('movie-director');
-               const genreElement = document.getElementById('movie-genre');
-               const actorsElement = document.getElementById('movie-actors');
-               const runtimeElement = document.getElementById('movie-runtime');
-               const trailerFrame = document.querySelector('.video-player iframe');
-               const trailerPlaceholder = document.querySelector('.video-player p');
+            // Seleciona elementos
+            const titleElement = document.getElementById('movie-title');
+            const yearElement = document.getElementById('movie-year');
+            const posterElement = document.getElementById('movie-poster');
+            const plotElement = document.getElementById('movie-plot');
+            const directorElement = document.getElementById('movie-director');
+            const genreElement = document.getElementById('movie-genre');
+            const actorsElement = document.getElementById('movie-actors');
+            const runtimeElement = document.getElementById('movie-runtime');
+            const trailerFrame = document.querySelector('.video-player iframe');
+            const trailerPlaceholder = document.querySelector('.video-player p');
 
-              // Populando Ratings (Usa camelCase: imdbRating, ratings, source, value)
-              const ratingsContainer = document.querySelector('.ratings');
-              if (ratingsContainer) {
-                  ratingsContainer.innerHTML = '<h3>Ratings</h3>';
-                  let hasRatings = false;
-                  // IMDb
-                  if (data.imdbRating && data.imdbRating !== 'N/A') {
-                       const imdbDiv = document.createElement('div');
-                       imdbDiv.className = 'rating-item';
-                       imdbDiv.innerHTML = `<h4>IMDb</h4><p>${data.imdbRating}</p>`;
-                       ratingsContainer.appendChild(imdbDiv);
-                       hasRatings = true;
-                  }
-                  // Lista de Ratings
-                  if (data.ratings && Array.isArray(data.ratings) && data.ratings.length > 0) {
-                       data.ratings.forEach(rating => {
-                            if (rating && typeof rating === 'object') {
-                                 const ratingDiv = document.createElement('div');
-                                 ratingDiv.className = 'rating-item';
-                                 let sourceName = rating.source; // Usa 'source'
-                                 if (sourceName && typeof sourceName === 'string') {
-                                      if (sourceName.toLowerCase().includes('rotten tomatoes')) sourceName = 'Rotten Tomatoes';
-                                      else if (sourceName.toLowerCase().includes('metacritic')) sourceName = 'Metacritic';
-                                      else if (sourceName.toLowerCase().includes('internet movie database')) sourceName = null;
-                                 } else { sourceName = null; }
+            // Populando Ratings (Usa camelCase: imdbRating, ratings, source, value)
+            const ratingsContainer = document.querySelector('.ratings');
+            if (ratingsContainer) {
+                ratingsContainer.innerHTML = '<h3>Ratings</h3>';
+                let hasRatings = false;
+                // IMDb
+                if (data.imdbRating && data.imdbRating !== 'N/A') {
+                    const imdbDiv = document.createElement('div');
+                    imdbDiv.className = 'rating-item';
+                    imdbDiv.innerHTML = `<h4>IMDb</h4><p>${data.imdbRating}</p>`;
+                    ratingsContainer.appendChild(imdbDiv);
+                    hasRatings = true;
+                }
+                // Lista de Ratings
+                if (data.ratings && Array.isArray(data.ratings) && data.ratings.length > 0) {
+                    data.ratings.forEach(rating => {
+                        if (rating && typeof rating === 'object') {
+                            const ratingDiv = document.createElement('div');
+                            ratingDiv.className = 'rating-item';
+                            let sourceName = rating.source; // Usa 'source'
+                            if (sourceName && typeof sourceName === 'string') {
+                                if (sourceName.toLowerCase().includes('rotten tomatoes')) sourceName = 'Rotten Tomatoes';
+                                else if (sourceName.toLowerCase().includes('metacritic')) sourceName = 'Metacritic';
+                                else if (sourceName.toLowerCase().includes('internet movie database')) sourceName = null;
+                            } else { sourceName = null; }
 
-                                 if (sourceName) {
-                                     ratingDiv.innerHTML = `<h4>${sourceName}</h4><p>${rating.value || 'N/A'}</p>`; // Usa 'value'
-                                     ratingsContainer.appendChild(ratingDiv);
-                                     hasRatings = true;
-                                 }
+                            if (sourceName) {
+                                ratingDiv.innerHTML = `<h4>${sourceName}</h4><p>${rating.value || 'N/A'}</p>`; // Usa 'value'
+                                ratingsContainer.appendChild(ratingDiv);
+                                hasRatings = true;
                             }
-                       });
-                  }
-                  if (!hasRatings) {
-                       ratingsContainer.innerHTML += '<p style="font-size: 14px; color: #aaa;"><i>Ratings not available.</i></p>';
-                  }
-              } else {
-                   console.error("Container '.ratings' não encontrado.");
-              }
+                        }
+                    });
+                }
+                if (!hasRatings) {
+                    ratingsContainer.innerHTML += '<p style="font-size: 14px; color: #aaa;"><i>Ratings not available.</i></p>';
+                }
+            } else {
+                console.error("Container '.ratings' não encontrado.");
+            }
 
-               // Atualiza Pôster (Usa camelCase: bestPosterUrl, originalPosterUrl)
-               if(posterElement) {
-                   const posterSrc = data.bestPosterUrl || data.originalPosterUrl || '../imagens/image_placeholder.png';
-                   posterElement.src = posterSrc;
-                   posterElement.alt = data.title || 'Poster'; // Usa 'title'
-               }
+            // Atualiza Pôster (Usa camelCase: bestPosterUrl, originalPosterUrl)
+            if (posterElement) {
+                const posterSrc = data.bestPosterUrl || data.originalPosterUrl || '../imagens/image_placeholder.png';
+                posterElement.src = posterSrc;
+                posterElement.alt = data.title || 'Poster'; // Usa 'title'
+            }
 
-               // Atualiza Trailer (Usa camelCase: trailerUrl)
-               if (trailerFrame && trailerPlaceholder) {
-                   if (data.trailerUrl) {
-                       trailerFrame.src = data.trailerUrl;
-                       trailerFrame.style.display = 'block';
-                       trailerPlaceholder.style.display = 'none';
-                   } else {
-                       trailerFrame.style.display = 'none';
-                       trailerPlaceholder.style.display = 'block';
-                       trailerPlaceholder.innerHTML = '<i>Trailer not available.</i>';
-                   }
-               }
+            // Atualiza Trailer (Usa camelCase: trailerUrl)
+            if (trailerFrame && trailerPlaceholder) {
+                if (data.trailerUrl) {
+                    trailerFrame.src = data.trailerUrl;
+                    trailerFrame.style.display = 'block';
+                    trailerPlaceholder.style.display = 'none';
+                } else {
+                    trailerFrame.style.display = 'none';
+                    trailerPlaceholder.style.display = 'block';
+                    trailerPlaceholder.innerHTML = '<i>Trailer not available.</i>';
+                }
+            }
 
-               // Atualiza o resto (Usa camelCase)
-               if(titleElement) titleElement.textContent = data.title || 'Título não disponível';
-               if(yearElement) yearElement.textContent = data.year || 'N/A';
-               if(plotElement) plotElement.textContent = data.plot || 'Sinopse não disponível.';
-               if(directorElement) directorElement.textContent = data.director || 'N/A';
-               if(genreElement) genreElement.textContent = data.genre || 'N/A';
-               if(actorsElement) actorsElement.textContent = data.actors || 'N/A';
-               if(runtimeElement) runtimeElement.textContent = data.runtime || 'N/A';
-          }
+            // Atualiza o resto (Usa camelCase)
+            if (titleElement) titleElement.textContent = data.title || 'Título não disponível';
+            if (yearElement) yearElement.textContent = data.year || 'N/A';
+            if (plotElement) plotElement.textContent = data.plot || 'Sinopse não disponível.';
+            if (directorElement) directorElement.textContent = data.director || 'N/A';
+            if (genreElement) genreElement.textContent = data.genre || 'N/A';
+            if (actorsElement) actorsElement.textContent = data.actors || 'N/A';
+            if (runtimeElement) runtimeElement.textContent = data.runtime || 'N/A';
+        }
     </script>
 </body>
+
 </html>
