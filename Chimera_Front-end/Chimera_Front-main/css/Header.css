@@ -278,3 +278,180 @@ header img {
 .suggestion-item:hover {
     background: #555;
 }
+
+/* Media Queries para Responsividade */
+@media (max-width: 1024px) {
+    header {
+        padding: 2em 30px;
+        gap: 3em;
+    }
+
+    #logo-separator {
+        gap: 30px;
+    }
+
+    #top-corner {
+        gap: 60px;
+    }
+
+    #search-input {
+        width: 16em;
+    }
+
+    #search-input:focus {
+        width: 24em;
+    }
+
+    .dropdown-menu {
+        width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 1.5em 20px;
+        gap: 2em;
+        justify-content: space-between;
+    }
+
+    #logo-separator {
+        gap: 20px;
+    }
+
+    #logo {
+        height: 2.5em;
+    }
+
+    #top-corner {
+        gap: 40px;
+    }
+
+    #search-input {
+        width: 15em;
+    }
+
+    #search-input:focus {
+        width: 20em;
+    }
+
+    .dropdown-menu {
+        width: 300px;
+    }
+
+    .menu-content {
+        flex-direction: column;
+    }
+
+    .section-account {
+        border-right: none;
+        border-bottom: 1px solid #3a4b5f;
+        padding-bottom: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 1.2em 15px;
+        gap: 1.5em;
+        height: auto;
+    }
+
+    #logo-separator {
+        gap: 15px;
+    }
+
+    #logo {
+        height: 2.2em;
+    }
+
+    #top-corner {
+        gap: 30px;
+    }
+
+    #search-input {
+        width: 14em;
+    }
+
+    #search-input:focus {
+        width: 18em;
+    }
+
+    header img {
+        height: 1.8em;
+    }
+
+    .dropdown-menu {
+        width: 280px;
+        top: 55px;
+    }
+
+    .section h3 {
+        font-size: 13px;
+    }
+
+    .section ul li a {
+        font-size: 14px;
+        padding: 11px 13px;
+    }
+
+    .section-profiles ul li span {
+        font-size: 14px;
+    }
+
+    #flex-more img {
+        height: 28px;
+        width: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1em 10px;
+        gap: 1em;
+        height: auto;
+        flex-wrap: wrap;
+    }
+
+    #logo {
+        height: 2em;
+    }
+
+    #top-corner {
+        gap: 20px;
+    }
+
+    #search-input {
+        width: 12em;
+    }
+
+    #search-input:focus {
+        width: 15em;
+    }
+
+    header img {
+        height: 1.5em;
+    }
+
+    .dropdown-menu {
+        width: 250px;
+        top: 50px;
+    }
+
+    .section h3 {
+        font-size: 12px;
+    }
+
+    .section ul li a {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .section-profiles ul li span {
+        font-size: 14px;
+    }
+
+    #flex-more img {
+        height: 25px;
+        width: 25px;
+    }
+}

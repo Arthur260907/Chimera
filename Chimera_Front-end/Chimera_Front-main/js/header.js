@@ -38,7 +38,7 @@ function updateHeaderUI() {
         // Usuário Deslogado
         if (signInListItem) signInListItem.style.display = 'list-item'; // Mostra LI do "Sign in"
         if (signOutListItem) signOutListItem.style.display = 'none'; // Esconde LI do "Sign out"
-        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; 
+        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitor';
     }
 }
 
