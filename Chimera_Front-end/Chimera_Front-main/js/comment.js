@@ -122,11 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('favorites', JSON.stringify(favs));
     }
 
-    // Atualiza visualmente o ícone (vermelho se já for favorito)
+    // Atualiza visualmente o ícone (azul claro se já for favorito)
     function updateHeart() {
         const favs = getFavorites();
         if (favs.some(f => f.id === movieId)) {
-            favoriteBtn.style.color = 'blue';
+            favoriteBtn.style.color = '#1877F2';
         } else {
             favoriteBtn.style.color = '';
         }
@@ -144,11 +144,111 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Adiciona novo favorito
             favs.push({ id: movieId, title, poster });
-            favoriteBtn.style.color = 'blue';
+            favoriteBtn.style.color = '#1877F2';
         }
 
         saveFavorites(favs);
     });
+
+    // Funcionalidade para like, dislike e share
+    const likeBtn = document.getElementById('like-btn');
+    const dislikeBtn = document.getElementById('dislike-btn');
+    const shareBtn = document.getElementById('share-btn');
+
+    // Função para atualizar visual dos botões like/dislike
+    function updateLikeDislike() {
+        // Assume localStorage for simplicity, or API call
+        const likes = JSON.parse(localStorage.getItem('likes')) || {};
+        const dislikes = JSON.parse(localStorage.getItem('dislikes')) || {};
+
+        if (likes[movieId]) {
+            likeBtn.style.color = '#1877F2';
+            dislikeBtn.style.color = '';
+        } else if (dislikes[movieId]) {
+            dislikeBtn.style.color = 'red';
+            likeBtn.style.color = '';
+        } else {
+            likeBtn.style.color = '';
+            dislikeBtn.style.color = '';
+        }
+    }
+
+    // Evento para like
+    likeBtn.addEventListener('click', async () => {
+        const likes = JSON.parse(localStorage.getItem('likes')) || {};
+        const dislikes = JSON.parse(localStorage.getItem('dislikes')) || {};
+
+        if (likes[movieId]) {
+            // Já liked → remove
+            delete likes[movieId];
+            likeBtn.style.color = '';
+        } else {
+            // Add like, remove dislike if exists
+            likes[movieId] = true;
+            delete dislikes[movieId];
+            likeBtn.style.color = 'green';
+            dislikeBtn.style.color = '';
+        }
+
+        localStorage.setItem('likes', JSON.stringify(likes));
+        localStorage.setItem('dislikes', JSON.stringify(dislikes));
+
+        // Send to API (assume endpoint exists)
+        try {
+            await fetch('http://localhost:5012/api/likes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ movieId, type: 'like', username: 'Guest' })
+            });
+        } catch (error) {
+            console.error('Erro ao enviar like:', error);
+        }
+    });
+
+    // Evento para dislike
+    dislikeBtn.addEventListener('click', async () => {
+        const likes = JSON.parse(localStorage.getItem('likes')) || {};
+        const dislikes = JSON.parse(localStorage.getItem('dislikes')) || {};
+
+        if (dislikes[movieId]) {
+            // Já disliked → remove
+            delete dislikes[movieId];
+            dislikeBtn.style.color = '';
+        } else {
+            // Add dislike, remove like if exists
+            dislikes[movieId] = true;
+            delete likes[movieId];
+            dislikeBtn.style.color = 'red';
+            likeBtn.style.color = '';
+        }
+
+        localStorage.setItem('likes', JSON.stringify(likes));
+        localStorage.setItem('dislikes', JSON.stringify(dislikes));
+
+        // Send to API
+        try {
+            await fetch('http://localhost:5012/api/likes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ movieId, type: 'dislike', username: 'Guest' })
+            });
+        } catch (error) {
+            console.error('Erro ao enviar dislike:', error);
+        }
+    });
+
+    // Evento para share (copia o link do trailer/página)
+    shareBtn.addEventListener('click', () => {
+        const trailerLink = window.location.href; // Assume current page URL as trailer link
+        navigator.clipboard.writeText(trailerLink).then(() => {
+            alert('Link copiado para a área de transferência!');
+        }).catch(err => {
+            console.error('Erro ao copiar link:', err);
+            alert('Erro ao copiar link.');
+        });
+    });
+
+    updateLikeDislike();
 
     updateHeart();
 });
