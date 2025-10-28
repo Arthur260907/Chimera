@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add like, remove dislike if exists
             likes[movieId] = true;
             delete dislikes[movieId];
-            likeBtn.style.color = 'green';
+            likeBtn.style.color = '#1877F2';
             dislikeBtn.style.color = '';
         }
 
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add dislike, remove like if exists
             dislikes[movieId] = true;
             delete likes[movieId];
-            dislikeBtn.style.color = 'red';
+            dislikeBtn.style.color = '#c0392b';
             likeBtn.style.color = '';
         }
 
