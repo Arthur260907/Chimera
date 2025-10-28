@@ -25,7 +25,7 @@ namespace StreamingRecommenderAPI.Services // Namespace correto
             // Chama o método do OmdbService que busca por título (s=)
             // sem especificar o tipo, para obter filmes E séries.
             // Assumindo que você criou/modificou SearchMediaByTitleAsync em OmdbService.
-            var searchResult = await _omdbService.SearchMediaByTitleAsync(query);
+            var searchResult = await _omdbService.SearchMediaByTitleAsync(query, type: null, maxResults: 50); // <<< ADICIONE , type: null, maxResults: 20 AQUI
 
             // Retorna a lista de resultados da busca (propriedade 'Search' do OmdbSearchResult)
             // Se searchResult for nulo ou a lista 'Search' for nula, retorna uma lista vazia.
