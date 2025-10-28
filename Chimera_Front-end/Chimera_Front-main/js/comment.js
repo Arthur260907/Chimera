@@ -103,52 +103,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carrega comentários ao abrir a página
     loadComments();
 });
+// --- FAVORITOS ---
+// --- FAVORITOS ---
 document.addEventListener('DOMContentLoaded', () => {
     const favoriteBtn = document.getElementById('favorite-btn');
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = urlParams.get('id');
 
-    // Recupera os dados do filme na tela (já preenchidos)
-    const title = document.getElementById('movie-title')?.textContent || "Unknown";
-    const poster = document.getElementById('movie-poster')?.src || "";
+    if (!favoriteBtn || !movieId) return;
 
-    // Função: carrega lista de favoritos do localStorage
+    // Funções utilitárias
     function getFavorites() {
         return JSON.parse(localStorage.getItem('favorites')) || [];
     }
 
-    // Função: salva lista de favoritos
     function saveFavorites(favs) {
         localStorage.setItem('favorites', JSON.stringify(favs));
     }
 
-    // Atualiza visualmente o ícone (azul claro se já for favorito)
+    // Atualiza a cor do coração (azul se favoritado)
     function updateHeart() {
         const favs = getFavorites();
-        if (favs.some(f => f.id === movieId)) {
-            favoriteBtn.style.color = '#1877F2';
-        } else {
-            favoriteBtn.style.color = '';
-        }
+        favoriteBtn.style.color = favs.some(f => f.id === movieId) ? '#1877F2' : '';
     }
 
-    // Evento de clique no coração ❤️
+    // Clique no coração
     favoriteBtn.addEventListener('click', () => {
         const favs = getFavorites();
         const index = favs.findIndex(f => f.id === movieId);
 
         if (index >= 0) {
-            // Já é favorito → remove
+            // Remove dos favoritos
             favs.splice(index, 1);
-            favoriteBtn.style.color = '';
         } else {
-            // Adiciona novo favorito
+            // Adiciona aos favoritos
+            const title = document.getElementById('movie-title')?.textContent?.trim() || "Unknown";
+            const poster = document.getElementById('movie-poster')?.src || "";
             favs.push({ id: movieId, title, poster });
-            favoriteBtn.style.color = '#1877F2';
         }
 
         saveFavorites(favs);
+        updateHeart();
     });
+
 
     // Funcionalidade para like, dislike e share
     const likeBtn = document.getElementById('like-btn');
@@ -250,5 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateLikeDislike();
 
+    // Define o estado inicial
     updateHeart();
 });
