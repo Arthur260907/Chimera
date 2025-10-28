@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using StreamingRecommenderAPI.Models.Midia;
 using StreamingRecommenderAPI.Models.User;
+using StreamingRecommenderAPI.Models;
 
 namespace StreamingRecommenderAPI.Data
 {
@@ -19,6 +20,8 @@ namespace StreamingRecommenderAPI.Data
         // O nome da propriedade (Usuarios) será o nome da tabela.
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<OmdbMovie> Filmes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
         // Adicione aqui outros DbSets para futuras tabelas que você precise salvar,
         // como avaliações, favoritos, etc.
         // public DbSet<Avaliacao> Avaliacoes { get; set; }
