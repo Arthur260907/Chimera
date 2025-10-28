@@ -9,6 +9,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
+ * Retorna o href correto para a página de detalhes (`filmeSerie.html`) dependendo
+ * de onde a página atual está (na raiz ou dentro da pasta /html).
+ * Ex: se estamos em /index.html -> retorna 'html/filmeSerie.html?id=...'
+ *     se estamos em /html/pesquisa.html -> retorna 'filmeSerie.html?id=...'
+ */
+function getDetailsHref(imdbID) {
+    try {
+        const path = window.location.pathname || '';
+        // Detecta se a página atual está dentro da pasta /html
+        const inHtmlFolder = /\/html(\/|$)/i.test(path);
+        const prefix = inHtmlFolder ? '' : 'html/';
+        return `${prefix}filmeSerie.html?id=${encodeURIComponent(imdbID)}`;
+    } catch (e) {
+        // Fallback seguro
+        return `html/filmeSerie.html?id=${encodeURIComponent(imdbID)}`;
+    }
+}
+
+/**
  * Função para buscar dados de uma categoria/pesquisa e popular o container.
  * @param {string} query O termo de busca (nome da categoria).
  * @param {HTMLElement} containerElement O elemento HTML onde os cards serão adicionados.
@@ -70,7 +89,7 @@ if (!item || !item.imdbID) return null; // Validação básica
 
     const anchor = document.createElement('a');
     // Link para a página de detalhes (filmeSerie.html), passando o ID do IMDB
-   anchor.href = `html/filmeSerie.html?id=${item.imdbID}`;
+    anchor.href = getDetailsHref(item.imdbID);
 
     const figure = document.createElement('figure');
     figure.className = 'card-banner';
@@ -192,7 +211,7 @@ function createMainCarouselCard(item) {
     wrapper.className = 'carousel-item main'; // Classe esperada
 
     const anchor = document.createElement('a');
-    anchor.href = `html/filmeSerie.html?id=${item.imdbID}`;
+    anchor.href = getDetailsHref(item.imdbID);
 
     const img = document.createElement('img');
     // Obter versão de máxima qualidade da imagem
