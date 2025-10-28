@@ -99,10 +99,10 @@ function logoutUser() {
     const currentPath = window.location.pathname;
 
     // --- CORREÇÃO DE CAMINHO PARA LOGOUT ---
-    let loginPath = 'Login.html'; // Padrão para /html/
+    let loginPath = 'Login.html'; // Padrão se já estiver em /html/
 
-    // Se NÃO estiver na pasta /html/ (raiz), use html/Login.html
-    if (!currentPath.includes('/html/')) {
+    // Se estiver na raiz (index.html), o caminho precisa incluir /html/
+    if (currentPath.endsWith('/') || currentPath.endsWith('/index.html') || currentPath.includes('/index.html')) {
         loginPath = 'html/Login.html';
     }
 
