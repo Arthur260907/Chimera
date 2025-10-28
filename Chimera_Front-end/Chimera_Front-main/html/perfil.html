@@ -82,13 +82,13 @@
                         <div class="setting-item">
                             <h3>Change Password</h3>
                             <p>Update your password to keep your account secure.</p>
-                            <button class="btn">Change Password</button>
+                            <button class="btn" onclick="window.location.href='redefinir_senha.html'">Change Password</button>
                         </div>
 
                         <div class="setting-item">
                             <h3>Delete Account</h3>
                             <p>Permanently remove your account and data.</p>
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-danger" id="delete-account-btn">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -190,11 +190,45 @@ async function loadFavorites() {
 
         // ... (Remaining favorites carousel logic) ...
 
+        // Delete account function
+        async function deleteAccount() {
+            const loggedInUser = getLoggedInUser();
+            if (!loggedInUser || !loggedInUser.email) {
+                alert('User not logged in.');
+                return;
+            }
+
+            const confirmDelete = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+            if (!confirmDelete) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/Usuarios/delete-by-email?email=${encodeURIComponent(loggedInUser.email)}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Account deleted successfully.');
+                    // Clear localStorage and redirect to home
+                    localStorage.removeItem('loggedInUser');
+                    window.location.href = 'index.html';
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error deleting account: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                alert('An error occurred while deleting the account.');
+            }
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             // header.js already handled updateHeaderUI and setupSignOut
             loadProfile();
             loadFavorites();
+
+            // Add event listener for delete account button
+            document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
         });
     </script>
 

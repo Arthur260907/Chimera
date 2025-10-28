@@ -156,6 +156,23 @@ namespace StreamingRecommenderAPI.Controllers
             catch (Exception ex) { Console.WriteLine($"Erro ao buscar perfil: {ex.Message}"); return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." }); }
         }
 
+        // --- Endpoint de Excluir Conta ---
+        [HttpDelete("delete-by-email")]
+        public async Task<IActionResult> DeleteUsuarioByEmail([FromQuery] string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return BadRequest(new { message = "Email é obrigatório." });
+            try
+            {
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+                if (usuario == null) return NotFound(new { message = "Usuário não encontrado." });
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Conta excluída com sucesso." });
+            }
+            catch (Exception ex) { Console.WriteLine($"Erro ao excluir conta: {ex.Message}"); return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." }); }
+        }
+
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.Id == id);

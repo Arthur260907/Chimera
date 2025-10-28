@@ -75,10 +75,11 @@
                     const password = passwordInput.value; 
                     const confirmPassword = confirmPasswordInput.value;
 
-                    // Validações
+                    // Validations
                     if (!nome || !email || !password || !confirmPassword) { if (messageElement) { messageElement.textContent = 'Please fill in all fields.'; messageElement.style.color = 'orange';} return; }
                     if (password !== confirmPassword) { if (messageElement) { messageElement.textContent = 'Passwords do not match.'; messageElement.style.color = 'orange';} return; }
                     if (!/\S+@\S+\.\S+/.test(email)) { if (messageElement) { messageElement.textContent = 'Please enter a valid email.'; messageElement.style.color = 'orange';} return; }
+                    if (password.length < 6) { if (messageElement) { messageElement.textContent = 'Password must be at least 6 characters long.'; messageElement.style.color = 'orange';} return; }
 
                     try {
                         // API_BASE_URL vem do header.js
