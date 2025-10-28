@@ -74,7 +74,7 @@ function updateHeaderUI() {
 }
 
 function saveLoginData(userData) {
-    if (userData && userData.username) {
+    if (userData && userData.username && userData.email) {
         localStorage.setItem('chimeraUser', JSON.stringify(userData));
     } else {
         console.error("Tentativa de salvar dados de login inválidos:", userData);

@@ -76,14 +76,37 @@
                 </div>
             </div>
             <div class="profile-sections">
-                ...
+                <div class="profile-section">
+                    <h2>Account Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <h3>Change Password</h3>
+                            <p>Update your password to keep your account secure.</p>
+                            <button class="btn">Change Password</button>
+                        </div>
+
+                        <div class="setting-item">
+                            <h3>Delete Account</h3>
+                            <p>Permanently remove your account and data.</p>
+                            <button class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Favorite Movies</h2>
+                    <p>Your favorite movies will appear here.</p>
+                    <div class="multi-carousel-container">
+                        <div class="carousel-list" id="favorites-carousel">
+                            <!-- Favorites will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer>
-        ...
-    </footer>
+
     
     <script src="../js/script.js"></script>
     <script src="../js/header.js"></script>
@@ -91,72 +114,65 @@
     <script>
         // Load user profile data
         async function loadProfile() {
-            const loggedInUser = getLoggedInUser(); // Função do header.js
-            
+            const loggedInUser = getLoggedInUser(); // Function from header.js
+
             if (!loggedInUser || !loggedInUser.username) {
-                 // Se não estiver logado, redireciona para o Login
-                 // (header.js já deve ter mostrado "Visitante", mas esta é uma proteção extra)
+                 // If not logged in, redirect to Login
+                 // (header.js should have shown "Visitor", but this is an extra protection)
                 window.location.href = 'Login.html';
                 return;
             }
 
-            // Preenche com os dados do localStorage (mais rápido)
+            // Fill with localStorage data (faster)
             document.getElementById('profile-name').textContent = loggedInUser.username;
             document.getElementById('profile-username').textContent = loggedInUser.username;
-            
-            // Tenta buscar dados mais completos (como email) da API
-            // (Esta parte depende de um endpoint /api/Usuarios/profile que ainda NÃO criamos)
-            
-            /* // ----- INÍCIO DO CÓDIGO OPCIONAL (para buscar email) -----
-            // (Requer um token JWT salvo durante o login, o que não está implementado ainda)
-            
+
+            // Try to fetch more complete data (like email) from API
+            // (This part depends on a /api/Usuarios/profile endpoint that we haven't created yet)
+
+            // Fetch complete data from API
             try {
-                // Supondo que você tenha um token salvo em loggedInUser.token
-                const response = await fetch(`${API_BASE_URL}/api/Usuarios/profile`, { // Endpoint /profile
-                    headers: {
-                        'Authorization': `Bearer ${loggedInUser.token}` // Envia o token
-                    }
-                });
+                const response = await fetch(`${API_BASE_URL}/api/Usuarios/profile?email=${encodeURIComponent(loggedInUser.email)}`);
 
                 if (response.ok) {
-                    const profileData = await response.json(); // Espera { nome: "...", email: "..." }
+                    const profileData = await response.json(); // Expects { nome: "...", email: "...", dataCadastro: "..." }
                     document.getElementById('profile-name').textContent = profileData.nome;
                     document.getElementById('profile-email').textContent = profileData.email;
                     document.getElementById('profile-username').textContent = profileData.nome;
-                    
-                    // Atualiza o localStorage com os dados mais recentes
+
+                    // Update localStorage with latest data
                     loggedInUser.username = profileData.nome;
                     saveLoginData(loggedInUser);
                 } else {
-                    console.error('Falha ao carregar dados do perfil da API.');
-                    // Mantém os dados do localStorage
+                    console.error('Failed to load profile data from API.');
+                    // Keep localStorage data
+                    document.getElementById('profile-email').textContent = loggedInUser.email || '';
                 }
             } catch (error) {
-                console.error('Erro ao carregar perfil:', error);
+                console.error('Error loading profile:', error);
+                document.getElementById('profile-email').textContent = loggedInUser.email || '';
             }
-            // ----- FIM DO CÓDIGO OPCIONAL -----
-            */
-            
-            // Se não tiver o código opcional, preenche o email com "Não disponível"
-            if (!document.getElementById('profile-email').textContent) {
-                 document.getElementById('profile-email').textContent = 'Email não disponível';
+
+            // If optional code is not present, fill email with localStorage data
+            if (!document.getElementById('profile-email').textContent || document.getElementById('profile-email').textContent === 'Loading...') {
+                 document.getElementById('profile-email').textContent = loggedInUser.email || '';
             }
         }
 
         // Load favorites carousel
         async function loadFavorites() {
-            // (Lógica para carregar favoritos - depende de um endpoint de favoritos que não existe)
+            // (Logic to load favorites - depends on a favorites endpoint that doesn't exist)
             const carousel = document.getElementById('favorites-carousel');
             if (carousel) {
-                carousel.innerHTML = "<p style='color: #aaa; font-size: 0.9em;'>Funcionalidade de favoritos ainda não implementada.</p>";
+                carousel.innerHTML = "<p style='color: #aaa; font-size: 0.9em;'>Favorites functionality not yet implemented.</p>";
             }
         }
 
-        // ... (Restante da lógica do carrossel de favoritos) ...
+        // ... (Remaining favorites carousel logic) ...
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // header.js já cuidou de updateHeaderUI e setupSignOut
+            // header.js already handled updateHeaderUI and setupSignOut
             loadProfile();
             loadFavorites();
         });

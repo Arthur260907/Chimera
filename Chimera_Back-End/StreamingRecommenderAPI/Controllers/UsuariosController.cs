@@ -85,7 +85,7 @@ namespace StreamingRecommenderAPI.Controllers
             try
             {
                 var usuario = await _usuarioService.LoginAsync(request.Email, request.Senha);
-                if (usuario != null) return Ok(new { username = usuario.Nome });
+                if (usuario != null) return Ok(new { username = usuario.Nome, email = usuario.Email });
                 else return Unauthorized(new { message = "Email ou senha inválidos." });
             }
             catch (Exception ex) { Console.WriteLine($"Erro no login: {ex.Message}"); return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno durante o login." }); }
@@ -139,6 +139,21 @@ namespace StreamingRecommenderAPI.Controllers
                 Console.WriteLine($"Erro ao redefinir senha: {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." });
             }
+        }
+
+        // --- Endpoint de Perfil ---
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile([FromQuery] string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return BadRequest(new { message = "Email é obrigatório." });
+            try
+            {
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+                if (usuario == null) return NotFound(new { message = "Usuário não encontrado." });
+                return Ok(new { nome = usuario.Nome, email = usuario.Email, dataCadastro = usuario.Data_Cadastro });
+            }
+            catch (Exception ex) { Console.WriteLine($"Erro ao buscar perfil: {ex.Message}"); return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro interno." }); }
         }
 
         private bool UsuarioExists(int id)

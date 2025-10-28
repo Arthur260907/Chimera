@@ -3,6 +3,7 @@
 .profile-main {
     padding: 2em;
     min-height: 100vh; /* Full screen */
+    height: 100vh;
 }
 
 .profile-container {
@@ -345,5 +346,18 @@
         height: 120px;
     }
 
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
 
+    .footer-section {
+        margin-bottom: 1rem;
+    }
+
+    .footer-bottom {
+        text-align: center;
+    }
 }
+
+
