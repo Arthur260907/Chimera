@@ -69,7 +69,7 @@ function updateHeaderUI() {
         // --- USUÁRIO DESLOGADO ---
         if (signInListItem) signInListItem.style.display = 'list-item'; // Mostra LI "Sign in"
         if (signOutListItem) signOutListItem.style.display = 'none'; // Esconde LI "Sign out"
-        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; // Nome padrão
+        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitor'; // Nome padrão
     }
 }
 
@@ -97,12 +97,12 @@ function logoutUser() {
     console.log("Usuário deslogado.");
 
     const currentPath = window.location.pathname;
-    
+
     // --- CORREÇÃO DE CAMINHO PARA LOGOUT ---
-    let loginPath = 'Login.html'; // Padrão se já estiver em /html/
-    
-    // Se estiver na raiz (index.html), o caminho precisa incluir /html/
-    if (currentPath.endsWith('/') || currentPath.endsWith('/index.html') || currentPath.includes('/index.html')) {
+    let loginPath = 'Login.html'; // Padrão para /html/
+
+    // Se NÃO estiver na pasta /html/ (raiz), use html/Login.html
+    if (!currentPath.includes('/html/')) {
         loginPath = 'html/Login.html';
     }
 
