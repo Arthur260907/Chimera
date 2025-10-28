@@ -160,13 +160,33 @@
         }
 
         // Load favorites carousel
-        async function loadFavorites() {
-            // (Logic to load favorites - depends on a favorites endpoint that doesn't exist)
-            const carousel = document.getElementById('favorites-carousel');
-            if (carousel) {
-                carousel.innerHTML = "<p style='color: #aaa; font-size: 0.9em;'>Favorites functionality not yet implemented.</p>";
-            }
-        }
+       // Load favorites carousel
+async function loadFavorites() {
+    const carousel = document.getElementById('favorites-carousel');
+    const favs = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    if (favs.length === 0) {
+        carousel.innerHTML = "<p style='color: #aaa; font-size: 0.9em;'>You have no favorite movies yet.</p>";
+        return;
+    }
+
+    // Limpa e adiciona favoritos
+    carousel.innerHTML = '';
+    favs.forEach(fav => {
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        item.innerHTML = `
+            <a href="filmeSerie.html?id=${fav.id}" style="text-decoration:none; color:inherit;">
+                <img src="${fav.poster}" alt="${fav.title}" class="card-banner">
+                <div class="title-wrapper">
+                    <h3 class="card-title">${fav.title}</h3>
+                </div>
+            </a>
+        `;
+        carousel.appendChild(item);
+    });
+}
+
 
         // ... (Remaining favorites carousel logic) ...
 

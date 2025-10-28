@@ -103,3 +103,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carrega comentários ao abrir a página
     loadComments();
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const favoriteBtn = document.getElementById('favorite-btn');
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('id');
+
+    // Recupera os dados do filme na tela (já preenchidos)
+    const title = document.getElementById('movie-title')?.textContent || "Unknown";
+    const poster = document.getElementById('movie-poster')?.src || "";
+
+    // Função: carrega lista de favoritos do localStorage
+    function getFavorites() {
+        return JSON.parse(localStorage.getItem('favorites')) || [];
+    }
+
+    // Função: salva lista de favoritos
+    function saveFavorites(favs) {
+        localStorage.setItem('favorites', JSON.stringify(favs));
+    }
+
+    // Atualiza visualmente o ícone (vermelho se já for favorito)
+    function updateHeart() {
+        const favs = getFavorites();
+        if (favs.some(f => f.id === movieId)) {
+            favoriteBtn.style.color = 'blue';
+        } else {
+            favoriteBtn.style.color = '';
+        }
+    }
+
+    // Evento de clique no coração ❤️
+    favoriteBtn.addEventListener('click', () => {
+        const favs = getFavorites();
+        const index = favs.findIndex(f => f.id === movieId);
+
+        if (index >= 0) {
+            // Já é favorito → remove
+            favs.splice(index, 1);
+            favoriteBtn.style.color = '';
+        } else {
+            // Adiciona novo favorito
+            favs.push({ id: movieId, title, poster });
+            favoriteBtn.style.color = 'blue';
+        }
+
+        saveFavorites(favs);
+    });
+
+    updateHeart();
+});
