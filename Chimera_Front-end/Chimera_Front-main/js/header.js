@@ -1,8 +1,37 @@
-const API_BASE_URL = 'http://localhost:5012'; // <-- AJUSTE A PORTA SE NECESSÁRIO!
+// Arquivo: js/header.js (Substitua todo o conteúdo)
+
+const API_BASE_URL = 'http://localhost:5012'; // Garanta que esta porta esteja correta
 
 document.addEventListener('DOMContentLoaded', () => {
     updateHeaderUI();
     setupSearchForm(); // Configura o formulário de pesquisa do header
+
+    // --- LÓGICA DO DROPDOWN ADICIONADA ---
+    const profileIcon = document.querySelector('.profile-icon');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    if (profileIcon && dropdownMenu) {
+        profileIcon.addEventListener('click', function (event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('active');
+        });
+
+        // Fechar o menu se clicar fora dele
+        document.addEventListener('click', function (event) {
+            // Verifica se o clique foi fora do menu E fora do ícone
+            if (!dropdownMenu.contains(event.target) && !profileIcon.contains(event.target)) {
+                if (dropdownMenu.classList.contains('active')) {
+                    dropdownMenu.classList.remove('active');
+                }
+            }
+        });
+
+        // Impede que cliques dentro do menu fechem o menu
+        dropdownMenu.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+    }
+    // --- FIM DA LÓGICA DO DROPDOWN ---
 });
 
 // --- Gerenciamento de Autenticação e Header ---
@@ -10,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateHeaderUI() {
     const signInLink = document.getElementById('signin-link');
     const signOutLink = document.getElementById('signout-link');
-    // Encontra os elementos LI pais para esconder/mostrar
     const signInListItem = signInLink ? signInLink.closest('li') : null;
     const signOutListItem = signOutLink ? signOutLink.closest('li') : null;
     const profileUsernameElement = document.getElementById('profile-username');
@@ -22,29 +50,26 @@ function updateHeaderUI() {
         if (signOutListItem) {
             signOutListItem.style.display = 'list-item'; // Mostra LI do "Sign out"
 
-            // Garante que o listener só é adicionado uma vez ou é atualizado
-            const currentSignOutLink = document.getElementById('signout-link'); // Pega o link atual
-            if(currentSignOutLink && !currentSignOutLink.dataset.listenerAttached) { // Verifica se já tem listener
+            const currentSignOutLink = document.getElementById('signout-link');
+            if (currentSignOutLink && !currentSignOutLink.dataset.listenerAttached) {
                 currentSignOutLink.addEventListener('click', (e) => {
-                    e.preventDefault(); 
+                    e.preventDefault();
                     logoutUser();
                 });
-                currentSignOutLink.dataset.listenerAttached = 'true'; // Marca que adicionou listener
+                currentSignOutLink.dataset.listenerAttached = 'true';
             }
         }
-        if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username; 
+        if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username;
 
     } else {
         // Usuário Deslogado
         if (signInListItem) signInListItem.style.display = 'list-item'; // Mostra LI do "Sign in"
         if (signOutListItem) signOutListItem.style.display = 'none'; // Esconde LI do "Sign out"
-        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitor';
+        if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; // Nome padrão
     }
 }
 
 function saveLoginData(userData) {
-    // userData deve ser um objeto { username: 'nome', token: 'seu_token' }
-    // A API de login precisa retornar o username e talvez um token
     if (userData && userData.username) {
         localStorage.setItem('chimeraUser', JSON.stringify(userData));
     } else {
@@ -58,7 +83,7 @@ function getLoggedInUser() {
         return userData ? JSON.parse(userData) : null;
     } catch (e) {
         console.error("Erro ao parsear dados do usuário do localStorage", e);
-        localStorage.removeItem('chimeraUser'); // Limpa dados inválidos
+        localStorage.removeItem('chimeraUser');
         return null;
     }
 }
@@ -67,24 +92,31 @@ function logoutUser() {
     localStorage.removeItem('chimeraUser');
     console.log("Usuário deslogado.");
 
-    // Verifica se JÁ está na página de Login para evitar loop
-    // (Considera caminhos que terminam com Login.html ou /Login.html)
     const currentPath = window.location.pathname;
-    if (!currentPath.endsWith('Login.html') && !currentPath.endsWith('/Login.html')) {
-        // SEMPRE redireciona para o caminho relativo a partir da raiz esperada
-        window.location.href = 'html/Login.html'; 
+    
+    // CORREÇÃO DO CAMINHO DE REDIRECIONAMENTO:
+    // Se já estiver na raiz (index.html), vai para 'html/Login.html'
+    // Se estiver em outra página (ex: /html/pesquisa.html), vai para 'Login.html'
+    
+    let loginPath = 'Login.html'; // Padrão para páginas dentro de /html/
+    
+    if (currentPath.endsWith('/') || currentPath.endsWith('/index.html')) {
+        loginPath = 'html/Login.html'; // Caminho se estiver na raiz
+    }
+
+    if (!currentPath.endsWith('Login.html')) {
+        window.location.href = loginPath;
     } else {
-        // Se já está na página de login, apenas atualiza a interface
-        updateHeaderUI(); 
+        updateHeaderUI();
     }
 }
 
+
 // --- Funcionalidade de Pesquisa do Header ---
 
-// Função Debounce para evitar chamadas excessivas à API
 function debounce(func, delay) {
     let timeoutId;
-    return function(...args) {
+    return function (...args) {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
             func.apply(this, args);
@@ -95,48 +127,51 @@ function debounce(func, delay) {
 function setupSearchForm() {
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
-    const suggestionsDropdown = document.getElementById('search-suggestions'); // Crie este elemento no HTML se não existir
+    const suggestionsDropdown = document.getElementById('search-suggestions');
 
     if (!searchForm || !searchInput || !suggestionsDropdown) {
-        // console.warn("Elementos do formulário de pesquisa não encontrados.");
-        return; // Sai se os elementos não existirem na página atual
+        return; 
     }
 
-     // Limpa sugestões quando o input perde o foco (com um pequeno delay)
-     searchInput.addEventListener('blur', () => {
+    searchInput.addEventListener('blur', () => {
         setTimeout(() => {
             suggestionsDropdown.innerHTML = '';
             suggestionsDropdown.style.display = 'none';
-        }, 200); // Delay para permitir clicar na sugestão
+        }, 200);
     });
 
-
-    // Auto-sugestão
     const fetchSuggestions = async (query) => {
-        if (query.length < 2) { // Não busca com menos de 2 caracteres
+        if (query.length < 2) {
             suggestionsDropdown.innerHTML = '';
             suggestionsDropdown.style.display = 'none';
             return;
         }
-
         try {
-            const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`);
+            // CORREÇÃO: Usar 'Search' (S maiúsculo) como no Controller
+            const response = await fetch(`${API_BASE_URL}/api/Search?q=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error('Falha ao buscar sugestões');
+            
             const results = await response.json();
+            suggestionsDropdown.innerHTML = '';
 
-            suggestionsDropdown.innerHTML = ''; // Limpa sugestões anteriores
             if (results && results.length > 0) {
-                results.slice(0, 5).forEach(item => { // Mostra no máximo 5 sugestões
+                results.slice(0, 5).forEach(item => {
                     const div = document.createElement('div');
-                    div.textContent = item.title;
-                    div.classList.add('suggestion-item'); // Adicione estilo CSS para .suggestion-item
-                    div.addEventListener('mousedown', (e) => { // 'mousedown' ocorre antes do 'blur' do input
-                         e.preventDefault(); // Evita que o input perca foco imediatamente
-                        searchInput.value = item.title; // Preenche o input com o título clicado
+                    // CORREÇÃO: Usar 'Title' (T maiúsculo) como vem da API
+                    div.textContent = item.Title; 
+                    div.classList.add('suggestion-item');
+                    div.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        searchInput.value = item.Title; // Usar 'Title'
                         suggestionsDropdown.innerHTML = '';
                         suggestionsDropdown.style.display = 'none';
-                         // Opcional: Submeter o form automaticamente ao clicar na sugestão
-                         searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
+                        
+                        // CORREÇÃO: lógica de caminho para pesquisa.html
+                        let searchPath = 'pesquisa.html';
+                        if (!window.location.pathname.includes('/html/')) {
+                             searchPath = 'html/pesquisa.html';
+                        }
+                        window.location.href = `${searchPath}?q=${encodeURIComponent(item.Title)}`;
                     });
                     suggestionsDropdown.appendChild(div);
                 });
@@ -146,50 +181,26 @@ function setupSearchForm() {
             }
         } catch (error) {
             console.error('Erro buscando sugestões:', error);
-            suggestionsDropdown.innerHTML = '';
             suggestionsDropdown.style.display = 'none';
         }
     };
 
-    // Aplica debounce à função de busca
-    const debouncedFetchSuggestions = debounce(fetchSuggestions, 350); // Delay de 350ms
-
+    const debouncedFetchSuggestions = debounce(fetchSuggestions, 350);
     searchInput.addEventListener('input', () => {
         debouncedFetchSuggestions(searchInput.value.trim());
     });
 
-    // Ação de Submissão
     searchForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Impede o envio padrão
+        // Este listener agora é interceptado pelo 'pesquisa.html' se estiver naquela página
+        e.preventDefault();
         const query = searchInput.value.trim();
         if (query) {
-            // Redireciona para a página de pesquisa com o parâmetro
-            window.location.href = `html/pesquisa.html?q=${encodeURIComponent(query)}`;
+             // CORREÇÃO: lógica de caminho para pesquisa.html
+            let searchPath = 'pesquisa.html';
+             if (!window.location.pathname.includes('/html/')) {
+                 searchPath = 'html/pesquisa.html';
+             }
+            window.location.href = `${searchPath}?q=${encodeURIComponent(query)}`;
         }
     });
 }
-
-// Crie um elemento <div id="search-suggestions"></div> posicionado
-// abaixo do input de pesquisa no seu header HTML. Estilize-o com CSS
-// (position: absolute, background, border, etc.) e inicialmente hidden.
-// Exemplo CSS:
-/*
-#search-suggestions {
-    display: none;
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    width: calc(100% - 2px); Ajuste conforme o input
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1000;
-    margin-top: -1px; Para colar abaixo do input
-}
-.suggestion-item {
-    padding: 8px 12px;
-    cursor: pointer;
-}
-.suggestion-item:hover {
-    background-color: #f0f0f0;
-}
-*/

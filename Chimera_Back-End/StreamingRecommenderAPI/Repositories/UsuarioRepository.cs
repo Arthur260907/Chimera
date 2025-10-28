@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Dapper;
 using StreamingRecommenderAPI.Models.User;
 using System.Threading.Tasks;

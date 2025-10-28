@@ -80,7 +80,6 @@
             <img src="Imagens/bell-svgrepo-com 1.png" alt="Notifications">
         </span>
     </header>
-    <!-- Icon line after header -->
     <div id="icon-line">
         <span class="header_icon"><img src="imagens/image.png" alt=""></span>
         <span class="header_icon"><img src="imagens/image 3.png" alt=""></span>
@@ -88,24 +87,18 @@
         <span class="header_icon"><img src="imagens/image 6.png" alt=""></span>
     </div>
 
-    <!-- Carousel Principal - Maior e Horizontal -->
     <main id="main-grid">
         <div class="carousel-container">
-            <!-- Container vazio: será preenchido pelo js (apicatalago.js) -->
             <div class="carousel-slide" id="main-carousel">
-                <!-- posters horizontais maiores serão inseridos aqui via JavaScript -->
-            </div>
+                </div>
 
             <button id="prevBtn" class="carousel-button prev">&#10094;</button>
             <button id="nextBtn" class="carousel-button next">&#10095;</button>
 
             <div class="carousel-dots" id="main-carousel-dots">
-                <!-- dots podem ser criadas dinamicamente -->
-            </div>
+                </div>
         </div>
     </main>
-    <!-- Multiple Carousels -->
-    </div>
     <div class="movies-list-section">
         <h2 class="category-title">Comedy</h2>
         <div class="multi-carousel-container" id="comedy-section">
@@ -250,28 +243,5 @@
     <script src="js/apicatalago.js"></script>
     <script src="js/header.js"></script>
 
-    <script>
-        // Código do menu de perfil
-        const profileIcon = document.querySelector('.profile-icon');
-        const dropdownMenu = document.querySelector('.dropdown-menu');
-
-        profileIcon.addEventListener('click', function (event) {
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('active');
-        });
-
-        document.addEventListener('click', function () {
-            if (dropdownMenu.classList.contains('active')) {
-                dropdownMenu.classList.remove('active');
-            }
-        });
-
-        dropdownMenu.addEventListener('click', function (event) {
-            event.stopPropagation();
-        });
-    </script>
-
-
-</body>
-
+    </body>
 </html>
