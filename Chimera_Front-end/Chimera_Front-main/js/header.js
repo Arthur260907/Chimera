@@ -3,10 +3,12 @@
 const API_BASE_URL = 'http://localhost:5012'; // Garanta que esta porta esteja correta
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Funções que rodam em todas as páginas
     updateHeaderUI();
-    setupSearchForm(); // Configura o formulário de pesquisa do header
+    setupSearchForm(); 
 
-    // --- LÓGICA DO DROPDOWN ADICIONADA ---
+    // --- LÓGICA DO DROPDOWN (AGORA CENTRALIZADA) ---
+    // Isso faz o menu abrir e fechar em TODAS as páginas
     const profileIcon = document.querySelector('.profile-icon');
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
@@ -39,32 +41,34 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateHeaderUI() {
     const signInLink = document.getElementById('signin-link');
     const signOutLink = document.getElementById('signout-link');
+    // Encontra os elementos LI pais para esconder/mostrar (corrige layout)
     const signInListItem = signInLink ? signInLink.closest('li') : null;
     const signOutListItem = signOutLink ? signOutLink.closest('li') : null;
     const profileUsernameElement = document.getElementById('profile-username');
     const loggedInUser = getLoggedInUser();
 
     if (loggedInUser && loggedInUser.username) {
-        // Usuário Logado
-        if (signInListItem) signInListItem.style.display = 'none'; // Esconde LI do "Sign in"
+        // --- USUÁRIO LOGADO ---
+        if (signInListItem) signInListItem.style.display = 'none'; // Esconde LI "Sign in"
         if (signOutListItem) {
-            signOutListItem.style.display = 'list-item'; // Mostra LI do "Sign out"
+            signOutListItem.style.display = 'list-item'; // Mostra LI "Sign out"
 
+            // Adiciona listener de logout
             const currentSignOutLink = document.getElementById('signout-link');
-            if (currentSignOutLink && !currentSignOutLink.dataset.listenerAttached) {
+            if(currentSignOutLink && !currentSignOutLink.dataset.listenerAttached) { 
                 currentSignOutLink.addEventListener('click', (e) => {
-                    e.preventDefault();
+                    e.preventDefault(); 
                     logoutUser();
                 });
                 currentSignOutLink.dataset.listenerAttached = 'true';
             }
         }
-        if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username;
+        if (profileUsernameElement) profileUsernameElement.textContent = loggedInUser.username; // Define nome
 
     } else {
-        // Usuário Deslogado
-        if (signInListItem) signInListItem.style.display = 'list-item'; // Mostra LI do "Sign in"
-        if (signOutListItem) signOutListItem.style.display = 'none'; // Esconde LI do "Sign out"
+        // --- USUÁRIO DESLOGADO ---
+        if (signInListItem) signInListItem.style.display = 'list-item'; // Mostra LI "Sign in"
+        if (signOutListItem) signOutListItem.style.display = 'none'; // Esconde LI "Sign out"
         if (profileUsernameElement) profileUsernameElement.textContent = 'Visitante'; // Nome padrão
     }
 }
@@ -94,20 +98,18 @@ function logoutUser() {
 
     const currentPath = window.location.pathname;
     
-    // CORREÇÃO DO CAMINHO DE REDIRECIONAMENTO:
-    // Se já estiver na raiz (index.html), vai para 'html/Login.html'
-    // Se estiver em outra página (ex: /html/pesquisa.html), vai para 'Login.html'
+    // --- CORREÇÃO DE CAMINHO PARA LOGOUT ---
+    let loginPath = 'Login.html'; // Padrão se já estiver em /html/
     
-    let loginPath = 'Login.html'; // Padrão para páginas dentro de /html/
-    
-    if (currentPath.endsWith('/') || currentPath.endsWith('/index.html')) {
-        loginPath = 'html/Login.html'; // Caminho se estiver na raiz
+    // Se estiver na raiz (index.html), o caminho precisa incluir /html/
+    if (currentPath.endsWith('/') || currentPath.endsWith('/index.html') || currentPath.includes('/index.html')) {
+        loginPath = 'html/Login.html';
     }
 
     if (!currentPath.endsWith('Login.html')) {
         window.location.href = loginPath;
     } else {
-        updateHeaderUI();
+        updateHeaderUI(); // Apenas atualiza a UI se já estiver no login
     }
 }
 
@@ -130,7 +132,7 @@ function setupSearchForm() {
     const suggestionsDropdown = document.getElementById('search-suggestions');
 
     if (!searchForm || !searchInput || !suggestionsDropdown) {
-        return; 
+        return; // Sai se os elementos não existirem na página
     }
 
     searchInput.addEventListener('blur', () => {
@@ -167,8 +169,9 @@ function setupSearchForm() {
                         suggestionsDropdown.style.display = 'none';
                         
                         // CORREÇÃO: lógica de caminho para pesquisa.html
-                        let searchPath = 'pesquisa.html';
-                        if (!window.location.pathname.includes('/html/')) {
+                        let searchPath = 'pesquisa.html'; // Padrão se já estiver em /html/
+                        // Se NÃO estiver na pasta /html/ (ou seja, está na raiz index.html)
+                        if (!window.location.pathname.includes('/html/')) { 
                              searchPath = 'html/pesquisa.html';
                         }
                         window.location.href = `${searchPath}?q=${encodeURIComponent(item.Title)}`;
@@ -181,6 +184,7 @@ function setupSearchForm() {
             }
         } catch (error) {
             console.error('Erro buscando sugestões:', error);
+            suggestionsDropdown.innerHTML = '';
             suggestionsDropdown.style.display = 'none';
         }
     };
@@ -191,7 +195,7 @@ function setupSearchForm() {
     });
 
     searchForm.addEventListener('submit', (e) => {
-        // Este listener agora é interceptado pelo 'pesquisa.html' se estiver naquela página
+        // (Será interceptado pelo pesquisa.html se estivermos lá)
         e.preventDefault();
         const query = searchInput.value.trim();
         if (query) {
