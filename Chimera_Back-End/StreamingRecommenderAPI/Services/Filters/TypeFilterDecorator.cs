@@ -1,29 +1,33 @@
-// Services/Filters/TypeFilterDecorator.cs
-using StreamingRecommenderAPI.Models; // Namespace de OmdbMovie
-using StreamingRecommenderAPI.Services.Interfaces;
-using System; // Para StringComparison
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StreamingRecommenderAPI.Models.Midia;
+using StreamingRecommenderAPI.Interfaces;
 
-namespace StreamingRecommenderAPI.Services.Filters
+namespace StreamingRecommenderAPI.Filters
 {
+    /// <summary>
+    /// Filtra por tipo (por exemplo "movie", "series").
+    /// </summary>
     public class TypeFilterDecorator : FilterDecorator
     {
-        private readonly string _mediaTypeToFilter; // Ex: "movie", "series"
+        private readonly string _type;
 
-        public TypeFilterDecorator(IFilterService innerFilter, string mediaTypeToFilter)
-            : base(innerFilter)
+        public TypeFilterDecorator(IFilterService? inner, string type) : base(inner)
         {
-            _mediaTypeToFilter = mediaTypeToFilter;
+            _type = type ?? string.Empty;
         }
 
-        public override async Task<IEnumerable<Models.Midia.OmdbMovie>> ExecuteAsync(string query)
+        public override async Task<IEnumerable<OmdbMovie>> ExecuteAsync(string query)
         {
-            var results = await _innerFilter.ExecuteAsync(query);
-            return results.Where(item =>
-                !string.IsNullOrEmpty(item.Type) && // Garante que Type não é nulo/vazio
-                item.Type.Equals(_mediaTypeToFilter, StringComparison.OrdinalIgnoreCase));
+            var result = await base.ExecuteAsync(query);
+            if (string.IsNullOrWhiteSpace(_type)) return result;
+
+            return result.Where(m =>
+                !string.IsNullOrWhiteSpace(m?.Type) &&
+                string.Equals(m.Type.Trim(), _type.Trim(), StringComparison.OrdinalIgnoreCase)
+            );
         }
     }
 }
