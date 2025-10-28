@@ -103,6 +103,10 @@
                          if (errorMessageElement) errorMessageElement.textContent = 'Please fill in email and password.';
                         return;
                     }
+                    if (!/\S+@\S+\.\S+/.test(email)) {
+                        if (errorMessageElement) errorMessageElement.textContent = 'Please enter a valid email address.';
+                        return;
+                    }
 
                     try {
                         // API_BASE_URL vem do header.js

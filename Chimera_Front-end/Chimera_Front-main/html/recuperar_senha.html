@@ -15,11 +15,36 @@
     <div id="top-corner">
         <form id="search-form" action="pesquisa.html" method="GET"> <input type="text" id="search-input" name="q" placeholder="Search..."> <button type="submit" id="search-btn"></button> </form>
         <div id="search-suggestions" class="suggestions-dropdown"></div>
+
         <div class="profile-container">
             <div class="profile-icon"> <img src="../Imagens/image 8.png" alt="Profile"> </div>
-                                        <span id="profile-username">Visitor</span>
+            <div class="dropdown-menu">
+                <div class="menu-content">
+                    <div class="section section-account">
+                        <h3>Account</h3>
+                        <ul>
+                            <li class="active-item"><a id="signin-link" href="Login.html">Sign in</a></li>
+                            <li><a id="signout-link" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                    <div class="section section-profiles">
+                        <h3>PROFILES</h3>
+                        <ul>
+                            <li>
+                                <a href="perfil.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                                    <img src="../imagens/image 8.png" alt="Avatar" style="margin-right: 10px;">
+                                    <span id="profile-username">Visitor</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="profile-actions">
+                            <div id="flex-more"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
-    </div>
     <span class="header_icon"> <img src="../Imagens/bell-svgrepo-com 1.png" alt="Notifications"> </span>
 </header>
 
@@ -38,7 +63,9 @@
         </form>
     </div>
 
-    <script src="../js/header.js"></script> <script>
+    <script src="../js/header.js"></script>
+    <script>
+        // O JavaScript desta página permanece o mesmo
         document.addEventListener('DOMContentLoaded', () => {
             const recoverForm = document.getElementById('recover-form');
             const emailInput = document.getElementById('email');
@@ -56,22 +83,20 @@
                     if (!/\S+@\S+\.\S+/.test(email)) { messageElement.textContent = 'Por favor, insira um email válido.'; messageElement.style.color = 'orange'; return; }
 
                     try {
+                        // API_BASE_URL deve vir do header.js
                         const response = await fetch(`${API_BASE_URL}/api/Usuarios/recuperar-senha`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json', },
                             body: JSON.stringify({ Email: email }), // Usa 'Email' maiúsculo
                         });
 
-                        // Mesmo se a resposta não for 'ok' (ex: 500), mostra a msg genérica por segurança
                         messageElement.textContent = 'Se um email correspondente for encontrado, instruções (token no console do backend) foram geradas! Redirecionando...';
                         messageElement.style.color = 'lightgreen';
 
                         if (!response.ok) {
-                             console.error(`Falha na solicitação: Status ${response.status}`); // Loga o erro real no console
-                             // Não redireciona se der erro diferente de Ok
+                             console.error(`Falha na solicitação: Status ${response.status}`);
                              setTimeout(() => { messageElement.textContent = 'Falha ao enviar. Verifique o console do backend.'; messageElement.style.color = 'salmon';}, 3000);
                         } else {
-                             // Redireciona apenas se a API retornar sucesso (Ok)
                              setTimeout(() => { window.location.href = 'redefinir_senha.html'; }, 3000);
                         }
 

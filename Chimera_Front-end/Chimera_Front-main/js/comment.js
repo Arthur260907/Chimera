@@ -103,52 +103,150 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carrega comentários ao abrir a página
     loadComments();
 });
+// --- FAVORITOS ---
+// --- FAVORITOS ---
 document.addEventListener('DOMContentLoaded', () => {
     const favoriteBtn = document.getElementById('favorite-btn');
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = urlParams.get('id');
 
-    // Recupera os dados do filme na tela (já preenchidos)
-    const title = document.getElementById('movie-title')?.textContent || "Unknown";
-    const poster = document.getElementById('movie-poster')?.src || "";
+    if (!favoriteBtn || !movieId) return;
 
-    // Função: carrega lista de favoritos do localStorage
+    // Funções utilitárias
     function getFavorites() {
         return JSON.parse(localStorage.getItem('favorites')) || [];
     }
 
-    // Função: salva lista de favoritos
     function saveFavorites(favs) {
         localStorage.setItem('favorites', JSON.stringify(favs));
     }
 
-    // Atualiza visualmente o ícone (vermelho se já for favorito)
+    // Atualiza a cor do coração (azul se favoritado)
     function updateHeart() {
         const favs = getFavorites();
-        if (favs.some(f => f.id === movieId)) {
-            favoriteBtn.style.color = 'blue';
-        } else {
-            favoriteBtn.style.color = '';
-        }
+        favoriteBtn.style.color = favs.some(f => f.id === movieId) ? '#1877F2' : '';
     }
 
-    // Evento de clique no coração ❤️
+    // Clique no coração
     favoriteBtn.addEventListener('click', () => {
         const favs = getFavorites();
         const index = favs.findIndex(f => f.id === movieId);
 
         if (index >= 0) {
-            // Já é favorito → remove
+            // Remove dos favoritos
             favs.splice(index, 1);
-            favoriteBtn.style.color = '';
         } else {
-            // Adiciona novo favorito
+            // Adiciona aos favoritos
+            const title = document.getElementById('movie-title')?.textContent?.trim() || "Unknown";
+            const poster = document.getElementById('movie-poster')?.src || "";
             favs.push({ id: movieId, title, poster });
-            favoriteBtn.style.color = 'blue';
         }
 
         saveFavorites(favs);
+        updateHeart();
     });
 
+
+    // Funcionalidade para like, dislike e share
+    const likeBtn = document.getElementById('like-btn');
+    const dislikeBtn = document.getElementById('dislike-btn');
+    const shareBtn = document.getElementById('share-btn');
+
+    // Função para atualizar visual dos botões like/dislike
+    function updateLikeDislike() {
+        // Assume localStorage for simplicity, or API call
+        const likes = JSON.parse(localStorage.getItem('likes')) || {};
+        const dislikes = JSON.parse(localStorage.getItem('dislikes')) || {};
+
+        if (likes[movieId]) {
+            likeBtn.style.color = '#1877F2';
+            dislikeBtn.style.color = '';
+        } else if (dislikes[movieId]) {
+            dislikeBtn.style.color = 'red';
+            likeBtn.style.color = '';
+        } else {
+            likeBtn.style.color = '';
+            dislikeBtn.style.color = '';
+        }
+    }
+
+    // Evento para like
+    likeBtn.addEventListener('click', async () => {
+        const likes = JSON.parse(localStorage.getItem('likes')) || {};
+        const dislikes = JSON.parse(localStorage.getItem('dislikes')) || {};
+
+        if (likes[movieId]) {
+            // Já liked → remove
+            delete likes[movieId];
+            likeBtn.style.color = '';
+        } else {
+            // Add like, remove dislike if exists
+            likes[movieId] = true;
+            delete dislikes[movieId];
+            likeBtn.style.color = '#1877F2';
+            dislikeBtn.style.color = '';
+        }
+
+        localStorage.setItem('likes', JSON.stringify(likes));
+        localStorage.setItem('dislikes', JSON.stringify(dislikes));
+
+        // Send to API (assume endpoint exists)
+        try {
+            await fetch('http://localhost:5012/api/likes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ movieId, type: 'like', username: 'Guest' })
+            });
+        } catch (error) {
+            console.error('Erro ao enviar like:', error);
+        }
+    });
+
+    // Evento para dislike
+    dislikeBtn.addEventListener('click', async () => {
+        const likes = JSON.parse(localStorage.getItem('likes')) || {};
+        const dislikes = JSON.parse(localStorage.getItem('dislikes')) || {};
+
+        if (dislikes[movieId]) {
+            // Já disliked → remove
+            delete dislikes[movieId];
+            dislikeBtn.style.color = '';
+        } else {
+            // Add dislike, remove like if exists
+            dislikes[movieId] = true;
+            delete likes[movieId];
+            dislikeBtn.style.color = '#c0392b';
+            likeBtn.style.color = '';
+        }
+
+        localStorage.setItem('likes', JSON.stringify(likes));
+        localStorage.setItem('dislikes', JSON.stringify(dislikes));
+
+        // Send to API
+        try {
+            await fetch('http://localhost:5012/api/likes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ movieId, type: 'dislike', username: 'Guest' })
+            });
+        } catch (error) {
+            console.error('Erro ao enviar dislike:', error);
+        }
+    });
+
+    // Evento para share (copia o link do trailer/página)
+    shareBtn.addEventListener('click', () => {
+        const trailerLink = window.location.href; // Assume current page URL as trailer link
+        navigator.clipboard.writeText(trailerLink).then(() => {
+            alert('Link copiado para a área de transferência!');
+        }).catch(err => {
+            console.error('Erro ao copiar link:', err);
+            alert('Erro ao copiar link.');
+        });
+    });
+
+    updateLikeDislike();
+
+    // Define o estado inicial
     updateHeart();
 });
