@@ -17,9 +17,118 @@ João Augusto M V De Souza 12302465,
 Arthur Lorentz Duarte 12301523.
 
 -----
-Instruções:
-  Criar uma controller para cada classe da model;
-  Banco de Dados 
+Estrutura dos Arquivos:
+
+=--------=
+├── .gitignore
+├── Chimera.sln
+├── README.md
+|
+├── Chimera_Banco_de_Dados/
+│   └── Chimera_InEnglish.sql
+|
+├── Chimera_Back-End/
+│   └── StreamingRecommenderAPI/
+│       ├── appsettings.Development.json
+│       ├── appsettings.json
+│       ├── Program.cs
+│       ├── StreamingRecommenderAPI.csproj
+│       ├── StreamingRecommenderAPI.csproj.user
+│       ├── StreamingRecommenderAPI.http
+│       │
+│       ├── Controllers/
+│       │   ├── CommentsController.cs
+│       │   ├── OmdbMoviesController.cs
+│       │   ├── SearchController.cs
+│       │   └── UsuariosController.cs
+│       │
+│       ├── Data/
+│       │   └── ApplicationDbContext.cs
+│       │
+│       ├── Interfaces/
+│       │   ├── IEmailService.cs
+│       │   └── IFilterService.cs
+│       │
+│       ├── Migrations/
+│       │   ├── 20251025193432_InitialCreate.Designer.cs
+│       │   ├── 20251025193432_InitialCreate.cs
+│       │   ├── 20251028001103_AddCommentsTable.Designer.cs
+│       │   ├── 20251028001103_AddCommentsTable.cs
+│       │   └── ApplicationDbContextModelSnapshot.cs
+│       │
+│       ├── Models/
+│       │   ├── Comment.cs
+│       │   ├── EmailSettings.cs
+│       │   ├── Midia/
+│       │   │   ├── OmdbMovie.cs
+│       │   │   ├── Rating.cs
+│       │   │   └── Tmdb/
+│       │   │       ├── TmdbFindResult.cs
+│       │   │       ├── TmdbImageConfiguration.cs
+│       │   │       ├── TmdbImagesResponse.cs
+│       │   │       └── TmdbVideosResponse.cs
+│       │   ├── User/
+│       │   │   ├── Usuario.cs
+│       │   │   └── DTOs/
+│       │   │       ├── RecuperarSenhaRequest.cs
+│       │   │       └── RedefinirSenhaRequest.cs
+│       │   └── DTOs/
+│       │       └── MovieDetailDto.cs
+│       │
+│       ├── Properties/
+│       │   └── launchSettings.json
+│       │
+│       ├── Repositories/
+│       │   ├── IUsuarioRepository.cs
+│       │   └── UsuarioRepository.cs
+│       │
+│       └── Services/
+│           ├── EmailService.cs
+│           ├── OmdbSearchService.cs
+│           ├── OmdbService.cs
+│           ├── SearchFilterAdapter.cs
+│           ├── TmdbService.cs
+│           ├── UsuarioService.cs
+│           ├── Filters/
+│           │   ├── FilterDecorator.cs
+│           │   ├── MinYearFilterDecorator.cs
+│           │   └── TypeFilterDecorator.cs
+│           └── Interfaces/
+│               └── ISearchService.cs
+|
+└── Chimera_Front-end/
+    └── Chimera_Front-main/
+        ├── index.html
+        │
+        ├── css/
+        │   ├── cadastro.css
+        │   ├── FilmeSerie.css
+        │   ├── Header.css
+        │   ├── login.css
+        │   ├── perfil.css
+        │   ├── pesquisa.css
+        │   └── style.css
+        │
+        ├── html/
+        │   ├── cadastro.html
+        │   ├── filmeSerie.html
+        │   ├── Login.html
+        │   ├── perfil.html
+        │   ├── pesquisa.html
+        │   ├── recuperar_senha.html
+        │   └── redefinir_senha.html
+        │
+        ├── imagens/
+        │   ├── Batman.png
+        │   ├── ChatGPT Image 8 de abr. de 2025, 13_13_27 1.png
+        │   ├── ... (Outros arquivos de imagem)
+        │
+        └── js/
+            ├── apicatalogo.js
+            ├── comment.js
+            ├── header.js
+            └── script.js
+=--------=
 ------
 Atualização:
 Alterei o repositorio do back-end para o novo mas ainda ta dando alguns erros que tenho que concertar. Depois so lincar com o front
