@@ -19,7 +19,7 @@ Arthur Lorentz Duarte 12301523.
 -----
 Estrutura dos Arquivos:
 
-=--------=
+
 ├── .gitignore
 ├── Chimera.sln
 ├── README.md
@@ -128,7 +128,7 @@ Estrutura dos Arquivos:
             ├── comment.js
             ├── header.js
             └── script.js
-=--------=
+
 ------
 Atualização:
 Alterei o repositorio do back-end para o novo mas ainda ta dando alguns erros que tenho que concertar. Depois so lincar com o front
